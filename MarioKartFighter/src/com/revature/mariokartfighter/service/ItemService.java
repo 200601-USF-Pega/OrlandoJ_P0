@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class ItemService {
 	Scanner input = new Scanner(System.in);
@@ -52,6 +53,16 @@ public class ItemService {
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
 			System.out.println(i);
+		}
+	}
+	
+	public void getItemInfo(String itemName) {
+		List<Item> retrievedItems = repo.getAllItems();
+		for(Item i : retrievedItems) {
+			if (i.getName().equals(itemName)) {
+				System.out.println(i.getInfoString());
+				return;
+			}
 		}
 	}
 }

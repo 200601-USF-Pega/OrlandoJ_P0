@@ -25,6 +25,18 @@ public class Item {
 				+ unlockAtLevel + ", bonusToHealth=" + bonusToHealth + ", bonusToAttack=" + bonusToAttack
 				+ ", bonusToDefense=" + bonusToDefense + "]";
 	}
+	
+	public String getInfoString() {
+		String printString = "";
+		printString += "\tItem ID: " + this.itemID + "\n";
+		printString += "\tName: " + this.name + "\n";
+		printString += "\tType That Can Use: " + this.typeThatCanUse + "\n";
+		printString += "\tBonus to Attack: " + this.bonusToAttack + "\n";
+		printString += "\tBonus to Defense: " + this.bonusToDefense + "\n";
+		printString += "\tBonus to Health: " + this.bonusToHealth + "\n";
+		printString += "\tUnlock at level: " + this.unlockAtLevel + "\n";
+		return printString;
+	}
 
 	public String getItemID() {
 		return itemID;

@@ -94,7 +94,7 @@ public class MainMenu {
 					boolean created = false;
 					do {
 						String charNameInput = validationService.getValidString();					
-						created = gameService.setCharacter(charNameInput);
+						created = gameService.setCharacter(charNameInput, currPlayerID);
 					} while (!created);
 					break;
 				case 4:
@@ -121,16 +121,17 @@ public class MainMenu {
 					itemService.getAllItems();
 					break;
 				case 2:
-					//TODO ask for item name
-					
-					//TODO get item info
-					
+					System.out.println("Enter item's name:");
+					String nameInput = validationService.getValidString();
+					itemService.getItemInfo(nameInput);
 					break;
 				case 3:
-					//TODO ask for item name
-					
-					//TODO set item
-					
+					System.out.println("Enter item's name:");
+					boolean created = false;
+					do {
+						String itemNameInput = validationService.getValidString();					
+						created = gameService.setItem(itemNameInput, currPlayerID);
+					} while (!created);
 					break;
 				case 4:
 					itemService.createNewItem();

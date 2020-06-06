@@ -63,6 +63,6 @@ public class CharacterService {
 				return;
 			}
 		}
-		//System.out.println("Character does not exist");
 	}
 }
+
