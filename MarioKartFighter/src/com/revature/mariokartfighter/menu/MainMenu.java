@@ -26,22 +26,23 @@ public class MainMenu {
 		System.out.println("[2] Returning Player");
 		System.out.println("[0] Exit the program");
 		
-		int optionNumber = input.nextInt();
-		input.nextLine();
-
+		int optionNumber = validationService.getValidInt();
+		
 		boolean loggedIn = false;
 		do {
 			if (optionNumber == 1) {
-				currPlayerID = playerService.createNewPlayer();
+				currPlayerID = playerService.createNewPlayer(playerService.generatePlayerID());
 				loggedIn = true;
 			} else if (optionNumber == 2) {
 				//find player in database
 				System.out.println("Enter your player ID to login:");
-				String inputID = input.nextLine();
-				if (validationService.validatePlayerID(inputID)) {
+				System.out.println("** IDs are case-sensitive **");
+				String inputID = validationService.getValidString();
+				if (playerService.checkPlayerExists(inputID)) {
 					loggedIn = true;
+					currPlayerID = inputID;
 				} else {
-					System.out.println("ID does not exist");
+					System.out.println("ID does not exist...try again");
 				}
 			} else if (optionNumber == 0) {
 				System.exit(0);
@@ -62,15 +63,12 @@ public class MainMenu {
 			System.out.println("[6] View Record of my Matches");
 			System.out.println("[0] Exit the program");
 			
-			optionNumber2 = input.nextInt();
-			input.nextLine();			
+			optionNumber2 = validationService.getValidInt();		
 			
 			if (optionNumber2  == 1) {
 				//print player level and rank
 				playerService.getPlayerInfo(currPlayerID);				
 			} else if (optionNumber2 == 2) {
-				int characterOption = input.nextInt();
-				input.nextLine();
 
 				System.out.println("---CHARACTER MENU---");
 				System.out.println("[1] List All Character");
@@ -79,20 +77,21 @@ public class MainMenu {
 				System.out.println("[4] Create Custom Character");
 				System.out.println("[5] Back to Main Menu");
 				
+				int characterOption = validationService.getValidInt();
+				
 				switch (characterOption) {
 				case 1:
 					characterService.getAllCharacters();
 					break;
 				case 2:
-					//ask for character name
-					
-					//get character info
-					
+					System.out.println("Enter character's name:");
+					String nameInput = validationService.getValidString();
+					characterService.getCharacterInfo(nameInput);
 					break;
 				case 3:
-					//ask for character name
+					//TODO ask for character name
 					
-					//set character
+					//TODO set character
 					
 					break;
 				case 4:
@@ -105,8 +104,7 @@ public class MainMenu {
 				}
 				
 			} else if (optionNumber2 == 3) {
-				int itemOption = input.nextInt();
-				input.nextLine();
+				int itemOption = validationService.getValidInt();
 				
 				System.out.println("---ITEM MENU---");
 				System.out.println("[1] List All Items");
@@ -120,15 +118,15 @@ public class MainMenu {
 					itemService.getAllItems();
 					break;
 				case 2:
-					//ask for item name
+					//TODO ask for item name
 					
-					//get item info
+					//TODO get item info
 					
 					break;
 				case 3:
-					//ask for item name
+					//TODO ask for item name
 					
-					//set item
+					//TODO set item
 					
 					break;
 				case 4:
@@ -143,21 +141,20 @@ public class MainMenu {
 			} else if (optionNumber2 == 4) {
 				//ask for level of bot
 				System.out.println("What level bot would you like to fight?");
-				int botLevel = input.nextInt();
-				input.nextLine();
+				int botLevel = validationService.getValidInt();
 				
 				Bot newBot = new Bot(botLevel);
 				
-				//simulate bot fight
+				//TODO simulate bot fight
 				
 				
 			} else if (optionNumber2 == 5) {
-				//choose player with closest level
+				//TODO choose player with closest level
 				
-				//simulate player fight
+				//TODO simulate player fight
 				
 			} else if (optionNumber2 == 6) {
-				//print record of matches
+				//TODO print record of matches
 				
 			} else if (optionNumber2 == 0) {
 				System.exit(0);

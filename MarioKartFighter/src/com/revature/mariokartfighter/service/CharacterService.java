@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.ICharacterRepo;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class CharacterService {
 	Scanner input = new Scanner(System.in);
@@ -14,7 +15,6 @@ public class CharacterService {
 	}
 	
 	public void createNewCharacter() {
-		//get input
 		String type;
 		String name;
 		int maxHealth;
@@ -22,23 +22,47 @@ public class CharacterService {
 		double defenseStat;
 		int unlockAtLevel;
 		
+		//TODO validate input
 		System.out.println("Name:");
-		System.out.println("Type:");
-		System.out.println("Max Health:");
-		System.out.println("Attack Stat:");
-		System.out.println("Defense Stat:");
+		name = input.nextLine();
 		
+		System.out.println("Type:");
+		type = input.nextLine();
+		
+		System.out.println("Max Health:");
+		maxHealth = input.nextInt();
+		input.nextLine();
+		
+		System.out.println("Attack Stat:");
+		attackStat = input.nextDouble();
+		input.nextLine();
+		
+		System.out.println("Defense Stat:");
+		defenseStat = input.nextDouble();
+		input.nextLine();
 		
 		//choose unlock level based on stats
+		unlockAtLevel = (int)(maxHealth%10 + attackStat + defenseStat)/3;
 		
-		
-		Character newCharacter = new Character(type, name, maxHealth, attackStat, defenseStat, unlockAtLevel);
+		PlayableCharacter newCharacter = new PlayableCharacter(type, name, maxHealth, attackStat, defenseStat, unlockAtLevel);
+		repo.addCharacter(newCharacter);
 	}
 	
 	public void getAllCharacters() {
-		List<Character> retrievedCharacters = repo.getAllCharacters();
-		for(Character c : retrievedCharacters) {
+		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
+		for(PlayableCharacter c : retrievedCharacters) {
 			System.out.println(c);
 		}
+	}
+	
+	public void getCharacterInfo(String characterName) {
+		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
+		for(PlayableCharacter c : retrievedCharacters) {
+			if (c.getCharacterName().equals(characterName)) {
+				System.out.println(c.getInfoString());
+				return;
+			}
+		}
+		//System.out.println("Character does not exist");
 	}
 }

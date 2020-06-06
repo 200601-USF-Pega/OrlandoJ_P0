@@ -6,11 +6,11 @@ public class Player {
 	private int xpEarned;
 	private int numberOfWins;
 	private int numberOfMatches;
-	private Character selectedCharacter;
+	private PlayableCharacter selectedCharacter;
 	private Item selectedItem;
 	
-	public Player() {
-		this.playerID = "";
+	public Player(String playerID) {
+		this.playerID = playerID;
 		this.level = 1;
 		this.xpEarned = 0;
 		this.numberOfWins = 0;
@@ -64,11 +64,11 @@ public class Player {
 		this.numberOfMatches = numberOfMatches;
 	}
 
-	public Character getSelectedCharacter() {
+	public PlayableCharacter getSelectedCharacter() {
 		return selectedCharacter;
 	}
 
-	public void setSelectedCharacter(Character selectedCharacter) {
+	public void setSelectedCharacter(PlayableCharacter selectedCharacter) {
 		this.selectedCharacter = selectedCharacter;
 	}
 

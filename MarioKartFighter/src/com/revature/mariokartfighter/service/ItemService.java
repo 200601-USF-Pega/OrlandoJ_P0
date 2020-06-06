@@ -15,7 +15,6 @@ public class ItemService {
 	}
 	
 	public void createNewItem() {
-		//get input
 		String name;
 		String typeThatCanUse;
 		int unlockAtLevel;
@@ -23,9 +22,30 @@ public class ItemService {
 		double bonusToAttack;
 		double bonusToDefense;
 		
-		System.out.println("");
+		//TODO validate input
+		System.out.println("Name: ");
+		name = input.nextLine();
 		
-		Character newItem = new Item(name, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
+		System.out.println("Type that can use: ");
+		typeThatCanUse = input.nextLine();
+		
+		System.out.println("Bonus to Health: ");
+		bonusToHealth = input.nextInt();
+		input.nextLine();
+		
+		System.out.println("Bonus to Attack: ");
+		bonusToAttack = input.nextDouble();
+		input.nextLine();
+		
+		System.out.println("Bonus to Defense: ");
+		bonusToDefense = input.nextDouble();
+		input.nextLine();
+		
+		//choose unlock level based on stats
+		unlockAtLevel = (int)(bonusToHealth + bonusToAttack + bonusToDefense)/3;
+		
+		Item newItem = new Item(name, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
+		repo.addItem(newItem);
 	}
 	
 	public void getAllItems() {

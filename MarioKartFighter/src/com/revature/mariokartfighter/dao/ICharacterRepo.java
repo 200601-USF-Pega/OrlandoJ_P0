@@ -2,7 +2,9 @@ package com.revature.mariokartfighter.dao;
 
 import java.util.List;
 
+import com.revature.mariokartfighter.models.PlayableCharacter;
+
 public interface ICharacterRepo {
-	public Character addCharacter(Character character);
-	public List<Character> getAllCharacters();
+	public PlayableCharacter addCharacter(PlayableCharacter character);
+	public List<PlayableCharacter> getAllCharacters();
 }

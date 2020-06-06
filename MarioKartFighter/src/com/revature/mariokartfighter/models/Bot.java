@@ -1,7 +1,7 @@
 package com.revature.mariokartfighter.models;
 
 public class Bot {
-	private Character selectedCharacter;
+	private PlayableCharacter selectedCharacter;
 	private Item selectedItem;
 	private int level;
 	
@@ -18,11 +18,11 @@ public class Bot {
 				+ "]";
 	}
 
-	public Character getSelectedCharacter() {
+	public PlayableCharacter getSelectedCharacter() {
 		return selectedCharacter;
 	}
 
-	public void setSelectedCharacter(Character selectedCharacter) {
+	public void setSelectedCharacter(PlayableCharacter selectedCharacter) {
 		this.selectedCharacter = selectedCharacter;
 	}
 

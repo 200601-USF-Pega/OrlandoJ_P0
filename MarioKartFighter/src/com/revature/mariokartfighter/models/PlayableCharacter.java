@@ -1,30 +1,44 @@
 package com.revature.mariokartfighter.models;
 
-public class Character {
+public class PlayableCharacter {
 	private String characterID;
 	private String type;
-	private String name;
+	private String characterName;
 	private int maxHealth;
 	private double attackStat;
 	private double defenseStat;
 	private int unlockAtLevel;
 	
-	public Character(String type, String name, int maxHealth, double attackStat, double defenseStat, int unlockAtLevel) {
+	public PlayableCharacter(String type, String name, int maxHealth, double attackStat, double defenseStat, int unlockAtLevel) {
 		this.characterID = "";
 		this.type = type;
-		this.name = name;
+		this.characterName = name;
 		this.maxHealth = maxHealth;
 		this.attackStat = attackStat;
 		this.defenseStat = defenseStat;
 		this.unlockAtLevel = unlockAtLevel;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Character [characterID=" + characterID + ", type=" + type + ", name=" + name + ", maxHealth="
-				+ maxHealth + ", attackStat=" + attackStat + ", defenseStat=" + defenseStat + ", unlockAtLevel="
-				+ unlockAtLevel + "]";
+		return "PlayableCharacter [characterID=" + characterID + ", type=" + type + ", characterName=" + characterName
+				+ ", maxHealth=" + maxHealth + ", attackStat=" + attackStat + ", defenseStat=" + defenseStat
+				+ ", unlockAtLevel=" + unlockAtLevel + "]";
 	}
+	
+	public String getInfoString() {
+		String printString = "";
+		printString += "\tCharacter ID: " + this.characterID + "\n";
+		printString += "\tName: " + this.characterName + "\n";
+		printString += "\tType: " + this.type + "\n";
+		printString += "\tAttack Stat: " + this.attackStat + "\n";
+		printString += "\tDefense Stat: " + this.defenseStat + "\n";
+		printString += "\tMax Health: " + this.maxHealth + "\n";
+		printString += "\tUnlock at level: " + this.unlockAtLevel + "\n";
+		return printString;
+	}
+
 
 	public String getCharacterID() {
 		return characterID;
@@ -42,12 +56,12 @@ public class Character {
 		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public String getCharacterName() {
+		return characterName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCharacterName(String name) {
+		this.characterName = name;
 	}
 
 	public int getMaxHealth() {

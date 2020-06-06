@@ -8,12 +8,14 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.models.PlayableCharacter;
+
 public class CharacterRepoFile implements ICharacterRepo {
 	private String filepath= "src/resources/Character.txt";
 
 	@Override
-	public Character addCharacter(Character character) {
-		List<Character> currentCharacters = this.getAllCharacters();
+	public PlayableCharacter addCharacter(PlayableCharacter character) {
+		List<PlayableCharacter> currentCharacters = this.getAllCharacters();
 		try {
 			ObjectOutputStream objectOutputStream = 
 					new ObjectOutputStream(new FileOutputStream(filepath));
@@ -28,11 +30,11 @@ public class CharacterRepoFile implements ICharacterRepo {
 	}
 
 	@Override
-	public List<Character> getAllCharacters() {
+	public List<PlayableCharacter> getAllCharacters() {
 		try {
 			ObjectInputStream inputStream = 
 					new ObjectInputStream(new FileInputStream(filepath));
-			List<Character> retrievedCharacters = (ArrayList<Character>) inputStream.readObject();
+			List<PlayableCharacter> retrievedCharacters = (ArrayList<PlayableCharacter>) inputStream.readObject();
 			inputStream.close();
 			return retrievedCharacters;
 		} catch (IOException e) {
@@ -42,7 +44,7 @@ public class CharacterRepoFile implements ICharacterRepo {
 			e.printStackTrace();
 		} 
 		
-		return new ArrayList<Character>();
+		return new ArrayList<PlayableCharacter>();
 	}
 
 }
