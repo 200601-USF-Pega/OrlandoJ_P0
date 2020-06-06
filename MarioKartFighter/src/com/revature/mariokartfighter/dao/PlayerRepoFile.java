@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
 
 public class PlayerRepoFile implements IPlayerRepo {
@@ -45,6 +46,27 @@ public class PlayerRepoFile implements IPlayerRepo {
 		} 
 		
 		return new ArrayList<Player>();
+	}
+
+	@Override
+	public void assignCharacterToPlayer(PlayableCharacter character, String playerID) {
+		// TODO Auto-generated method stub
+		List<Player> currentPlayers = this.getAllPlayers();
+		for (Player p : currentPlayers) {
+			if (p.getPlayerID().equals(playerID)) {
+				p.setSelectedCharacter(character);
+				break;
+			}
+		}
+		
+		try {
+			ObjectOutputStream objectOutputStream = 
+					new ObjectOutputStream(new FileOutputStream(filepath));
+			objectOutputStream.writeObject(currentPlayers);
+			objectOutputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

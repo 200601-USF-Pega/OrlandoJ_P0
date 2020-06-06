@@ -27,14 +27,11 @@ public class PlayerService {
 		Random random = new Random();
 		int n = random.nextInt(11) + 1;
 				
-		StringBuilder sb = new StringBuilder(n); 
+		StringBuilder sb;
 		do {
+			sb = new StringBuilder(n); 
 	        for (int i = 0; i < n; i++) { 
-	            // generate a random number between 
-	            // 0 to AlphaNumericString variable length 
 	            int index = (int)(AlphabetString.length()  * Math.random()); 
-	  
-	            // add Character one by one in end of sb 
 	            sb.append(AlphabetString .charAt(index)); 
 	        } 
 		} while(checkPlayerExists(sb.toString()));

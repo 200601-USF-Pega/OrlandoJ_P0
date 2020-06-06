@@ -7,16 +7,17 @@ import com.revature.mariokartfighter.dao.ItemRepoFile;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.service.CharacterService;
+import com.revature.mariokartfighter.service.GameService;
 import com.revature.mariokartfighter.service.ItemService;
 import com.revature.mariokartfighter.service.PlayerService;
 import com.revature.mariokartfighter.service.ValidationService;
 
 public class MainMenu {
-	private Scanner input = new Scanner(System.in);
 	private PlayerService playerService = new PlayerService(new PlayerRepoFile());
 	private CharacterService characterService = new CharacterService(new CharacterRepoFile());
 	private ItemService itemService = new ItemService(new ItemRepoFile());
 	private ValidationService validationService = new ValidationService();
+	private GameService gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(), new ItemRepoFile());
 	private String currPlayerID;
 	
 	public void mainMenu() {
@@ -31,7 +32,7 @@ public class MainMenu {
 		boolean loggedIn = false;
 		do {
 			if (optionNumber == 1) {
-				currPlayerID = playerService.createNewPlayer(playerService.generatePlayerID());
+				currPlayerID = playerService.createNewPlayer();
 				loggedIn = true;
 			} else if (optionNumber == 2) {
 				//find player in database
@@ -89,10 +90,12 @@ public class MainMenu {
 					characterService.getCharacterInfo(nameInput);
 					break;
 				case 3:
-					//TODO ask for character name
-					
-					//TODO set character
-					
+					System.out.println("Enter character's name:");
+					boolean created = false;
+					do {
+						String charNameInput = validationService.getValidString();					
+						created = gameService.setCharacter(charNameInput);
+					} while (!created);
 					break;
 				case 4:
 					characterService.createNewCharacter();
