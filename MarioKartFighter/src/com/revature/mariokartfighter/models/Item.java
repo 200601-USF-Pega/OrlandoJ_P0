@@ -1,5 +1,7 @@
 package com.revature.mariokartfighter.models;
 
+import java.util.ArrayList;
+
 public class Item {
 	private String itemID;
 	private String name;
@@ -12,7 +14,7 @@ public class Item {
 	public Item(String name, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
 		this.itemID = "";
 		this.name = name;
-		this.typeThatCanUse = typeThatCanUse;
+		this.setTypeThatCanUse(typeThatCanUse);
 		this.unlockAtLevel = unlockAtLevel;
 		this.bonusToHealth = bonusToHealth;
 		this.bonusToAttack = bonusToAttack;
@@ -59,7 +61,14 @@ public class Item {
 	}
 
 	public void setTypeThatCanUse(String typeThatCanUse) {
-		this.typeThatCanUse = typeThatCanUse;
+		ArrayList<String> allowedTypes = new ArrayList<String>();
+		allowedTypes.add("speed");
+		for (String type : allowedTypes) {
+			if (typeThatCanUse.equals(type)) {
+				this.typeThatCanUse = typeThatCanUse;
+			}
+		}
+		//TODO check that type is allowed
 	}
 
 	public int getUnlockAtLevel() {
