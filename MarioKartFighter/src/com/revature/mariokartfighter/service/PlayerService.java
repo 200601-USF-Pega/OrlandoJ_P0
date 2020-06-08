@@ -13,31 +13,31 @@ public class PlayerService {
 		this.repo = repo;
 	}
 	
-	public String createNewPlayer() {
-		Player newPlayer = new Player(this.generatePlayerID());
+	public String createNewPlayer(String inputtedID) {		
+		Player newPlayer = new Player(inputtedID);
 		repo.addPlayer(newPlayer);
 		return newPlayer.getPlayerID();
 	}
 	
-	public String generatePlayerID() {
-		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
-		
-		//choose a random length up to 63 characters for the playerID
-		Random random = new Random();
-		int n = random.nextInt(63) + 1;
-				
-		StringBuilder sb;
-		do {
-			sb = new StringBuilder(n); 
-	        for (int i = 0; i < n; i++) { 
-	            int index = (int)(alphaNumericString.length()  * Math.random()); 
-	            sb.append(alphaNumericString.charAt(index)); 
-	        } 
-		} while(checkPlayerExists(sb.toString()));
-		
-		return sb.toString();
-	}
+//	public String generatePlayerID() {
+//		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+//				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
+//		
+//		//choose a random length up to 64 characters
+//		Random random = new Random();
+//		int n = random.nextInt(63) + 1;
+//				
+//		StringBuilder sb;
+//		do {
+//			sb = new StringBuilder(n); 
+//	        for (int i = 0; i < n; i++) { 
+//	            int index = (int)(alphaNumericString.length()  * Math.random()); 
+//	            sb.append(alphaNumericString.charAt(index)); 
+//	        } 
+//		} while(checkPlayerExists(sb.toString()));
+//		
+//		return sb.toString();
+//	}
 
 	public void getPlayers() {
 		List<Player> retrievedPlayers = repo.getAllPlayers();

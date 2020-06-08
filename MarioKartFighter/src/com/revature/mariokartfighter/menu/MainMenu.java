@@ -30,8 +30,20 @@ public class MainMenu {
 		boolean loggedIn = false;
 		do {
 			if (optionNumber == 1) {
-				currPlayerID = playerService.createNewPlayer();
-				loggedIn = true;
+				System.out.println("Enter a username (4-24 characters):");
+				String inputtedID = validationService.getValidString();
+				while (!loggedIn) {
+					if(!playerService.checkPlayerExists(inputtedID)) {
+						inputtedID = validationService.getValidString();
+						System.out.println("ID does not exist...try again");						
+					} else if (inputtedID.length() > 24 || inputtedID.length() < 4) {
+						System.out.println("username wrong length...try again");
+					} else {
+						currPlayerID = playerService.createNewPlayer(inputtedID);
+						loggedIn = true;
+						break;
+					}
+				}
 			} else if (optionNumber == 2) {
 				//find player in database
 				System.out.println("Enter your player ID to login:");
@@ -40,8 +52,10 @@ public class MainMenu {
 				if (playerService.checkPlayerExists(inputID)) {
 					loggedIn = true;
 					currPlayerID = inputID;
+				} else if (inputID.toLowerCase().equals("exit")){
+					System.exit(0);
 				} else {
-					System.out.println("ID does not exist...try again");
+					System.out.println("ID does not exist...try again (type 'exit' to go quit program)");
 				}
 			} else if (optionNumber == 0) {
 				System.exit(0);

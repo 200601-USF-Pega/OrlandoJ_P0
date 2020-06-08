@@ -16,7 +16,7 @@ public class PlayerRepoFile implements IPlayerRepo {
 	private String filepath= "src/resources/Player.txt";
 	
 	@Override
-	public Player addPlayer(Player player) {
+	public synchronized Player addPlayer(Player player) {
 		List<Player> currentPlayers = this.getAllPlayers();
 		try {
 			ObjectOutputStream objectOutputStream = 

@@ -53,7 +53,7 @@ public class CharacterService {
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
 		
-		//choose a random length up to 63 characters for the playerID
+		//choose a random length up to 64 characters 
 		Random random = new Random();
 		int n = random.nextInt(63) + 1;
 				

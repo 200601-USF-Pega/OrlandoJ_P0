@@ -14,7 +14,7 @@ public class CharacterRepoFile implements ICharacterRepo {
 	private String filepath= "src/resources/Character.txt";
 
 	@Override
-	public PlayableCharacter addCharacter(PlayableCharacter character) {
+	public synchronized PlayableCharacter addCharacter(PlayableCharacter character) {
 		List<PlayableCharacter> currentCharacters = this.getAllCharacters();
 		try {
 			ObjectOutputStream objectOutputStream = 

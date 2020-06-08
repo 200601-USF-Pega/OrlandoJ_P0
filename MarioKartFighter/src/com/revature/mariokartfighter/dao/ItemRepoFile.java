@@ -14,7 +14,7 @@ public class ItemRepoFile implements IItemRepo {
 	private String filepath= "src/resources/Item.txt";
 
 	@Override
-	public Item addItem(Item item) {
+	public synchronized Item addItem(Item item) {
 		List<Item> currentItems = this.getAllItems();
 		try {
 			ObjectOutputStream objectOutputStream = 
