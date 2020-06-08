@@ -20,19 +20,19 @@ public class PlayerService {
 	}
 	
 	public String generatePlayerID() {
-		String AlphabetString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                + "abcdefghijklmnopqrstuvxyz"; 
+		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
 		
-		//choose a random length up to 12 characters for the playerID
+		//choose a random length up to 63 characters for the playerID
 		Random random = new Random();
-		int n = random.nextInt(11) + 1;
+		int n = random.nextInt(63) + 1;
 				
 		StringBuilder sb;
 		do {
 			sb = new StringBuilder(n); 
 	        for (int i = 0; i < n; i++) { 
-	            int index = (int)(AlphabetString.length()  * Math.random()); 
-	            sb.append(AlphabetString .charAt(index)); 
+	            int index = (int)(alphaNumericString.length()  * Math.random()); 
+	            sb.append(alphaNumericString.charAt(index)); 
 	        } 
 		} while(checkPlayerExists(sb.toString()));
 		

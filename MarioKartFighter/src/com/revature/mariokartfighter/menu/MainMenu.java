@@ -1,7 +1,5 @@
 package com.revature.mariokartfighter.menu;
 
-import java.util.Scanner;
-
 import com.revature.mariokartfighter.dao.CharacterRepoFile;
 import com.revature.mariokartfighter.dao.ItemRepoFile;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;

@@ -25,11 +25,9 @@ public class ValidationService {
 	}
 	
 	public int getValidInt() {
-		int userInput;
+		int userInput = 0;
 		boolean invalid = true;
 		do {
-			userInput = input.nextInt();
-			input.nextLine();
 			try {
 				userInput = Integer.parseInt(input.nextLine());
 				invalid = false;
@@ -42,10 +40,9 @@ public class ValidationService {
 	}
 	
 	public double getValidDouble() {
-		double userInput;
+		double userInput = 0.0;
 		boolean invalid = true;
 		do {
-			userInput = input.nextDouble();
 			try {
 				userInput = Double.parseDouble(input.nextLine());
 				invalid = false;

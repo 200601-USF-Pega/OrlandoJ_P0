@@ -5,7 +5,6 @@ import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.models.Item;
-import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class ItemService {
 	Scanner input = new Scanner(System.in);
