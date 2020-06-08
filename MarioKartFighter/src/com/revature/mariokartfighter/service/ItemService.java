@@ -1,6 +1,7 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.IItemRepo;
@@ -48,11 +49,42 @@ public class ItemService {
 		repo.addItem(newItem);
 	}
 	
+	public String generateItemID() {
+		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
+		
+		//choose a random length up to 63 characters for the playerID
+		Random random = new Random();
+		int n = random.nextInt(63) + 1;
+				
+		StringBuilder sb;
+		do {
+			sb = new StringBuilder(n); 
+	        for (int i = 0; i < n; i++) { 
+	            int index = (int)(alphaNumericString.length()  * Math.random()); 
+	            sb.append(alphaNumericString.charAt(index)); 
+	        } 
+		} while(checkItemExists(sb.toString()));
+		
+		return sb.toString();
+	}
+	
+	
 	public void getAllItems() {
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
 			System.out.println(i);
 		}
+	}
+	
+	public boolean checkItemExists(String itemID) {
+		List<Item> retrievedItems = repo.getAllItems();
+		for(Item i : retrievedItems) {
+			if (i.getItemID().equals(itemID)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public void getItemInfo(String itemName) {

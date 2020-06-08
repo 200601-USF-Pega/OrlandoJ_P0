@@ -1,6 +1,7 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
+import java.util.Random;
 
 import com.revature.mariokartfighter.dao.ICharacterRepo;
 import com.revature.mariokartfighter.dao.IItemRepo;
