@@ -1,7 +1,6 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 
 import com.revature.mariokartfighter.dao.ICharacterRepo;
@@ -52,25 +51,58 @@ public class GameService {
 		return false;
 	}
 	
+	public PlayableCharacter chooseRandomCharacter(int level) {
+		
+	}
+	
+	public Item chooseRandomItem(int level) {
+		
+	}
+	
 	public void botFight(Bot bot, String playerID) {
 		//find player info
-		Player currentPlayer;
 		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
 			if (playerID.equals(p.getPlayerID())) {
-				currentPlayer = p;
+				//TODO simulate fight		
+				PlayableCharacter playerChar = p.getSelectedCharacter();
+				PlayableCharacter botChar = bot.getSelectedCharacter();
+				Item playerItem = p.getSelectedItem();
+				Item botItem = bot.getSelectedItem();
+				int playerHealth = p.getSelectedCharacter().getMaxHealth();
+				int botHealth = bot.getSelectedCharacter().getMaxHealth();
+				
+				while(botHealth > 0 && playerHealth > 0) {
+					//every turn subtract other players attack - your defense from health
+					double botStrength = botChar.getAttackStat() + botItem.getBonusToAttack()
+						- (playerChar.getDefenseStat() + playerItem.getBonusToDefense());
+					double playerStrength = playerChar.getAttackStat() + playerItem.getBonusToAttack()
+						- (botChar.getDefenseStat() + botItem.getBonusToDefense());
+					
+					botHealth -= playerStrength;
+					if(botHealth <= 0) {
+						break;
+					}
+					playerHealth -= botStrength;
+				}
+				
+				String winnerID;
+				if(botHealth < playerHealth) {
+					winnerID = p.getPlayerID();
+				} else {
+					winnerID = bot.getID();
+				}
+				
+				//save to repo
+				MatchRecord newMatch = new MatchRecord(this.generateMatchID(), playerID, 
+						p.getSelectedCharacter().getCharacterID(), 
+						p.getSelectedItem().getItemID(),
+						bot.getID(), bot.getSelectedCharacter().getCharacterID(),
+						bot.getSelectedItem().getItemID(), true, winnerID);
+				matchRecordRepo.addMatchRecord(newMatch);
 				break;
 			}
 		}
-		
-		//TODO simulate fight
-		String winnerID;
-		
-		
-		//TODO save to repo
-		MatchRecord newMatch = new MatchRecord(this.generateMatchID(), playerID, bot.getID(), 
-				);
-		matchRecordRepo.addMatchRecord(newMatch);
 	}
 	
 	public void playerFight(String player1ID) {

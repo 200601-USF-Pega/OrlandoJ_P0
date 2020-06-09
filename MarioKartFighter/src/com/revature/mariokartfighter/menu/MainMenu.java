@@ -5,6 +5,8 @@ import com.revature.mariokartfighter.dao.ItemRepoFile;
 import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Bot;
+import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.service.CharacterService;
 import com.revature.mariokartfighter.service.GameService;
 import com.revature.mariokartfighter.service.ItemService;
@@ -161,8 +163,9 @@ public class MainMenu {
 				//ask for level of bot
 				System.out.println("What level bot would you like to fight?");
 				int botLevel = validationService.getValidInt();
-				
-				Bot newBot = new Bot(botLevel);
+				PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(botLevel);
+				Item randomItem = gameService.chooseRandomItem(botLevel);
+				Bot newBot = new Bot(botLevel, randomCharacter, randomItem);
 				
 				gameService.botFight(newBot, currPlayerID);
 				

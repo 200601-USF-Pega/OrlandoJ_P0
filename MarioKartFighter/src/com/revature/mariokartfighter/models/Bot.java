@@ -5,29 +5,19 @@ public class Bot {
 	private Item selectedItem;
 	private int level;
 	private String id;
-	private int health;
 	
-	public Bot(int level) {
+	public Bot(int level, PlayableCharacter selectedCharacter, Item selectedItem) {
 		//choose random character and item for bot
-//		Character selectedCharacter;
-//		Item selectedItem;
+		this.selectedCharacter = selectedCharacter;
+		this.selectedItem = selectedItem;
 		this.level = level;
 		this.id = this.generateBotID();
-		this.health = 100;
 	}
 
 	@Override
 	public String toString() {
 		return "Bot [selectedCharacter=" + selectedCharacter + ", selectedItem=" + selectedItem + ", level=" + level
 				+ "]";
-	}
-	
-	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
 	}
 
 	public String generateBotID() {

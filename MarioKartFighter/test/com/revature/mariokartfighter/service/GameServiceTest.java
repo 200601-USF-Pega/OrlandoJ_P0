@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.revature.mariokartfighter.dao.CharacterRepoFile;
 import com.revature.mariokartfighter.dao.ItemRepoFile;
+import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Player;
 
@@ -20,7 +21,8 @@ public class GameServiceTest {
 	
 	@Before
 	public void setupDummyData() {
-		gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(), new ItemRepoFile());
+		gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(), 
+				new ItemRepoFile(), new MatchRecordRepoFile());
 		playerService = new PlayerService(new PlayerRepoFile());
 		playerID = "testingplayer";
 	}
@@ -45,6 +47,16 @@ public class GameServiceTest {
 	@Test
 	public void setItemWhenItemDoesntExist() {
 		assertFalse(gameService.setItem("xyz", playerID));
+	}
+	
+	@Test
+	public void testBotFight() {
+		
+	}
+	
+	@Test
+	public void testPlayerFight() {
+		
 	}
 
 }
