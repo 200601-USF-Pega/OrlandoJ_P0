@@ -11,4 +11,5 @@ public interface IPlayerRepo {
 	public List<Player> getAllPlayers();
 	public void assignCharacterToPlayer(PlayableCharacter character, String playerID);
 	public void assignItemToPlayer(Item item, String playerID);
+	public void updateAfterFight(boolean wonMatch, String playerID);
 }

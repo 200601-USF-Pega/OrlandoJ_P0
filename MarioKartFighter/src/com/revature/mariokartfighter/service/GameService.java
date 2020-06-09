@@ -96,9 +96,11 @@ public class GameService {
 				String winnerID;
 				if(botHealth < playerHealth) {
 					winnerID = p.getPlayerID();
+					playerRepo.updateAfterFight(true, p.getPlayerID());
 				} else {
 					winnerID = bot.getID();
 				}
+				
 				
 				//save to repo
 				MatchRecord newMatch = new MatchRecord(this.generateMatchID(), playerID, 
@@ -147,8 +149,10 @@ public class GameService {
 		String winnerID;
 		if(player2Health < player1Health) {
 			winnerID = player1.getPlayerID();
+			playerRepo.updateAfterFight(true, player1.getPlayerID());
 		} else {
 			winnerID = player2.getPlayerID();
+			playerRepo.updateAfterFight(true, player2.getPlayerID());
 		}
 		
 		//save to repo

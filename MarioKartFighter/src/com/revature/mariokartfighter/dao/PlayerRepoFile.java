@@ -26,8 +26,7 @@ public class PlayerRepoFile implements IPlayerRepo {
 			objectOutputStream.close();
 			return player;
 		} catch (IOException e) {
-			System.out.println("--- IOException in PlayerRepoFile ---");
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -88,6 +87,36 @@ public class PlayerRepoFile implements IPlayerRepo {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void updateAfterFight(boolean wonMatch, String playerID) {
+		List<Player> currentPlayers = this.getAllPlayers();
+		for (Player p : currentPlayers) {
+			if (p.getPlayerID().equals(playerID)) {
+				if (wonMatch) {
+					p.setXpEarned(p.getXpEarned() + 100);					
+				} else {
+					p.setXpEarned(p.getXpEarned() + 50);	
+				}
+				
+				//check for level up
+				if(p.getXpEarned() % 100 > p.getLevel()) {
+					System.out.println("Congratulations! You leveled up!");
+					System.out.println("You are now level " + p.getLevel() + ".");
+				}
+				
+				break;
+			}
+		}
+		try {
+			ObjectOutputStream objectOutputStream = 
+					new ObjectOutputStream(new FileOutputStream(filepath));
+			objectOutputStream.writeObject(currentPlayers);
+			objectOutputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 	}
 
 }
