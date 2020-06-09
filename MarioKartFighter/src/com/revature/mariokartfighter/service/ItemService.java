@@ -1,5 +1,6 @@
 package com.revature.mariokartfighter.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -27,8 +28,24 @@ public class ItemService {
 		System.out.println("Name: ");
 		name = input.nextLine();
 		
-		System.out.println("Type that can use: ");
-		typeThatCanUse = input.nextLine();
+		//TODO check type is allowed
+		boolean gotAllowedType = false;
+		List<String> allowedTypes = new ArrayList<String>();
+		allowedTypes.add("skill");
+		allowedTypes.add("all-around");
+		allowedTypes.add("speed");
+		allowedTypes.add("power");
+		
+		System.out.println("Type that can use (choose from skill, all-around, speed, power):");
+		do {
+			typeThatCanUse = input.nextLine();
+			if (allowedTypes.contains(typeThatCanUse.toLowerCase())) {
+				gotAllowedType = true;
+				break;
+			} else {
+				System.out.println("Not a valid character type...try again");
+			}
+		} while (gotAllowedType);
 		
 		System.out.println("Bonus to Health: ");
 		bonusToHealth = input.nextInt();

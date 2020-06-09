@@ -28,7 +28,7 @@ public class CharacterService {
 		System.out.println("Name:");
 		name = input.nextLine();
 		
-		//TODO check type is allowed
+		//check type is allowed
 		boolean gotAllowedType = false;
 		List<String> allowedTypes = new ArrayList<String>();
 		allowedTypes.add("skill");
