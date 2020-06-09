@@ -3,17 +3,17 @@ package com.revature.mariokartfighter.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.ICharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class CharacterService {
-	Scanner input = new Scanner(System.in);
+	ValidationService validation;
 	ICharacterRepo repo;
 	
 	public CharacterService (ICharacterRepo repo) {
 		this.repo = repo;
+		this.validation = new ValidationService();
 	}
 	
 	public void createNewCharacter() {
@@ -26,7 +26,7 @@ public class CharacterService {
 		
 		//TODO validate input
 		System.out.println("Name:");
-		name = input.nextLine();
+		name = validation.getValidString();
 		
 		//check type is allowed
 		boolean gotAllowedType = false;
@@ -38,7 +38,7 @@ public class CharacterService {
 		
 		System.out.println("Type (choose from skill, all-around, speed, power):");
 		do {
-			type = input.nextLine();
+			type = validation.getValidString();
 			if (allowedTypes.contains(type.toLowerCase())) {
 				gotAllowedType = true;
 				break;
@@ -48,16 +48,13 @@ public class CharacterService {
 		} while (gotAllowedType);
 		
 		System.out.println("Max Health:");
-		maxHealth = input.nextInt();
-		input.nextLine();
+		maxHealth = validation.getValidInt();
 		
 		System.out.println("Attack Stat:");
-		attackStat = input.nextDouble();
-		input.nextLine();
+		attackStat = validation.getValidDouble();
 		
 		System.out.println("Defense Stat:");
-		defenseStat = input.nextDouble();
-		input.nextLine();
+		defenseStat = validation.getValidDouble();
 		
 		//choose unlock level based on stats
 		unlockAtLevel = (int)(maxHealth%10 + attackStat + defenseStat)/3;

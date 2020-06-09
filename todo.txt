@@ -1,5 +1,4 @@
 TODO
-	- restrict character types to skill, all-around, speed, power
 	- write tests
 	- implement logging
 	- check for level up (each level = 100xp)

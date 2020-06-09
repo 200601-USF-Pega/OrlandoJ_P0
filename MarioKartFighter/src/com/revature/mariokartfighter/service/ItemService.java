@@ -3,17 +3,17 @@ package com.revature.mariokartfighter.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
 
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.models.Item;
 
 public class ItemService {
-	Scanner input = new Scanner(System.in);
+	ValidationService validation;
 	IItemRepo repo;
 	
 	public ItemService (IItemRepo repo) {
 		this.repo = repo;
+		this.validation = new ValidationService();
 	}
 	
 	public void createNewItem() {
@@ -26,9 +26,9 @@ public class ItemService {
 		
 		//TODO validate input
 		System.out.println("Name: ");
-		name = input.nextLine();
+		name = validation.getValidString();
 		
-		//TODO check type is allowed
+		//check type is allowed
 		boolean gotAllowedType = false;
 		List<String> allowedTypes = new ArrayList<String>();
 		allowedTypes.add("skill");
@@ -38,7 +38,7 @@ public class ItemService {
 		
 		System.out.println("Type that can use (choose from skill, all-around, speed, power):");
 		do {
-			typeThatCanUse = input.nextLine();
+			typeThatCanUse = validation.getValidString();
 			if (allowedTypes.contains(typeThatCanUse.toLowerCase())) {
 				gotAllowedType = true;
 				break;
@@ -48,16 +48,13 @@ public class ItemService {
 		} while (gotAllowedType);
 		
 		System.out.println("Bonus to Health: ");
-		bonusToHealth = input.nextInt();
-		input.nextLine();
+		bonusToHealth = validation.getValidInt();
 		
 		System.out.println("Bonus to Attack: ");
-		bonusToAttack = input.nextDouble();
-		input.nextLine();
+		bonusToAttack = validation.getValidDouble();
 		
 		System.out.println("Bonus to Defense: ");
-		bonusToDefense = input.nextDouble();
-		input.nextLine();
+		bonusToDefense = validation.getValidDouble();
 		
 		//choose unlock level based on stats
 		unlockAtLevel = (int)(bonusToHealth + bonusToAttack + bonusToDefense)/3;
