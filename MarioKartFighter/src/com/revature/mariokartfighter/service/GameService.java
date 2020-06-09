@@ -1,6 +1,7 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import com.revature.mariokartfighter.dao.ICharacterRepo;
@@ -52,11 +53,17 @@ public class GameService {
 	}
 	
 	public PlayableCharacter chooseRandomCharacter(int level) {
-		
+		List<PlayableCharacter> retrievedCharacters = characterRepo.getAllCharacters();
+		Random random = new Random();
+		int n = random.nextInt(retrievedCharacters.size()-1);
+		return retrievedCharacters.get(n);
 	}
 	
 	public Item chooseRandomItem(int level) {
-		
+		List<Item> retrievedItems = itemRepo.getAllItems();
+		Random random = new Random();
+		int n = random.nextInt(retrievedItems.size()-1);
+		return retrievedItems.get(n);
 	}
 	
 	public void botFight(Bot bot, String playerID) {
