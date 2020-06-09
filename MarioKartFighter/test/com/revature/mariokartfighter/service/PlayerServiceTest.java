@@ -10,12 +10,10 @@ import com.revature.mariokartfighter.dao.PlayerRepoFile;
 
 public class PlayerServiceTest {
 	PlayerService playerService;
-	String playerID;
 	
 	@Before
 	public void setupDummyData() {
 		playerService = new PlayerService(new PlayerRepoFile());
-		playerID = playerService.generatePlayerID();
 	}
 	
 	@Test
@@ -25,8 +23,8 @@ public class PlayerServiceTest {
 	
 	@Test
 	public void createNewPlayerShouldAddPlayerToRepo() {
-		String newPlayerID = playerService.createNewPlayer();
-		assertTrue(playerService.checkPlayerExists(newPlayerID));
+		assertFalse(playerService.checkPlayerExists("jorlando989"));
+		String newPlayerID = playerService.createNewPlayer("jorlando989");
+		assertTrue(playerService.checkPlayerExists("jorlando989"));
 	}
-
 }

@@ -26,7 +26,8 @@ public class PlayerRepoFile implements IPlayerRepo {
 			objectOutputStream.close();
 			return player;
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("--- IOException in PlayerRepoFile ---");
+			//e.printStackTrace();
 		}
 		return null;
 	}

@@ -22,7 +22,7 @@ public class GameServiceTest {
 	public void setupDummyData() {
 		gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(), new ItemRepoFile());
 		playerService = new PlayerService(new PlayerRepoFile());
-		playerID = playerService.generatePlayerID();
+		playerID = "testingplayer";
 	}
 	
 	@Test

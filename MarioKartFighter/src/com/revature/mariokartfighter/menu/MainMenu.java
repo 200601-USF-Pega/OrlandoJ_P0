@@ -33,9 +33,10 @@ public class MainMenu {
 				System.out.println("Enter a username (4-24 characters):");
 				String inputtedID = validationService.getValidString();
 				while (!loggedIn) {
-					if(!playerService.checkPlayerExists(inputtedID)) {
+					System.out.println("test");
+					if(playerService.checkPlayerExists(inputtedID)) {
 						inputtedID = validationService.getValidString();
-						System.out.println("ID does not exist...try again");						
+						System.out.println("ID already taken...try again");						
 					} else if (inputtedID.length() > 24 || inputtedID.length() < 4) {
 						System.out.println("username wrong length...try again");
 					} else {
@@ -78,13 +79,13 @@ public class MainMenu {
 			
 			optionNumber2 = validationService.getValidInt();		
 			
-			if (optionNumber2  == 1) {
+			if (optionNumber2 == 1) {
 				//print player level and rank
 				playerService.getPlayerInfo(currPlayerID);				
 			} else if (optionNumber2 == 2) {
 
 				System.out.println("---CHARACTER MENU---");
-				System.out.println("[1] List All Character");
+				System.out.println("[1] List All Characters");
 				System.out.println("[2] Get Character Info");
 				System.out.println("[3] Set My Character");
 				System.out.println("[4] Create Custom Character");
@@ -173,6 +174,7 @@ public class MainMenu {
 				//TODO print record of matches
 				
 			} else if (optionNumber2 == 0) {
+				System.out.println("Thanks for playing!");
 				System.exit(0);
 			} else {
 				System.out.println("Invalid option number");
