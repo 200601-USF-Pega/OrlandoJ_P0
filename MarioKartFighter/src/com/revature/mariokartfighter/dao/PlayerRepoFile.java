@@ -101,7 +101,7 @@ public class PlayerRepoFile implements IPlayerRepo {
 				}
 				
 				//check for level up
-				if(p.getXpEarned() % 100 > p.getLevel()) {
+				if(p.getXpEarned() >= (p.getLevel()*100)+1) {
 					System.out.println("Congratulations! You leveled up!");
 					System.out.println("You are now level " + p.getLevel() + ".");
 				}
