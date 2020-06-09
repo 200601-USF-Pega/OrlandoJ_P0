@@ -4,9 +4,8 @@ import java.util.List;
 
 import com.revature.mariokartfighter.models.MatchRecord;
 
-public class MatchRecordFile implements IMatchRecordRepo {
-	private String filepath= "src/resources/MatchRecord.txt";
-	
+public class MatchRecordRepoFile implements IMatchRecordRepo {
+
 	@Override
 	public MatchRecord addMatchRecord(MatchRecord match) {
 		// TODO Auto-generated method stub

@@ -2,6 +2,7 @@ package com.revature.mariokartfighter.menu;
 
 import com.revature.mariokartfighter.dao.CharacterRepoFile;
 import com.revature.mariokartfighter.dao.ItemRepoFile;
+import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.service.CharacterService;
@@ -15,7 +16,8 @@ public class MainMenu {
 	private CharacterService characterService = new CharacterService(new CharacterRepoFile());
 	private ItemService itemService = new ItemService(new ItemRepoFile());
 	private ValidationService validationService = new ValidationService();
-	private GameService gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(), new ItemRepoFile());
+	private GameService gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(),
+			new ItemRepoFile(), new MatchRecordRepoFile());
 	private String currPlayerID;
 	
 	public void mainMenu() {
@@ -162,13 +164,10 @@ public class MainMenu {
 				
 				Bot newBot = new Bot(botLevel);
 				
-				//TODO simulate bot fight
-				
+				gameService.botFight(newBot, currPlayerID);
 				
 			} else if (optionNumber2 == 5) {
-				//TODO choose player with closest level
-				
-				//TODO simulate player fight
+				gameService.playerFight(currPlayerID);
 				
 			} else if (optionNumber2 == 6) {
 				//TODO print record of matches
