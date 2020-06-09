@@ -1,7 +1,6 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
-import java.util.Random;
 
 import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Player;
@@ -55,7 +54,30 @@ public class PlayerService {
 				return;
 			}
 		}
-		//System.out.println("Player does not exist");
+	}
+	
+	public Player chooseClosestPlayer(Player player1) {
+		//choose player with closest level
+		int xpDiff = 1000000;
+		Player player2 = new Player("closestplayer");
+		List<Player> retrievedPlayers = repo.getAllPlayers();
+		for (Player p : retrievedPlayers) {
+			if(Math.abs(p.getXpEarned() - player1.getXpEarned()) < xpDiff) {
+				player2 = p;
+				xpDiff = Math.abs(p.getXpEarned() - player1.getXpEarned());
+			} 
+		}
+		return player2;
+	}
+	
+	public Player getPlayerObject(String playerID) throws RuntimeException {
+		List<Player> retrievedPlayers = repo.getAllPlayers();
+		for(Player p : retrievedPlayers) {
+			if (p.getPlayerID().equals(playerID)) {
+				return p;
+			}
+		}
+		throw new RuntimeException("player does not exist");
 	}
 	
 	public boolean checkPlayerExists(String playerID) {

@@ -73,7 +73,7 @@ public class GameService {
 				int botHealth = bot.getSelectedCharacter().getMaxHealth();
 				
 				while(botHealth > 0 && playerHealth > 0) {
-					//every turn subtract other players attack - your defense from health
+					//strength is player attack - opponent defense
 					double botStrength = botChar.getAttackStat() + botItem.getBonusToAttack()
 						- (playerChar.getDefenseStat() + playerItem.getBonusToDefense());
 					double playerStrength = playerChar.getAttackStat() + playerItem.getBonusToAttack()
@@ -105,14 +105,52 @@ public class GameService {
 		}
 	}
 	
-	public void playerFight(String player1ID) {
-		//TODO choose player with closest level
+	public void playerFight(String player1ID, Player player1, Player player2) {
 		String player2ID;
+
+		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
+		for (Player p : retrievedPlayers) {
+			if (player1ID.equals(p.getPlayerID())) {
+				player1 = p;
+			} 
+		}
 		
-		//TODO simulate player fight
+		//simulate fight		
+		PlayableCharacter player1Char = player1.getSelectedCharacter();
+		PlayableCharacter player2Char = player2.getSelectedCharacter();
+		Item player1Item = player1.getSelectedItem();
+		Item player2Item = player2.getSelectedItem();
+		int player1Health = player1.getSelectedCharacter().getMaxHealth();
+		int player2Health = player2.getSelectedCharacter().getMaxHealth();
 		
-		//TODO save to repo
+		while(player2Health > 0 && player1Health > 0) {
+			//strength is player attack - opponent defense
+			double botStrength = player2Char.getAttackStat() + player2Item.getBonusToAttack()
+				- (player1Char.getDefenseStat() + player1Item.getBonusToDefense());
+			double playerStrength = player1Char.getAttackStat() + player1Item.getBonusToAttack()
+				- (player2Char.getDefenseStat() + player2Item.getBonusToDefense());
+			
+			player2Health -= playerStrength;
+			if(player2Health <= 0) {
+				break;
+			}
+			player1Health -= botStrength;
+		}
 		
+		String winnerID;
+		if(player2Health < player1Health) {
+			winnerID = player1.getPlayerID();
+		} else {
+			winnerID = player2.getPlayerID();
+		}
+		
+		//save to repo
+		MatchRecord newMatch = new MatchRecord(this.generateMatchID(), player1ID, 
+				player1.getSelectedCharacter().getCharacterID(), 
+				player1.getSelectedItem().getItemID(),
+				player2.getPlayerID(), player2.getSelectedCharacter().getCharacterID(),
+				player2.getSelectedItem().getItemID(), false, winnerID);
+		matchRecordRepo.addMatchRecord(newMatch);
 	}
 	
 	public String generateMatchID() {

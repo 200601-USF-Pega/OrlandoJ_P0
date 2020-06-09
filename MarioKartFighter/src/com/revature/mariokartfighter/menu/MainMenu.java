@@ -7,6 +7,7 @@ import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
+import com.revature.mariokartfighter.models.Player;
 import com.revature.mariokartfighter.service.CharacterService;
 import com.revature.mariokartfighter.service.GameService;
 import com.revature.mariokartfighter.service.ItemService;
@@ -170,7 +171,9 @@ public class MainMenu {
 				gameService.botFight(newBot, currPlayerID);
 				
 			} else if (optionNumber2 == 5) {
-				gameService.playerFight(currPlayerID);
+				Player player1 = playerService.getPlayerObject(currPlayerID);
+				Player player2 = playerService.chooseClosestPlayer(player1);
+				gameService.playerFight(currPlayerID, player1, player2);
 				
 			} else if (optionNumber2 == 6) {
 				//TODO print record of matches
