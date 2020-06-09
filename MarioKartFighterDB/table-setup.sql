@@ -34,7 +34,7 @@ CREATE TABLE player (
 );
 
 CREATE TABLE matchRecord (
-	matchID VARCHAR(128) PRIMARY KEY,
+	matchID VARCHAR(36) PRIMARY KEY,
 	timeOfMatch TIMESTAMP,
 	player1ID VARCHAR(64) REFERENCES player,
 	player1CharacterID VARCHAR(64) REFERENCES playableCharacter,
