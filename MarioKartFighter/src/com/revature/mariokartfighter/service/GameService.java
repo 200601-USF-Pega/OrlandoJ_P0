@@ -33,7 +33,25 @@ public class GameService {
 		List<PlayableCharacter> retrievedCharacters = characterRepo.getAllCharacters();
 		for (PlayableCharacter c : retrievedCharacters) {
 			if (characterName.equals(c.getCharacterName())) {
-				playerRepo.assignCharacterToPlayer(c, playerID);
+				//check if player has unlocked
+				Player player = null;
+				List<Player> retrievedPlayers = playerRepo.getAllPlayers();
+				for (Player p : retrievedPlayers) {
+					if (playerID.equals(p.getPlayerID())) {
+						player = p;
+						break;
+					}
+				}
+				if (player != null && player.getLevel() >= c.getUnlockAtLevel()) {
+					playerRepo.assignCharacterToPlayer(c, playerID);				
+				} else if (player != null) {
+						System.out.println("You haven't unlocked this character yet.");	
+						System.out.println("**Earn more XP by playing matches**");
+						return false;
+				} else {
+					System.out.println("player does not exist");
+					return false;
+				}
 				return true;
 			}
 		}
@@ -46,8 +64,24 @@ public class GameService {
 		for (Item i : retrievedItems) {
 			if (itemName.equals(i.getName())) {
 				//check if player has unlocked
-				
-				playerRepo.assignItemToPlayer(i, playerID);
+				Player player = null;
+				List<Player> retrievedPlayers = playerRepo.getAllPlayers();
+				for (Player p : retrievedPlayers) {
+					if (playerID.equals(p.getPlayerID())) {
+						player = p;
+						break;
+					}
+				}
+				if (player != null && player.getLevel() >= i.getUnlockAtLevel()) {
+					playerRepo.assignItemToPlayer(i, playerID);					
+				} else if (player != null) {
+						System.out.println("You haven't unlocked this item yet.");	
+						System.out.println("**Earn more XP by playing matches**");
+						return false;
+				} else {
+					System.out.println("player does not exist");
+					return false;
+				}
 				return true;
 			}
 		}
