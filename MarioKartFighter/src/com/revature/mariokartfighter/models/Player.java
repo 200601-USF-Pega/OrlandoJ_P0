@@ -17,6 +17,18 @@ public class Player {
 		this.numberOfMatches = 0;
 	}
 
+	public Player(String playerID, int level, int xpEarned, int numberOfWins, int numberOfMatches,
+			PlayableCharacter selectedCharacter, Item selectedItem) {
+		super();
+		this.playerID = playerID;
+		this.level = level;
+		this.xpEarned = xpEarned;
+		this.numberOfWins = numberOfWins;
+		this.numberOfMatches = numberOfMatches;
+		this.selectedCharacter = selectedCharacter;
+		this.selectedItem = selectedItem;
+	}
+
 	public String getPlayerID() {
 		return playerID;
 	}

@@ -20,6 +20,16 @@ public class Item {
 		this.bonusToAttack = bonusToAttack;
 		this.bonusToDefense = bonusToDefense;
 	}
+	
+	public Item(String id, String name, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
+		this.itemID = id;
+		this.name = name;
+		this.setTypeThatCanUse(typeThatCanUse);
+		this.unlockAtLevel = unlockAtLevel;
+		this.bonusToHealth = bonusToHealth;
+		this.bonusToAttack = bonusToAttack;
+		this.bonusToDefense = bonusToDefense;
+	}
 
 	@Override
 	public String toString() {

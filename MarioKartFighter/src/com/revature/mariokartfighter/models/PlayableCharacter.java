@@ -18,6 +18,16 @@ public class PlayableCharacter {
 		this.defenseStat = defenseStat;
 		this.unlockAtLevel = unlockAtLevel;
 	}
+	
+	public PlayableCharacter(String id, String type, String name, int maxHealth, double attackStat, double defenseStat, int unlockAtLevel) {
+		this.characterID = id;
+		this.type = type;
+		this.characterName = name;
+		this.maxHealth = maxHealth;
+		this.attackStat = attackStat;
+		this.defenseStat = defenseStat;
+		this.unlockAtLevel = unlockAtLevel;
+	}
 
 	
 	@Override
