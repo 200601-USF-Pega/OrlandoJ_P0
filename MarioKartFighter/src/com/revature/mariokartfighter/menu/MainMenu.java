@@ -1,5 +1,9 @@
 package com.revature.mariokartfighter.menu;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import com.revature.mariokartfighter.dao.CharacterRepoFile;
 import com.revature.mariokartfighter.dao.ItemRepoFile;
 import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
@@ -21,9 +25,13 @@ public class MainMenu {
 	private ValidationService validationService = new ValidationService();
 	private GameService gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(),
 			new ItemRepoFile(), new MatchRecordRepoFile());
+	private static final Logger logger = LogManager.getLogger(MainMenu.class);  
 	private String currPlayerID;
 	
 	public void mainMenu() {
+		BasicConfigurator.configure(); 
+		logger.info("---begin logging---");
+		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
 		System.out.println("Please choose an option:");
 		System.out.println("[1] New Player");

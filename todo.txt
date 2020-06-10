@@ -1,6 +1,7 @@
 TODO
 	- write tests
 	- implement logging
+	- check for level when choosing character or item
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health
