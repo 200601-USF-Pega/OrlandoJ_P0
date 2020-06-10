@@ -1,0 +1,22 @@
+CREATE OR REPLACE PROCEDURE add_player(playerid VARCHAR(24))
+LANGUAGE plpgsql
+AS $$ 
+BEGIN
+	INSERT INTO player VALUES (playerid, 1, 0, 0, 0, 'dk001', 'bs001');
+END;
+$$;
+
+CREATE OR REPLACE PROCEDURE remove_players()
+LANGUAGE plpgsql
+AS $$ 
+BEGIN
+	DELETE FROM player WHERE playerid LIKE 'testing%';
+END;
+$$;
+
+CALL add_player('testing-3');
+CALL add_player('testing-2');
+SELECT * FROM player;
+
+-- CALL remove_players();
+-- SELECT * FROM player;

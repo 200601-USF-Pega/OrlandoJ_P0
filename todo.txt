@@ -1,8 +1,6 @@
 TODO
 	- write tests
 	- implement logging
-	- check for level up (each level = 100xp)
-	- add xp when fight a match 
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health

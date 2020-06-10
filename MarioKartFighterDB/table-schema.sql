@@ -45,3 +45,4 @@ CREATE TABLE matchRecord (
 	player2IsBot BOOLEAN,
 	winnerID VARCHAR(64)
 );
+

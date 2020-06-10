@@ -54,5 +54,5 @@ INSERT INTO item VALUES ('sp001', 'star power', 'power', 10, 5.0, 5.0, 4);
 INSERT INTO item VALUES ('bb001', 'bullet bill', 'speed', 40, 0.0, 0.0, 4);
 
 --add admin player for testing
-INSERT INTO player VALUES ("admin001", 4, 400, 0, 0, 'dk001', 'sp001');
+INSERT INTO player VALUES ('admin001', 4, 400, 0, 0, 'dk001', 'sp001');
 
