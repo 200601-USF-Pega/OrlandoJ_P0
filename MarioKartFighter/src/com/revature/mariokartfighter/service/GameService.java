@@ -137,7 +137,6 @@ public class GameService {
 					winnerID = bot.getID();
 				}
 				
-				
 				//save to repo
 				MatchRecord newMatch = new MatchRecord(this.generateMatchID(), playerID, 
 						p.getSelectedCharacter().getCharacterID(), 
@@ -151,8 +150,6 @@ public class GameService {
 	}
 	
 	public void playerFight(String player1ID, Player player1, Player player2) {
-		String player2ID;
-
 		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
 			if (player1ID.equals(p.getPlayerID())) {

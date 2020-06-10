@@ -47,4 +47,10 @@ public class CharacterRepoFile implements ICharacterRepo {
 		return new ArrayList<PlayableCharacter>();
 	}
 
+	@Override
+	public List<PlayableCharacter> getSomeCharacters(int level) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
