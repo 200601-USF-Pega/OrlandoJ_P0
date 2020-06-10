@@ -1,7 +1,9 @@
 TODO
-	- write tests
-	- implement logging
+	- write more tests
+	- add more logging
+	- add DB code
 	- check for level when choosing character or item
+	
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health
@@ -15,3 +17,18 @@ TODO
 -- power: increase attack and defense evenly
 -- speed: increase health
 -- skill: increase attack
+
+
+--old table
+CREATE TABLE matchRecord (
+	matchID VARCHAR(36) PRIMARY KEY,
+	timeOfMatch TIMESTAMP,
+	player1ID VARCHAR(64) REFERENCES player,
+	player1CharacterID VARCHAR(64) REFERENCES playableCharacter,
+	player1ItemID VARCHAR(64) REFERENCES item,
+	player2ID VARCHAR(64) REFERENCES player,
+	player2CharacterID VARCHAR(64) REFERENCES playableCharacter,
+	player2ItemID VARCHAR(64) REFERENCES item,
+	player2IsBot BOOLEAN,
+	winnerID VARCHAR(64)
+);

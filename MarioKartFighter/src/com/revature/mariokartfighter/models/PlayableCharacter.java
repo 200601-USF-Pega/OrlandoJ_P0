@@ -1,6 +1,9 @@
 package com.revature.mariokartfighter.models;
 
-public class PlayableCharacter {
+import java.io.Serializable;
+
+public class PlayableCharacter implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String characterID;
 	private String type;
 	private String characterName;

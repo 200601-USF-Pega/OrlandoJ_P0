@@ -40,7 +40,7 @@ public class PlayerRepoFile implements IPlayerRepo {
 			inputStream.close();
 			return retrievedPlayers;
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			//Just in case Player class is not found
 			e.printStackTrace();

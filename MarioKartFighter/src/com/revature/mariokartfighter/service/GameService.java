@@ -45,6 +45,8 @@ public class GameService {
 		List<Item> retrievedItems = itemRepo.getAllItems();
 		for (Item i : retrievedItems) {
 			if (itemName.equals(i.getName())) {
+				//check if player has unlocked
+				
 				playerRepo.assignItemToPlayer(i, playerID);
 				return true;
 			}
