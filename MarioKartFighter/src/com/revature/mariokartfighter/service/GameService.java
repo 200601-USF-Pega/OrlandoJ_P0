@@ -89,14 +89,14 @@ public class GameService {
 	}
 	
 	public PlayableCharacter chooseRandomCharacter(int level) {
-		List<PlayableCharacter> retrievedCharacters = characterRepo.getAllCharacters();
+		List<PlayableCharacter> retrievedCharacters = characterRepo.getSomeCharacters(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedCharacters.size()-1);
 		return retrievedCharacters.get(n);
 	}
 	
 	public Item chooseRandomItem(int level) {
-		List<Item> retrievedItems = itemRepo.getAllItems();
+		List<Item> retrievedItems = itemRepo.getSomeItems(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedItems.size()-1);
 		return retrievedItems.get(n);

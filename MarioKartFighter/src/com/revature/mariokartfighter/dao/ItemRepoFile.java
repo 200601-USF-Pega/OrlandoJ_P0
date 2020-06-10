@@ -47,4 +47,10 @@ public class ItemRepoFile implements IItemRepo {
 		return new ArrayList<Item>();
 	}
 
+	@Override
+	public List<Item> getSomeItems(int level) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

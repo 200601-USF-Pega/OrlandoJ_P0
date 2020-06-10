@@ -18,4 +18,10 @@ public class CharacterRepoDB implements ICharacterRepo {
 		return null;
 	}
 
+	@Override
+	public List<PlayableCharacter> getSomeCharacters(int level) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

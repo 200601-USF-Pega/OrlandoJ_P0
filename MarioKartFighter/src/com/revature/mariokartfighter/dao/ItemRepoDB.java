@@ -18,4 +18,10 @@ public class ItemRepoDB implements IItemRepo {
 		return null;
 	}
 
+	@Override
+	public List<Item> getSomeItems(int level) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
