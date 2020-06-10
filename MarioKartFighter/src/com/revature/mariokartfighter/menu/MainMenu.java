@@ -1,12 +1,12 @@
 package com.revature.mariokartfighter.menu;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.revature.mariokartfighter.dao.CharacterRepoFile;
 import com.revature.mariokartfighter.dao.ItemRepoFile;
 import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
+import com.revature.mariokartfighter.dao.PlayerRepoDB;
 import com.revature.mariokartfighter.dao.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
@@ -19,17 +19,17 @@ import com.revature.mariokartfighter.service.PlayerService;
 import com.revature.mariokartfighter.service.ValidationService;
 
 public class MainMenu {
-	private PlayerService playerService = new PlayerService(new PlayerRepoFile());
+	private static final Logger logger = LogManager.getLogger("MinMenu"); 
+	
+	private PlayerService playerService = new PlayerService(new PlayerRepoDB());
 	private CharacterService characterService = new CharacterService(new CharacterRepoFile());
 	private ItemService itemService = new ItemService(new ItemRepoFile());
 	private ValidationService validationService = new ValidationService();
-	private GameService gameService = new GameService(new PlayerRepoFile(), new CharacterRepoFile(),
-			new ItemRepoFile(), new MatchRecordRepoFile());
-	private static final Logger logger = LogManager.getLogger(MainMenu.class);  
+	private GameService gameService = new GameService(new PlayerRepoDB(), new CharacterRepoFile(),
+			new ItemRepoFile(), new MatchRecordRepoFile()); 
 	private String currPlayerID;
 	
 	public void mainMenu() {
-		BasicConfigurator.configure(); 
 		logger.info("---begin logging---");
 		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
