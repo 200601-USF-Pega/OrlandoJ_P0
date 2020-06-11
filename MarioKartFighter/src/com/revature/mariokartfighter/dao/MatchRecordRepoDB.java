@@ -3,7 +3,9 @@ package com.revature.mariokartfighter.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.models.MatchRecord;
@@ -67,7 +69,40 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 
 	@Override
 	public List<MatchRecord> getAllMatches() {
-		// TODO Auto-generated method stub
+		try {
+			PreparedStatement getMatches = connection.prepareStatement(
+				"SELECT * "
+				+ "FROM matchRecord, playerMatchRecord "
+				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID;");
+			
+			ResultSet matchesRS = getMatches.executeQuery();
+			
+			List<MatchRecord> allMatches = new ArrayList<MatchRecord>();
+			while(matchesRS.next()) {
+				String winnerID;
+				if (matchesRS.getBoolean("winnerIsPlayer1")) {
+					winnerID = matchesRS.getString("player1ID");
+				} else {
+					winnerID = matchesRS.getString("player2ID");					
+				}
+				MatchRecord newMatchRecord = new MatchRecord(
+					matchesRS.getString("matchID"), 
+					matchesRS.getString("player1ID"), 
+					matchesRS.getString("player1CharacterID"), 
+					matchesRS.getString("player1ItemID"), 
+					matchesRS.getString("player2ID"), 
+					matchesRS.getString("player2CharacterID"), 
+					matchesRS.getString("player2ItemID"), 
+					matchesRS.getBoolean("player2IsBot"), 
+					winnerID);
+				
+				allMatches.add(newMatchRecord);
+			}
+			return allMatches;
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 		return null;
 	}
 
