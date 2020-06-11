@@ -3,9 +3,12 @@ package com.revature.mariokartfighter.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class CharacterRepoDB implements ICharacterRepo {
@@ -47,8 +50,32 @@ public class CharacterRepoDB implements ICharacterRepo {
 
 	@Override
 	public List<PlayableCharacter> getAllCharacters() {
-		// TODO Auto-generated method stub
-		return null;
+		try {			
+			PreparedStatement getCharacters = connection.prepareStatement(
+					"SELECT * FROM playablecharacter;");
+			ResultSet charactersRS = getCharacters.executeQuery();
+			
+			List<PlayableCharacter> retrievedCharacters = 
+					new ArrayList<PlayableCharacter>();
+			
+			while(charactersRS.next()) {				
+				PlayableCharacter newCharacter = new PlayableCharacter(
+					charactersRS.getString("characterID"),
+					charactersRS.getString("name"),
+					charactersRS.getString("characterType"),
+					charactersRS.getInt("maxHealth"),
+					charactersRS.getDouble("attackStat"), 
+					charactersRS.getDouble("defenseStat"),
+					charactersRS.getInt("unlockAtLevel"));	
+				
+				retrievedCharacters.add(newCharacter);
+				return retrievedCharacters;
+			}	
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return new ArrayList<PlayableCharacter>();
 	}
 
 	@Override

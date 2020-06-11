@@ -3,10 +3,14 @@ package com.revature.mariokartfighter.dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
+import com.revature.mariokartfighter.models.Player;
 
 public class ItemRepoDB implements IItemRepo {
 	Connection connection;
@@ -48,8 +52,31 @@ public class ItemRepoDB implements IItemRepo {
 
 	@Override
 	public List<Item> getAllItems() {
-		// TODO Auto-generated method stub
-		return null;
+		try {			
+			PreparedStatement getItems = connection.prepareStatement(
+					"SELECT * FROM item;");
+			ResultSet itemsRS = getItems.executeQuery();
+			
+			List<Item> retrievedItems = new ArrayList<Item>();
+			
+			while(itemsRS.next()) {				
+				Item newItem = new Item(
+					itemsRS.getString("itemID"),
+					itemsRS.getString("name"),
+					itemsRS.getString("typeThatCanUse"),
+					itemsRS.getInt("unlockAtLevel"),
+					itemsRS.getInt("bonusToHealth"),
+					itemsRS.getDouble("bonusToAttack"), 
+					itemsRS.getDouble("bonusToDefense"));	
+				
+				retrievedItems.add(newItem);
+				return retrievedItems;
+			}	
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return new ArrayList<Item>();
 	}
 
 	@Override
