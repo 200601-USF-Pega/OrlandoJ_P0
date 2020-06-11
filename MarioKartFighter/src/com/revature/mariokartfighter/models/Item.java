@@ -34,6 +34,58 @@ public class Item implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(bonusToAttack);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(bonusToDefense);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + bonusToHealth;
+		result = prime * result + ((itemID == null) ? 0 : itemID.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((typeThatCanUse == null) ? 0 : typeThatCanUse.hashCode());
+		result = prime * result + unlockAtLevel;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Item other = (Item) obj;
+		if (Double.doubleToLongBits(bonusToAttack) != Double.doubleToLongBits(other.bonusToAttack))
+			return false;
+		if (Double.doubleToLongBits(bonusToDefense) != Double.doubleToLongBits(other.bonusToDefense))
+			return false;
+		if (bonusToHealth != other.bonusToHealth)
+			return false;
+		if (itemID == null) {
+			if (other.itemID != null)
+				return false;
+		} else if (!itemID.equals(other.itemID))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (typeThatCanUse == null) {
+			if (other.typeThatCanUse != null)
+				return false;
+		} else if (!typeThatCanUse.equals(other.typeThatCanUse))
+			return false;
+		if (unlockAtLevel != other.unlockAtLevel)
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "Item [itemID=" + itemID + ", name=" + name + ", typeThatCanUse=" + typeThatCanUse + ", unlockAtLevel="
 				+ unlockAtLevel + ", bonusToHealth=" + bonusToHealth + ", bonusToAttack=" + bonusToAttack

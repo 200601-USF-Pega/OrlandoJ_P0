@@ -28,10 +28,19 @@ public class PlayerRepoDB implements IPlayerRepo {
 			playerInsert.setInt(3, player.getXpEarned());
 			playerInsert.setInt(4, player.getNumberOfMatches());
 			playerInsert.setInt(5, player.getNumberOfWins());
-			playerInsert.setString(6, player.getSelectedCharacter().getCharacterID());
-			playerInsert.setString(7, player.getSelectedItem().getItemID());
 			
-			playerInsert.executeUpdate();
+			if(player.getSelectedCharacter() != null) {				
+				playerInsert.setString(6, player.getSelectedCharacter().getCharacterID());
+			} else {
+				playerInsert.setString(6, null);
+			}
+			if(player.getSelectedItem() != null) {				
+				playerInsert.setString(7, player.getSelectedItem().getItemID());
+			} else { 
+				playerInsert.setString(7, null);
+			}				
+			
+			playerInsert.execute();
 			
 			return player;
 			
@@ -64,13 +73,13 @@ public class PlayerRepoDB implements IPlayerRepo {
 				ResultSet playerCharRS = getPlayersCharacter.executeQuery();
 				
 				getPlayersItem.setString(1, playersRS.getString("selectedItemID"));
-				ResultSet playerItemRS = getPlayersCharacter.executeQuery();
+				ResultSet playerItemRS = getPlayersItem.executeQuery();
 				
 				PlayableCharacter playerCharacter = null;
 				Item playerItem = null;
 				while(playerCharRS.next()) {
 					playerCharacter = new PlayableCharacter(playersRS.getString("selectedCharacterID"), 
-						playerCharRS.getString("type"),
+						playerCharRS.getString("characterType"),
 						playerCharRS.getString("name"),	
 						playerCharRS.getInt("maxHealth"), 
 						playerCharRS.getDouble("attackStat"), 
@@ -87,19 +96,29 @@ public class PlayerRepoDB implements IPlayerRepo {
 						playerItemRS.getDouble("bonusToDefense"));
 				}
 				
+				Player newPlayer;
 				if (playerCharacter != null && playerItem != null) {
-					Player newPlayer = new Player(
+					newPlayer = new Player(
 						playersRS.getString("playerID"),
 						playersRS.getInt("xpLevel"), playersRS.getInt("xpEarned"),
-						playersRS.getInt("numberOfWins"), playersRS.getInt("numberOfMatches"),
+						playersRS.getInt("numberOfWins"), playersRS.getInt("numberOfMatchesPlayed"),
 						playerCharacter, playerItem);	
-				
-					retrievedPlayers.add(newPlayer);
+				} else if(playerCharacter != null) {
+					newPlayer = new Player(
+							playersRS.getString("playerID"),
+							playersRS.getInt("xpLevel"), playersRS.getInt("xpEarned"),
+							playersRS.getInt("numberOfWins"), playersRS.getInt("numberOfMatchesPlayed"),
+							playerCharacter, null);	
 				} else {
-					System.out.println("no character or item selected for player");
+					newPlayer = new Player(
+							playersRS.getString("playerID"),
+							playersRS.getInt("xpLevel"), playersRS.getInt("xpEarned"),
+							playersRS.getInt("numberOfWins"), playersRS.getInt("numberOfMatchesPlayed"),
+							null, null);	
 				}
-				return retrievedPlayers;
+				retrievedPlayers.add(newPlayer);
 			}	
+			return retrievedPlayers;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
@@ -207,9 +226,13 @@ public class PlayerRepoDB implements IPlayerRepo {
 					+ "ORDER BY xpLevel DESC, xpEarned DESC;");
 			
 			ResultSet playerSortedRS = getPlayersSorted.executeQuery();
+			int rank = 1;
 			while (playerSortedRS.next()) {
-				//TODO look for player and count how many people theyre below
-				
+				//look for player and count how many people theyre below
+				if(playerSortedRS.getString("playerID").equals(playerID)) {
+					return rank;
+				}
+				rank++;
 			}
 			
 		} catch (SQLException e) {
@@ -217,6 +240,20 @@ public class PlayerRepoDB implements IPlayerRepo {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public void removePlayers(String name) {
+		try {
+			PreparedStatement removePlayers = connectionService.getConnection().prepareStatement(
+					"DELETE FROM player "
+					+ "WHERE playerID LIKE ?");
+			removePlayers.setString(1, name+'%');
+			removePlayers.executeUpdate();
+			
+		} catch (SQLException e) {
+			
+		}
 	}
 
 }

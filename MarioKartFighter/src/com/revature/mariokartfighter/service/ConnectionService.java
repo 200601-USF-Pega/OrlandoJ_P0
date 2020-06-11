@@ -1,6 +1,7 @@
 package com.revature.mariokartfighter.service;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -19,6 +20,8 @@ public class ConnectionService {
 					p.getProperty("username"), p.getProperty("password"));
 		} catch(SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

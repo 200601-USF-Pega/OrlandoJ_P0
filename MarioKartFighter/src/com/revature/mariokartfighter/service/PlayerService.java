@@ -15,18 +15,18 @@ public class PlayerService {
 	public String createNewPlayer(String inputtedID) {		
 		//check if player exists in main menu
 		Player newPlayer = new Player(inputtedID);
-		repo.addPlayer(newPlayer);
-		return newPlayer.getPlayerID();
+		Player addedPlayer = repo.addPlayer(newPlayer);
+		return addedPlayer.getPlayerID();
 	}
 
-	public void getPlayers() {
+	public void printPlayers() {
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			System.out.println(p);
 		}
 	}
 	
-	public void getPlayerInfo(String playerID) {
+	public void printPlayerInfo(String playerID) {
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			if (p.getPlayerID().equals(playerID)) {
@@ -76,5 +76,9 @@ public class PlayerService {
 			}
 		}
 		return false;
+	}
+	
+	public void removeTestPlayers(String testName) {
+		repo.removePlayers(testName);
 	}
 }

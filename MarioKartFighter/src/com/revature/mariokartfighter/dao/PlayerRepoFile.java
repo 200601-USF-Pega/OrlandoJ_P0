@@ -125,4 +125,10 @@ public class PlayerRepoFile implements IPlayerRepo {
 		return 0;
 	}
 
+	@Override
+	public void removePlayers(String name) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

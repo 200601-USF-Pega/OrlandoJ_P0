@@ -13,4 +13,5 @@ public interface IPlayerRepo {
 	public void assignItemToPlayer(Item item, String playerID);
 	public void updateAfterFight(boolean wonMatch, String playerID);
 	public int getPlayerRank(String playerID);
+	public void removePlayers(String name);
 }

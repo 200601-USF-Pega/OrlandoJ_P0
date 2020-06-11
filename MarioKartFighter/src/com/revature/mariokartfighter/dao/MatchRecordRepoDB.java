@@ -1,6 +1,5 @@
 package com.revature.mariokartfighter.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,22 +7,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.models.MatchRecord;
+import com.revature.mariokartfighter.service.ConnectionService;
 
 public class MatchRecordRepoDB implements IMatchRecordRepo {
-	Connection connection;
+	ConnectionService connectionService;
 	
-	public MatchRecordRepoDB(Connection connection) {
-		this.connection = connection;
+	public MatchRecordRepoDB(ConnectionService connectionService) {
+		this.connectionService = connectionService;
 	}
 	
 	@Override
 	public MatchRecord addMatchRecord(MatchRecord match) {
 		try {			
-			PreparedStatement insertMatchRecord = connection.prepareStatement(
+			PreparedStatement insertMatchRecord = connectionService.getConnection().prepareStatement(
 					"INSERT INTO matchRecord ("
 					+ "matchID, timeOfMatch, player1ID, player2ID, player2IsBot, winnerIsPlayer1) "
 					+ "VALUES (?, ?, ?, ?, ?, ?);");
-			PreparedStatement insertPlayerMatchRecord = connection.prepareStatement(
+			PreparedStatement insertPlayerMatchRecord = connectionService.getConnection().prepareStatement(
 					"INSERT INTO playerMatchRecord ("
 					+ "matchID, playerID, characterID, itemID) "
 					+ "VALUES (?, ?, ?, ?)");
@@ -63,7 +63,7 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 	@Override
 	public List<MatchRecord> getAllMatches() {
 		try {
-			PreparedStatement getMatches = connection.prepareStatement(
+			PreparedStatement getMatches = connectionService.getConnection().prepareStatement(
 				"SELECT * "
 				+ "FROM matchRecord, playerMatchRecord "
 				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID;");

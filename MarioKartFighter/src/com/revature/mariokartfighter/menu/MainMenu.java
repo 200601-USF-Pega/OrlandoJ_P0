@@ -57,7 +57,6 @@ public class MainMenu {
 	
 	public void mainMenu() {
 		logger.info("---begin logging---");	
-		
 		setUp();
 		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
@@ -121,7 +120,7 @@ public class MainMenu {
 			
 			if (optionNumber2 == 1) {
 				//print player level and rank
-				playerService.getPlayerInfo(currPlayerID);				
+				playerService.printPlayerInfo(currPlayerID);				
 			} else if (optionNumber2 == 2) {
 
 				System.out.println("---CHARACTER MENU---");

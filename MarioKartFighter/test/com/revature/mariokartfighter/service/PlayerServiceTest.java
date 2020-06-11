@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.junit.After;
@@ -14,22 +12,18 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.revature.mariokartfighter.dao.PlayerRepoDB;
+import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
 
 public class PlayerServiceTest {
 	PlayerService playerService;
-	Connection connection;
+	ConnectionService connectionService;
 	
 	@Before
 	public void setupNeededClasses() {
-		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
-					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
-		} catch(SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
-		playerService = new PlayerService(new PlayerRepoDB(connection));
+		connectionService = new ConnectionService();
+		playerService = new PlayerService(new PlayerRepoDB(connectionService));
 	}
 	
 	@Test
@@ -52,9 +46,12 @@ public class PlayerServiceTest {
 	
 	@Test
 	public void getPlayerObjectShouldReturnCorrectPlayerObject() {
-		String thisPlayerID = playerService.createNewPlayer("ps-test04");
-		Player thisPlayer = playerService.getPlayerObject(thisPlayerID);
-		assertEquals(thisPlayer, new Player("ps-test04", 1, 0, 0, 0, null, null));
+		//String thisPlayerID = playerService.createNewPlayer("ps-test04");
+		Player thisPlayer = playerService.getPlayerObject("admin001");
+		PlayableCharacter adminChar = new PlayableCharacter("dk001", "power", "donkey kong",
+				100, 10.0, 10.0, 2);
+		Item adminItem = new Item("sp001", "star power", "power", 4, 10, 5.0, 5.0);
+		assertEquals(thisPlayer, new Player("admin001", 4, 400, 0, 0, adminChar, adminItem));
 	}
 	
 	@Ignore	//will never happen bc admin players exist
@@ -76,14 +73,14 @@ public class PlayerServiceTest {
 	
 	@After
 	public void cleanUp() {
+		//remove players added for testing (anything with ps-test%)
+		playerService.removeTestPlayers("ps-test");
+		
 		try {
-			connection.close();
+			connectionService.getConnection().close();
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
-		//remove players added for testing (anything with ps-test%)
-		
 	}
 }

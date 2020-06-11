@@ -1,6 +1,5 @@
 package com.revature.mariokartfighter.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,18 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.models.PlayableCharacter;
+import com.revature.mariokartfighter.service.ConnectionService;
 
 public class CharacterRepoDB implements ICharacterRepo {
-	Connection connection;
+	ConnectionService connectionService;
 	
-	public CharacterRepoDB(Connection connection) {
-		this.connection = connection;
+	public CharacterRepoDB(ConnectionService connectionService) {
+		this.connectionService = connectionService;
 	}
 	
 	@Override
 	public PlayableCharacter addCharacter(PlayableCharacter character) {
 		try {			
-			PreparedStatement characterInsert = connection.prepareStatement(
+			PreparedStatement characterInsert = connectionService.getConnection().prepareStatement(
 					"INSERT INTO character VALUES (?, ?, ?, ?, ?, ?, ?)");
 			characterInsert.setString(1, character.getCharacterID());
 			characterInsert.setString(2, character.getCharacterName());
@@ -43,7 +43,7 @@ public class CharacterRepoDB implements ICharacterRepo {
 	@Override
 	public List<PlayableCharacter> getAllCharacters() {
 		try {			
-			PreparedStatement getCharacters = connection.prepareStatement(
+			PreparedStatement getCharacters = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM playablecharacter;");
 			ResultSet charactersRS = getCharacters.executeQuery();
 			
@@ -61,8 +61,8 @@ public class CharacterRepoDB implements ICharacterRepo {
 					charactersRS.getInt("unlockAtLevel"));	
 				
 				retrievedCharacters.add(newCharacter);
-				return retrievedCharacters;
 			}	
+			return retrievedCharacters;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
@@ -73,7 +73,7 @@ public class CharacterRepoDB implements ICharacterRepo {
 	@Override
 	public List<PlayableCharacter> getSomeCharacters(int level) {
 		try {			
-			PreparedStatement getCharacters = connection.prepareStatement(
+			PreparedStatement getCharacters = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM playablecharacter WHERE unlockAtLevel <= ?;");
 			getCharacters.setInt(1, level);
 			ResultSet charactersRS = getCharacters.executeQuery();
@@ -92,8 +92,8 @@ public class CharacterRepoDB implements ICharacterRepo {
 					charactersRS.getInt("unlockAtLevel"));	
 				
 				retrievedCharacters.add(newCharacter);
-				return retrievedCharacters;
 			}	
+			return retrievedCharacters;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();

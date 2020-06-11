@@ -32,7 +32,58 @@ public class PlayableCharacter implements Serializable {
 		this.unlockAtLevel = unlockAtLevel;
 	}
 
-	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(attackStat);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((characterID == null) ? 0 : characterID.hashCode());
+		result = prime * result + ((characterName == null) ? 0 : characterName.hashCode());
+		temp = Double.doubleToLongBits(defenseStat);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + maxHealth;
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		result = prime * result + unlockAtLevel;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlayableCharacter other = (PlayableCharacter) obj;
+		if (Double.doubleToLongBits(attackStat) != Double.doubleToLongBits(other.attackStat))
+			return false;
+		if (characterID == null) {
+			if (other.characterID != null)
+				return false;
+		} else if (!characterID.equals(other.characterID))
+			return false;
+		if (characterName == null) {
+			if (other.characterName != null)
+				return false;
+		} else if (!characterName.equals(other.characterName))
+			return false;
+		if (Double.doubleToLongBits(defenseStat) != Double.doubleToLongBits(other.defenseStat))
+			return false;
+		if (maxHealth != other.maxHealth)
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equals(other.type))
+			return false;
+		if (unlockAtLevel != other.unlockAtLevel)
+			return false;
+		return true;
+	}
+
 	@Override
 	public String toString() {
 		return "PlayableCharacter [characterID=" + characterID + ", type=" + type + ", characterName=" + characterName

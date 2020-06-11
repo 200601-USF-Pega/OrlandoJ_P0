@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS player CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
-DROP TABLE IF EXISTS playableCharacter CASCADE;
+DROP TABLE IF EXISTS character CASCADE;
 DROP TABLE IF EXISTS matchRecord CASCADE;
 DROP TABLE IF EXISTS playerMatchRecord CASCADE;
 
@@ -14,7 +14,7 @@ CREATE TABLE item (
 	unlockAtLevel INT
 );
 
-CREATE TABLE playableCharacter (
+CREATE TABLE character (
 	characterID VARCHAR(64) PRIMARY KEY,
 	name VARCHAR(64),
 	characterType VARCHAR(64),

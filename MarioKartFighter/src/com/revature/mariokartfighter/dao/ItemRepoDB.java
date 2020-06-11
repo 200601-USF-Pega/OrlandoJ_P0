@@ -1,6 +1,5 @@
 package com.revature.mariokartfighter.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.service.ConnectionService;
 
 public class ItemRepoDB implements IItemRepo {
-	Connection connection;
+	ConnectionService connectionService;
 	
-	public ItemRepoDB(Connection connection) {
-		this.connection = connection;
+	public ItemRepoDB(ConnectionService connectionService) {
+		this.connectionService = connectionService;
 	}
-	
 	
 	@Override
 	public Item addItem(Item item) {
 		try {			
-			PreparedStatement itemInsert = connection.prepareStatement(
+			PreparedStatement itemInsert = connectionService.getConnection().prepareStatement(
 					"INSERT INTO item VALUES (?, ?, ?, ?, ?, ?, ?)");
 			itemInsert.setString(1, item.getItemID());
 			itemInsert.setString(2, item.getItemName());
@@ -44,7 +43,7 @@ public class ItemRepoDB implements IItemRepo {
 	@Override
 	public List<Item> getAllItems() {
 		try {			
-			PreparedStatement getItems = connection.prepareStatement(
+			PreparedStatement getItems = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM item;");
 			ResultSet itemsRS = getItems.executeQuery();
 			
@@ -61,8 +60,8 @@ public class ItemRepoDB implements IItemRepo {
 					itemsRS.getDouble("bonusToDefense"));	
 				
 				retrievedItems.add(newItem);
-				return retrievedItems;
 			}	
+			return retrievedItems;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
@@ -73,7 +72,7 @@ public class ItemRepoDB implements IItemRepo {
 	@Override
 	public List<Item> getSomeItems(int level) {
 		try {			
-			PreparedStatement getItems = connection.prepareStatement(
+			PreparedStatement getItems = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM item WHERE unlockAtLevel <= ?;");
 			getItems.setInt(1, level);
 			
@@ -92,8 +91,8 @@ public class ItemRepoDB implements IItemRepo {
 					itemsRS.getDouble("bonusToDefense"));	
 				
 				retrievedItems.add(newItem);
-				return retrievedItems;
 			}	
+			return retrievedItems;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
