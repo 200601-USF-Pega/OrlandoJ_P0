@@ -53,6 +53,15 @@ INSERT INTO item VALUES ('l001', 'lightning', 'power', 0, 4.0, 4.0, 3);
 INSERT INTO item VALUES ('sp001', 'star power', 'power', 10, 5.0, 5.0, 4);
 INSERT INTO item VALUES ('bb001', 'bullet bill', 'speed', 40, 0.0, 0.0, 4);
 
---add admin player for testing
+--add admin players for testing
 INSERT INTO player VALUES ('admin001', 4, 400, 0, 0, 'dk001', 'sp001');
+INSERT INTO player VALUES ('admin002', 4, 400, 0, 0, 'p001', 'bb001');
 
+--add matchrecords for testing
+INSERT INTO matchRecord VALUES ('mr001', '2008-01-01 00:00:01', 'admin001', 'admin002', FALSE, TRUE);
+INSERT INTO playerMatchRecord VALUES('mr001', 'admin001', 'dk002', 'sp001');
+INSERT INTO playerMatchRecord VALUES('mr001', 'admin002', 'p001', 'bb001');
+
+INSERT INTO matchRecord VALUES ('mr002', '2008-01-01 00:10:01', 'admin001', 'admin002', FALSE, FALSE);
+INSERT INTO playerMatchRecord VALUES('mr002', 'admin001', 'dk001', 'sp001');
+INSERT INTO playerMatchRecord VALUES('mr002', 'admin002', 'p001', 'bb001');

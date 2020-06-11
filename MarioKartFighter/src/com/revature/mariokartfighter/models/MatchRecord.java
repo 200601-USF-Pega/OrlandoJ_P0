@@ -29,6 +29,21 @@ public class MatchRecord {
 		this.winnerID = winnerID;
 	}
 
+	public MatchRecord(String matchID, Timestamp timeOfMatch, String player1id, String player1CharacterID,
+			String player1ItemID, String player2id, String player2CharacterID, String player2ItemID,
+			boolean player2IsBot, String winnerID) {
+		this.matchID = matchID;
+		this.timeOfMatch = timeOfMatch;
+		player1ID = player1id;
+		this.player1CharacterID = player1CharacterID;
+		this.player1ItemID = player1ItemID;
+		player2ID = player2id;
+		this.player2CharacterID = player2CharacterID;
+		this.player2ItemID = player2ItemID;
+		this.player2IsBot = player2IsBot;
+		this.winnerID = winnerID;
+	}
+	
 	public String getMatchID() {
 		return matchID;
 	}

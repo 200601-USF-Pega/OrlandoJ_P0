@@ -87,6 +87,7 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 				}
 				MatchRecord newMatchRecord = new MatchRecord(
 					matchesRS.getString("matchID"), 
+					matchesRS.getTimestamp("timeOfMatch"),
 					matchesRS.getString("player1ID"), 
 					matchesRS.getString("player1CharacterID"), 
 					matchesRS.getString("player1ItemID"), 

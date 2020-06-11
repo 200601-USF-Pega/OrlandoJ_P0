@@ -2,7 +2,8 @@ TODO
 	- write more tests
 	- add more logging
 	- add DB code
-	
+		- add to character and item repo
+		- fix query for getAllMatches
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health
