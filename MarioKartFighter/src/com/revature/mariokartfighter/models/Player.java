@@ -18,6 +18,8 @@ public class Player implements Serializable {
 		this.xpEarned = 0;
 		this.numberOfWins = 0;
 		this.numberOfMatches = 0;
+		this.selectedCharacter = null;
+		this.selectedItem = null;
 	}
 
 	public Player(String playerID, int level, int xpEarned, int numberOfWins, int numberOfMatches,

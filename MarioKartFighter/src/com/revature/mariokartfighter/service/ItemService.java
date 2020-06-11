@@ -83,9 +83,15 @@ public class ItemService {
 		return sb.toString();
 	}
 	
-	
 	public void getAllItems() {
 		List<Item> retrievedItems = repo.getAllItems();
+		for(Item i : retrievedItems) {
+			System.out.println(i);
+		}
+	}
+	
+	public void getSomeItems(int level) {
+		List<Item> retrievedItems = repo.getSomeItems(level);
 		for(Item i : retrievedItems) {
 			System.out.println(i);
 		}

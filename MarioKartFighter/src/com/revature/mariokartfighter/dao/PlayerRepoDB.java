@@ -1,7 +1,6 @@
 package com.revature.mariokartfighter.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,15 +14,8 @@ import com.revature.mariokartfighter.models.Player;
 public class PlayerRepoDB implements IPlayerRepo {
 	Connection connection;
 	
-	public PlayerRepoDB() {
-		try {
-			connection = DriverManager.getConnection(
-					"jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
-					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
-		} catch(SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
+	public PlayerRepoDB(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override
@@ -52,7 +44,10 @@ public class PlayerRepoDB implements IPlayerRepo {
 	
 	@Override
 	public List<Player> getAllPlayers() {
-		try {			
+		try {
+			if(this.connection == null) {
+				System.out.println("connection null");
+			}
 			PreparedStatement getPlayers = connection.prepareStatement(
 					"SELECT * FROM players;");
 			ResultSet playersRS = getPlayers.executeQuery();
@@ -190,6 +185,12 @@ public class PlayerRepoDB implements IPlayerRepo {
 			e.printStackTrace();
 		}
 		
+	}
+
+	@Override
+	public int getPlayerRank(String playerID) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

@@ -1,7 +1,6 @@
 package com.revature.mariokartfighter.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,14 +12,8 @@ import com.revature.mariokartfighter.models.MatchRecord;
 public class MatchRecordRepoDB implements IMatchRecordRepo {
 	Connection connection;
 	
-	public MatchRecordRepoDB() {
-		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
-					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
-		} catch(SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
+	public MatchRecordRepoDB(Connection connection) {
+		this.connection = connection;
 	}
 	
 	@Override

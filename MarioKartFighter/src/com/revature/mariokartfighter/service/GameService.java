@@ -199,6 +199,13 @@ public class GameService {
 		matchRecordRepo.addMatchRecord(newMatch);
 	}
 	
+	public void printAllMatches() {
+		List<MatchRecord> allMatches = matchRecordRepo.getAllMatches();
+		for (MatchRecord mr : allMatches) {
+			System.out.println(mr);
+		}
+	}
+	
 	public String generateMatchID() {
 		return UUID.randomUUID().toString();
 	}

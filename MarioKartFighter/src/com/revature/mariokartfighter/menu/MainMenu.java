@@ -1,9 +1,17 @@
 package com.revature.mariokartfighter.menu;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.revature.mariokartfighter.dao.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.ICharacterRepo;
+import com.revature.mariokartfighter.dao.IItemRepo;
+import com.revature.mariokartfighter.dao.IMatchRecordRepo;
+import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.dao.ItemRepoDB;
 import com.revature.mariokartfighter.dao.MatchRecordRepoDB;
 import com.revature.mariokartfighter.dao.PlayerRepoDB;
@@ -18,18 +26,34 @@ import com.revature.mariokartfighter.service.PlayerService;
 import com.revature.mariokartfighter.service.ValidationService;
 
 public class MainMenu {
-	private static final Logger logger = LogManager.getLogger("MinMenu"); 
+	private static final Logger logger = LogManager.getLogger("MainMenu"); 
 	
-	private PlayerService playerService = new PlayerService(new PlayerRepoDB());
-	private CharacterService characterService = new CharacterService(new CharacterRepoDB());
-	private ItemService itemService = new ItemService(new ItemRepoDB());
+	Connection connection;
+	
+	IPlayerRepo playerRepo = new PlayerRepoDB(connection);
+	ICharacterRepo characterRepo = new CharacterRepoDB(connection);
+	IItemRepo itemRepo = new ItemRepoDB(connection);
+	IMatchRecordRepo matchRecordRepo = new MatchRecordRepoDB(connection);
+	
+	private PlayerService playerService = new PlayerService(playerRepo);
+	private CharacterService characterService = new CharacterService(characterRepo);
+	private ItemService itemService = new ItemService(itemRepo);
 	private ValidationService validationService = new ValidationService();
-	private GameService gameService = new GameService(new PlayerRepoDB(), new CharacterRepoDB(),
-			new ItemRepoDB(), new MatchRecordRepoDB());
+	private GameService gameService = new GameService(playerRepo, characterRepo, itemRepo,
+			matchRecordRepo);
 	private String currPlayerID;
 	
 	public void mainMenu() {
 		logger.info("---begin logging---");
+		
+		//make connection manager
+		try {
+			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
+					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
+		} catch(SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}		
 		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
 		System.out.println("Please choose an option:");
@@ -97,10 +121,11 @@ public class MainMenu {
 
 				System.out.println("---CHARACTER MENU---");
 				System.out.println("[1] List All Characters");
-				System.out.println("[2] Get Character Info");
-				System.out.println("[3] Set My Character");
-				System.out.println("[4] Create Custom Character");
-				System.out.println("[5] Back to Main Menu");
+				System.out.println("[2] List Unlocked Characters");
+				System.out.println("[3] Get Character Info");
+				System.out.println("[4] Set My Character");
+				System.out.println("[5] Create Custom Character");
+				System.out.println("[6] Back to Main Menu");
 				
 				int characterOption = validationService.getValidInt();
 				
@@ -109,11 +134,15 @@ public class MainMenu {
 					characterService.getAllCharacters();
 					break;
 				case 2:
+					characterService.getSomeCharacters(
+							playerService.getPlayerObject(currPlayerID).getLevel());
+					break;
+				case 3:
 					System.out.println("Enter character's name:");
 					String nameInput = validationService.getValidString();
 					characterService.getCharacterInfo(nameInput);
 					break;
-				case 3:
+				case 4:
 					System.out.println("Enter character's name:");
 					boolean created = false;
 					do {
@@ -121,10 +150,10 @@ public class MainMenu {
 						created = gameService.setCharacter(charNameInput, currPlayerID);
 					} while (!created);
 					break;
-				case 4:
+				case 5:
 					characterService.createNewCharacter();
 					break;
-				case 5:
+				case 6:
 					break;
 				default:
 					System.out.println("Invalid option...Redirecting to Main Menu");
@@ -135,21 +164,26 @@ public class MainMenu {
 				
 				System.out.println("---ITEM MENU---");
 				System.out.println("[1] List All Items");
-				System.out.println("[2] Get Item Info");
-				System.out.println("[3] Set My Item");
-				System.out.println("[4] Create Custom Item");
-				System.out.println("[5] Back to Main Menu");
+				System.out.println("[2] List Unlocked Items");
+				System.out.println("[3] Get Item Info");
+				System.out.println("[4] Set My Item");
+				System.out.println("[5] Create Custom Item");
+				System.out.println("[6] Back to Main Menu");
 				
 				switch (itemOption) {
 				case 1:
 					itemService.getAllItems();
 					break;
 				case 2:
+					itemService.getSomeItems(
+							playerService.getPlayerObject(currPlayerID).getLevel());
+					break;
+				case 3:
 					System.out.println("Enter item's name:");
 					String nameInput = validationService.getValidString();
 					itemService.getItemInfo(nameInput);
 					break;
-				case 3:
+				case 4:
 					System.out.println("Enter item's name:");
 					boolean created = false;
 					do {
@@ -157,16 +191,26 @@ public class MainMenu {
 						created = gameService.setItem(itemNameInput, currPlayerID);
 					} while (!created);
 					break;
-				case 4:
+				case 5:
 					itemService.createNewItem();
 					break;
-				case 5:
+				case 6:
 					break;
 				default:
 					System.out.println("Invalid option...Redirecting to Main Menu");
 				}
 				
 			} else if (optionNumber2 == 4) {
+				//check if player has selected an item and character
+				Player thisPlayer = playerService.getPlayerObject(currPlayerID);
+				if (thisPlayer.getSelectedCharacter() == null 
+						|| thisPlayer.getSelectedItem() == null) {
+					System.out.println("You can't fight yet because you haven't selected "
+							+ "a character and item.");
+					System.out.println("Redirecting to main menu...");
+					continue;
+				}
+				
 				//ask for level of bot
 				System.out.println("What level bot would you like to fight?");
 				int botLevel = validationService.getValidInt();
@@ -177,10 +221,26 @@ public class MainMenu {
 				gameService.botFight(newBot, currPlayerID);
 				
 			} else if (optionNumber2 == 5) {
+				//check if player has selected an item and character
+				Player thisPlayer = playerService.getPlayerObject(currPlayerID);
+				if (thisPlayer.getSelectedCharacter() == null 
+						|| thisPlayer.getSelectedItem() == null) {
+					System.out.println("You can't fight yet because you haven't selected "
+							+ "a character and item.");
+					System.out.println("Redirecting to main menu...");
+					continue;
+				}
+				
 				Player player1 = playerService.getPlayerObject(currPlayerID);
 				Player player2 = playerService.chooseClosestPlayer(player1);
-				gameService.playerFight(currPlayerID, player1, player2);
 				
+				//make sure a player to fight was chosen
+				if (player2.getSelectedCharacter() == null)  {
+					System.out.println("No players available to fight.");
+					System.out.println("Redirecting to main menu...");
+				} else {
+					gameService.playerFight(currPlayerID, player1, player2);
+				}
 			} else if (optionNumber2 == 6) {
 				//TODO print record of matches
 				

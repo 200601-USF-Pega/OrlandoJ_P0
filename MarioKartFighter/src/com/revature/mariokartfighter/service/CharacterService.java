@@ -90,6 +90,13 @@ public class CharacterService {
 		}
 	}
 	
+	public void getSomeCharacters(int level) {
+		List<PlayableCharacter> retrievedCharacters = repo.getSomeCharacters(level);
+		for(PlayableCharacter c : retrievedCharacters) {
+			System.out.println(c);
+		}
+	}
+	
 	public boolean checkCharacterExists(String characterID) {
 		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
 		for(PlayableCharacter c : retrievedCharacters) {

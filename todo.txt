@@ -2,6 +2,7 @@ TODO
 	- write more tests
 	- add more logging
 	- add DB code
+	- check that player has selected an item and character before playing match
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health

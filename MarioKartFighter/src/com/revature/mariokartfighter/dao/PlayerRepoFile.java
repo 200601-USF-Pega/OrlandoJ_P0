@@ -119,4 +119,10 @@ public class PlayerRepoFile implements IPlayerRepo {
 		}		
 	}
 
+	@Override
+	public int getPlayerRank(String playerID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
