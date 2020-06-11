@@ -2,6 +2,7 @@ package com.revature.mariokartfighter.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,7 +23,25 @@ public class CharacterRepoDB implements ICharacterRepo {
 	
 	@Override
 	public PlayableCharacter addCharacter(PlayableCharacter character) {
-		// TODO Auto-generated method stub
+		try {			
+			PreparedStatement characterInsert = connection.prepareStatement(
+					"INSERT INTO character VALUES (?, ?, ?, ?, ?, ?, ?)");
+			characterInsert.setString(1, character.getCharacterID());
+			characterInsert.setString(2, character.getCharacterName());
+			characterInsert.setString(3, character.getType());
+			characterInsert.setInt(4, character.getMaxHealth());
+			characterInsert.setDouble(5, character.getAttackStat());
+			characterInsert.setDouble(6, character.getDefenseStat());
+			characterInsert.setInt(7, character.getUnlockAtLevel());
+			
+			characterInsert.executeUpdate();
+			
+			return character;
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 		return null;
 	}
 

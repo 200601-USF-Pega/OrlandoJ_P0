@@ -2,6 +2,7 @@ package com.revature.mariokartfighter.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -23,7 +24,25 @@ public class ItemRepoDB implements IItemRepo {
 	
 	@Override
 	public Item addItem(Item item) {
-		// TODO Auto-generated method stub
+		try {			
+			PreparedStatement itemInsert = connection.prepareStatement(
+					"INSERT INTO item VALUES (?, ?, ?, ?, ?, ?, ?)");
+			itemInsert.setString(1, item.getItemID());
+			itemInsert.setString(2, item.getItemName());
+			itemInsert.setString(3, item.getTypeThatCanUse());
+			itemInsert.setInt(4, item.getBonusToHealth());
+			itemInsert.setDouble(5, item.getBonusToAttack());
+			itemInsert.setDouble(6, item.getBonusToDefense());
+			itemInsert.setInt(7, item.getUnlockAtLevel());
+			
+			itemInsert.executeUpdate();
+			
+			return item;
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 		return null;
 	}
 

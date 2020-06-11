@@ -60,7 +60,7 @@ public class Item implements Serializable {
 		this.itemID = itemID;
 	}
 
-	public String getName() {
+	public String getItemName() {
 		return name;
 	}
 

@@ -62,7 +62,7 @@ public class GameService {
 		//check if character exists
 		List<Item> retrievedItems = itemRepo.getAllItems();
 		for (Item i : retrievedItems) {
-			if (itemName.equals(i.getName())) {
+			if (itemName.equals(i.getItemName())) {
 				//check if player has unlocked
 				Player player = null;
 				List<Player> retrievedPlayers = playerRepo.getAllPlayers();

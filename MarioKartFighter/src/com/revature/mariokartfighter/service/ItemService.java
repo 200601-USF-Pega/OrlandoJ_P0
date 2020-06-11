@@ -104,7 +104,7 @@ public class ItemService {
 	public void getItemInfo(String itemName) {
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
-			if (i.getName().equals(itemName)) {
+			if (i.getItemName().equals(itemName)) {
 				System.out.println(i.getInfoString());
 				return;
 			}
