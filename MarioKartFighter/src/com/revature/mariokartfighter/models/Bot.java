@@ -20,6 +20,46 @@ public class Bot {
 				+ "]";
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + level;
+		result = prime * result + ((selectedCharacter == null) ? 0 : selectedCharacter.hashCode());
+		result = prime * result + ((selectedItem == null) ? 0 : selectedItem.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Bot other = (Bot) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (level != other.level)
+			return false;
+		if (selectedCharacter == null) {
+			if (other.selectedCharacter != null)
+				return false;
+		} else if (!selectedCharacter.equals(other.selectedCharacter))
+			return false;
+		if (selectedItem == null) {
+			if (other.selectedItem != null)
+				return false;
+		} else if (!selectedItem.equals(other.selectedItem))
+			return false;
+		return true;
+	}
+
 	public String generateBotID() {
 		String botID = Integer.toString(this.getLevel()) + "_" + System.currentTimeMillis();
 		return botID;

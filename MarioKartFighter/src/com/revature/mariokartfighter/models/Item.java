@@ -1,32 +1,31 @@
 package com.revature.mariokartfighter.models;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String itemID;
-	private String name;
+	private String itemName;
 	private String typeThatCanUse;
 	private int unlockAtLevel;
 	private int bonusToHealth;
 	private double bonusToAttack;
 	private double bonusToDefense;
 	
-	public Item(String name, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
+	public Item(String itemName, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
 		this.itemID = "";
-		this.name = name;
-		this.setTypeThatCanUse(typeThatCanUse);
+		this.itemName = itemName;
+		this.typeThatCanUse = typeThatCanUse;
 		this.unlockAtLevel = unlockAtLevel;
 		this.bonusToHealth = bonusToHealth;
 		this.bonusToAttack = bonusToAttack;
 		this.bonusToDefense = bonusToDefense;
 	}
 	
-	public Item(String id, String name, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
+	public Item(String id, String itemName, String typeThatCanUse, int unlockAtLevel, int bonusToHealth, double bonusToAttack, double bonusToDefense) {
 		this.itemID = id;
-		this.name = name;
-		this.setTypeThatCanUse(typeThatCanUse);
+		this.itemName = itemName;
+		this.typeThatCanUse = typeThatCanUse;
 		this.unlockAtLevel = unlockAtLevel;
 		this.bonusToHealth = bonusToHealth;
 		this.bonusToAttack = bonusToAttack;
@@ -44,7 +43,7 @@ public class Item implements Serializable {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + bonusToHealth;
 		result = prime * result + ((itemID == null) ? 0 : itemID.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((itemName == null) ? 0 : itemName.hashCode());
 		result = prime * result + ((typeThatCanUse == null) ? 0 : typeThatCanUse.hashCode());
 		result = prime * result + unlockAtLevel;
 		return result;
@@ -70,10 +69,10 @@ public class Item implements Serializable {
 				return false;
 		} else if (!itemID.equals(other.itemID))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (itemName == null) {
+			if (other.itemName != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!itemName.equals(other.itemName))
 			return false;
 		if (typeThatCanUse == null) {
 			if (other.typeThatCanUse != null)
@@ -87,7 +86,7 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Item [itemID=" + itemID + ", name=" + name + ", typeThatCanUse=" + typeThatCanUse + ", unlockAtLevel="
+		return "Item [itemID=" + itemID + ", name=" + itemName + ", typeThatCanUse=" + typeThatCanUse + ", unlockAtLevel="
 				+ unlockAtLevel + ", bonusToHealth=" + bonusToHealth + ", bonusToAttack=" + bonusToAttack
 				+ ", bonusToDefense=" + bonusToDefense + "]";
 	}
@@ -95,7 +94,7 @@ public class Item implements Serializable {
 	public String getInfoString() {
 		String printString = "";
 		printString += "\tItem ID: " + this.itemID + "\n";
-		printString += "\tName: " + this.name + "\n";
+		printString += "\tName: " + this.itemName + "\n";
 		printString += "\tType That Can Use: " + this.typeThatCanUse + "\n";
 		printString += "\tBonus to Attack: " + this.bonusToAttack + "\n";
 		printString += "\tBonus to Defense: " + this.bonusToDefense + "\n";
@@ -113,11 +112,11 @@ public class Item implements Serializable {
 	}
 
 	public String getItemName() {
-		return name;
+		return itemName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.itemName = name;
 	}
 
 	public String getTypeThatCanUse() {
@@ -125,14 +124,7 @@ public class Item implements Serializable {
 	}
 
 	public void setTypeThatCanUse(String typeThatCanUse) {
-		ArrayList<String> allowedTypes = new ArrayList<String>();
-		allowedTypes.add("speed");
-		for (String type : allowedTypes) {
-			if (typeThatCanUse.equals(type)) {
-				this.typeThatCanUse = typeThatCanUse;
-			}
-		}
-		//TODO check that type is allowed
+		this.typeThatCanUse = typeThatCanUse;
 	}
 
 	public int getUnlockAtLevel() {
