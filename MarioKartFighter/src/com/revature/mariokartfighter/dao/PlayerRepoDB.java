@@ -83,12 +83,12 @@ public class PlayerRepoDB implements IPlayerRepo {
 				}
 				while(playerItemRS.next()) {
 					playerItem = new Item(playersRS.getString("selectedItemID"), 
-							playerItemRS.getString("name"), 
-							playerItemRS.getString("typeThatCanUse"), 
-							playerItemRS.getInt("unlockAtLevel"), 
-							playerItemRS.getInt("bonusToHealth"), 
-							playerItemRS.getDouble("bonusToAttack"), 
-							playerItemRS.getDouble("bonusToDefense"));
+						playerItemRS.getString("name"), 
+						playerItemRS.getString("typeThatCanUse"), 
+						playerItemRS.getInt("unlockAtLevel"), 
+						playerItemRS.getInt("bonusToHealth"), 
+						playerItemRS.getDouble("bonusToAttack"), 
+						playerItemRS.getDouble("bonusToDefense"));
 				}
 				
 				if (playerCharacter != null && playerItem != null) {
@@ -159,14 +159,12 @@ public class PlayerRepoDB implements IPlayerRepo {
 					} else {
 						p.setXpEarned(p.getXpEarned() + 50);	
 					}
-					
 					//check for level up
 					if(p.getXpEarned() >= (p.getLevel()*100)+1) {
 						p.setLevel(p.getLevel()+1);
 						System.out.println("Congratulations! You leveled up!");
 						System.out.println("You are now level " + p.getLevel() + ".");
 					}
-					
 					currentPlayer = p;
 					break;
 				}

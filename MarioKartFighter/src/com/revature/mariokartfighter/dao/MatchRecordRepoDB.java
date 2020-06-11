@@ -23,7 +23,7 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 	
 	@Override
 	public MatchRecord addMatchRecord(MatchRecord match) {
-		try {
+		try {			
 			PreparedStatement insertMatchRecord = connection.prepareStatement(
 					"INSERT INTO matchRecord ("
 					+ "matchID, timeOfMatch, player1ID, player2ID, player2IsBot, winnerIsPlayer1) "
@@ -32,28 +32,37 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 					"INSERT INTO playerMatchRecord ("
 					+ "matchID, playerID, characterID, itemID) "
 					+ "VALUES (?, ?, ?, ?)");
-			
-			// TODO add MatchRecord to table
-			insertMatchRecord.setString("matchID", x);
-			insertMatchRecord.setString("timeOfMatch", x);
-			insertMatchRecord.setString("player1ID", x);
-			insertMatchRecord.setString("player2ID", x);
-			insertMatchRecord.setString("player2IsBot", x);
-			insertMatchRecord.setString("winnerIsPlayer1", x);
+
+			insertMatchRecord.setString(1, match.getMatchID());
+			insertMatchRecord.setTimestamp(2, match.getTimeOfMatch());
+			insertMatchRecord.setString(3, match.getPlayer1ID());
+			insertMatchRecord.setString(4, match.getPlayer2ID());
+			insertMatchRecord.setBoolean(5, match.isPlayer2IsBot());
+			if (match.getWinnerID().equals(match.getPlayer1ID())) {
+				insertMatchRecord.setBoolean(6, true);				
+			} else {
+				insertMatchRecord.setBoolean(6, false);	
+			}
 	
+			insertPlayerMatchRecord.setString(1, match.getMatchID());
+			insertPlayerMatchRecord.setString(2, match.getPlayer1ID());
+			insertPlayerMatchRecord.setString(3, match.getPlayer1CharacterID());
+			insertPlayerMatchRecord.setString(4, match.getPlayer1ItemID());
+			
 			insertMatchRecord.executeUpdate();
-	
-			// TODO add players to playerMatchRecord
-			insertPlayerMatchRecord.setString("matchID", x);
-			insertPlayerMatchRecord.setString("playerID", x);
-			insertPlayerMatchRecord.setString("characterID", x);
-			insertPlayerMatchRecord.setString("itemID", x);
-			
 			insertPlayerMatchRecord.executeUpdate();
+			
+			insertPlayerMatchRecord.setString(2, match.getPlayer2ID());
+			insertPlayerMatchRecord.setString(3, match.getPlayer2CharacterID());
+			insertPlayerMatchRecord.setString(4, match.getPlayer2ItemID());
+			insertPlayerMatchRecord.executeUpdate();
+			
+			return match;
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	@Override

@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS player CASCADE;
 DROP TABLE IF EXISTS item CASCADE;
 DROP TABLE IF EXISTS playableCharacter CASCADE;
 DROP TABLE IF EXISTS matchRecord CASCADE;
-DROP TABLE IF EXISTS matchPlayerRecord CASCADE;
+DROP TABLE IF EXISTS playerMatchRecord CASCADE;
 
 CREATE TABLE item (
 	itemID VARCHAR(64) PRIMARY KEY,
@@ -40,11 +40,11 @@ CREATE TABLE matchRecord (
 	player1ID VARCHAR(64) REFERENCES player,
 	player2ID VARCHAR(64) REFERENCES player,
 	player2IsBot BOOLEAN,
-	winner1IsWinner BOOLEAN
+	winnerIsPlayer1 BOOLEAN
 );
 
 CREATE TABLE playerMatchRecord (
-	matchID VARCHAR(36),
+	matchID VARCHAR(36) REFERENCES matchRecord,
 	playerID VARCHAR(64) REFERENCES player,
 	characterID VARCHAR(64) REFERENCES playableCharacter,
 	itemID VARCHAR(64) REFERENCES item
