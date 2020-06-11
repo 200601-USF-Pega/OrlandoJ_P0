@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.dao;
+package com.revature.mariokartfighter.dao.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.dao.ICharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.service.ConnectionService;
 
@@ -99,6 +100,12 @@ public class CharacterRepoDB implements ICharacterRepo {
 			e.printStackTrace();
 		}
 		return new ArrayList<PlayableCharacter>();
+	}
+
+	@Override
+	public void removeCharacters(String name) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

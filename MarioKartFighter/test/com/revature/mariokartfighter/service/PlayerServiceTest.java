@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.PlayerRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayerRepoDB;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
@@ -27,7 +27,7 @@ public class PlayerServiceTest {
 	}
 	
 	@Test
-	public void testCheckPlayerExistsShouldReturnFalse() {
+	public void checkPlayerExistsShouldReturnFalse() {
 		assertFalse(playerService.checkPlayerExists("ps-test02"));
 	}
 	

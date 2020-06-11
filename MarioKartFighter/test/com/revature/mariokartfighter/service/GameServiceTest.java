@@ -8,16 +8,22 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.CharacterRepoFile;
-import com.revature.mariokartfighter.dao.ItemRepoFile;
-import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
-import com.revature.mariokartfighter.dao.PlayerRepoFile;
+import com.revature.mariokartfighter.dao.file.CharacterRepoFile;
+import com.revature.mariokartfighter.dao.file.ItemRepoFile;
+import com.revature.mariokartfighter.dao.file.MatchRecordRepoFile;
+import com.revature.mariokartfighter.dao.file.PlayerRepoFile;
 import com.revature.mariokartfighter.models.Player;
 
 public class GameServiceTest {
 	GameService gameService;
 	PlayerService playerService;
 	String playerID;
+	ConnectionService connectionService;
+	
+	@Before
+	public void setupNeededClasses() {
+		connectionService = new ConnectionService();
+	}
 	
 	@Before
 	public void setupDummyData() {

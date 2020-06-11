@@ -16,7 +16,7 @@ public class CharacterService {
 		this.validation = new ValidationService();
 	}
 	
-	public void createNewCharacter() {
+	public String createNewCharacter() {
 		String type;
 		String name;
 		int maxHealth;
@@ -59,8 +59,10 @@ public class CharacterService {
 		//choose unlock level based on stats
 		unlockAtLevel = (int)(maxHealth%10 + attackStat + defenseStat)/3;
 		
-		PlayableCharacter newCharacter = new PlayableCharacter(type, name, maxHealth, attackStat, defenseStat, unlockAtLevel);
+		String characterID = generateCharacterID();
+		PlayableCharacter newCharacter = new PlayableCharacter(characterID, type, name, maxHealth, attackStat, defenseStat, unlockAtLevel);
 		repo.addCharacter(newCharacter);
+		return characterID;
 	}
 	
 	public String generateCharacterID() {
@@ -115,6 +117,10 @@ public class CharacterService {
 				return;
 			}
 		}
+	}
+	
+	public void removeTestCharacters(String testName) {
+		repo.removeCharacters(testName);
 	}
 }
 

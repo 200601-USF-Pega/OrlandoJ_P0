@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.dao;
+package com.revature.mariokartfighter.dao.file;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.dao.ICharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class CharacterRepoFile implements ICharacterRepo {
@@ -51,6 +52,12 @@ public class CharacterRepoFile implements ICharacterRepo {
 	public List<PlayableCharacter> getSomeCharacters(int level) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void removeCharacters(String name) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

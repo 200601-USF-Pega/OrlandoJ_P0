@@ -3,14 +3,14 @@ package com.revature.mariokartfighter.menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.revature.mariokartfighter.dao.CharacterRepoDB;
 import com.revature.mariokartfighter.dao.ICharacterRepo;
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.dao.IMatchRecordRepo;
 import com.revature.mariokartfighter.dao.IPlayerRepo;
-import com.revature.mariokartfighter.dao.ItemRepoDB;
-import com.revature.mariokartfighter.dao.MatchRecordRepoDB;
-import com.revature.mariokartfighter.dao.PlayerRepoDB;
+import com.revature.mariokartfighter.dao.db.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.db.ItemRepoDB;
+import com.revature.mariokartfighter.dao.db.MatchRecordRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayerRepoDB;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;

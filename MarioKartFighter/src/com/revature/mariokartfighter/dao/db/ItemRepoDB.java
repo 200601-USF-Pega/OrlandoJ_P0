@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.dao;
+package com.revature.mariokartfighter.dao.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.service.ConnectionService;
 
@@ -98,6 +99,21 @@ public class ItemRepoDB implements IItemRepo {
 			e.printStackTrace();
 		}
 		return new ArrayList<Item>();
+	}
+
+	@Override
+	public void removeItems(String name) {
+		try {
+			PreparedStatement removeItems = connectionService.getConnection().prepareStatement(
+					"DELETE FROM item "
+					+ "WHERE itemID LIKE ?");
+			removeItems.setString(1, name+'%');
+			removeItems.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }

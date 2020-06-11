@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.dao;
+package com.revature.mariokartfighter.dao.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.dao.IMatchRecordRepo;
 import com.revature.mariokartfighter.models.MatchRecord;
 import com.revature.mariokartfighter.service.ConnectionService;
 

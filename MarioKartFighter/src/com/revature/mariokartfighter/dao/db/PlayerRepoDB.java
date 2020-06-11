@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.dao;
+package com.revature.mariokartfighter.dao.db;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
@@ -252,7 +253,8 @@ public class PlayerRepoDB implements IPlayerRepo {
 			removePlayers.executeUpdate();
 			
 		} catch (SQLException e) {
-			
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

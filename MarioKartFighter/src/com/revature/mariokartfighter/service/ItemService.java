@@ -16,7 +16,7 @@ public class ItemService {
 		this.validation = new ValidationService();
 	}
 	
-	public void createNewItem() {
+	public String createNewItem() {
 		String name;
 		String typeThatCanUse;
 		int unlockAtLevel;
@@ -24,7 +24,6 @@ public class ItemService {
 		double bonusToAttack;
 		double bonusToDefense;
 		
-		//TODO validate input
 		System.out.println("Name: ");
 		name = validation.getValidString();
 		
@@ -58,9 +57,10 @@ public class ItemService {
 		
 		//choose unlock level based on stats
 		unlockAtLevel = (int)(bonusToHealth + bonusToAttack + bonusToDefense)/3;
-		
-		Item newItem = new Item(name, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
+		String itemID = generateItemID();
+		Item newItem = new Item(itemID, name, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
 		repo.addItem(newItem);
+		return itemID;
 	}
 	
 	public String generateItemID() {
@@ -69,7 +69,7 @@ public class ItemService {
 		
 		//choose a random length up to 64 characters 
 		Random random = new Random();
-		int n = random.nextInt(63) + 1;
+		int n = random.nextInt(60) + 3;
 				
 		StringBuilder sb;
 		do {
@@ -115,5 +115,9 @@ public class ItemService {
 				return;
 			}
 		}
+	}
+	
+	public void removeTestItems(String testName) {
+		repo.removeItems(testName);
 	}
 }
