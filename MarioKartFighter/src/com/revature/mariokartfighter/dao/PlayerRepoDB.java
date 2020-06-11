@@ -102,7 +102,6 @@ public class PlayerRepoDB implements IPlayerRepo {
 				} else {
 					System.out.println("no character or item selected for player");
 				}
-				
 				return retrievedPlayers;
 			}	
 		} catch (SQLException e) {
@@ -116,11 +115,13 @@ public class PlayerRepoDB implements IPlayerRepo {
 	public void assignCharacterToPlayer(PlayableCharacter character, String playerID) {
 		try {			
 			PreparedStatement getPlayers = connection.prepareStatement(
-					"UPDATE player SET selectedCharacterID = ? WHERE playerID = ?");
+					"UPDATE player "
+					+ "SET selectedCharacterID = ? "
+					+ "WHERE playerID = ?;");
 			getPlayers.setString(1, character.getCharacterID());
 			getPlayers.setString(2, playerID);
 			
-			getPlayers.executeUpdate();		
+			getPlayers.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
@@ -130,13 +131,65 @@ public class PlayerRepoDB implements IPlayerRepo {
 
 	@Override
 	public void assignItemToPlayer(Item item, String playerID) {
-		// TODO Auto-generated method stub
-		
+		try {			
+			PreparedStatement getPlayers = connection.prepareStatement(
+					"UPDATE player "
+					+ "SET selectedItemID = ? "
+					+ "WHERE playerID = ?;");
+			getPlayers.setString(1, item.getItemID());
+			getPlayers.setString(2, playerID);
+			
+			getPlayers.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void updateAfterFight(boolean wonMatch, String playerID) {
-		// TODO Auto-generated method stub
+		try {
+			List<Player> allPlayers = this.getAllPlayers();
+			Player currentPlayer = null;
+			for (Player p : allPlayers) {
+				if (p.getPlayerID().equals(playerID)) {
+					if (wonMatch) {
+						p.setXpEarned(p.getXpEarned() + 100);					
+					} else {
+						p.setXpEarned(p.getXpEarned() + 50);	
+					}
+					
+					//check for level up
+					if(p.getXpEarned() >= (p.getLevel()*100)+1) {
+						p.setLevel(p.getLevel()+1);
+						System.out.println("Congratulations! You leveled up!");
+						System.out.println("You are now level " + p.getLevel() + ".");
+					}
+					
+					currentPlayer = p;
+					break;
+				}
+			}
+			if(currentPlayer == null) {
+				throw new SQLException("player does not exist");
+			}
+			
+			PreparedStatement updatePlayer = connection.prepareStatement(
+					"UPDATE player "
+					+ "SET xpEarned = ?, xpLevel = ?"
+					+ "WHERE playerID = ?;");
+			
+			updatePlayer.setInt(1, currentPlayer.getXpEarned());
+			updatePlayer.setInt(2, currentPlayer.getLevel());
+			updatePlayer.setString(3, currentPlayer.getPlayerID());
+			
+			updatePlayer.executeQuery();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 		
 	}
 

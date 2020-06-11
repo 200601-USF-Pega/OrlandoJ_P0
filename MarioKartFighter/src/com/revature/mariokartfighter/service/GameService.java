@@ -183,8 +183,10 @@ public class GameService {
 		if(player2Health < player1Health) {
 			winnerID = player1.getPlayerID();
 			playerRepo.updateAfterFight(true, player1.getPlayerID());
+			playerRepo.updateAfterFight(false, player2.getPlayerID());
 		} else {
 			winnerID = player2.getPlayerID();
+			playerRepo.updateAfterFight(false, player1.getPlayerID());
 			playerRepo.updateAfterFight(true, player2.getPlayerID());
 		}
 		

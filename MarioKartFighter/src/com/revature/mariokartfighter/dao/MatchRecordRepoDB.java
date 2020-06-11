@@ -2,6 +2,7 @@ package com.revature.mariokartfighter.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -22,8 +23,37 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 	
 	@Override
 	public MatchRecord addMatchRecord(MatchRecord match) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			PreparedStatement insertMatchRecord = connection.prepareStatement(
+					"INSERT INTO matchRecord ("
+					+ "matchID, timeOfMatch, player1ID, player2ID, player2IsBot, winnerIsPlayer1) "
+					+ "VALUES (?, ?, ?, ?, ?, ?);");
+			PreparedStatement insertPlayerMatchRecord = connection.prepareStatement(
+					"INSERT INTO playerMatchRecord ("
+					+ "matchID, playerID, characterID, itemID) "
+					+ "VALUES (?, ?, ?, ?)");
+			
+			// TODO add MatchRecord to table
+			insertMatchRecord.setString("matchID", x);
+			insertMatchRecord.setString("timeOfMatch", x);
+			insertMatchRecord.setString("player1ID", x);
+			insertMatchRecord.setString("player2ID", x);
+			insertMatchRecord.setString("player2IsBot", x);
+			insertMatchRecord.setString("winnerIsPlayer1", x);
+	
+			insertMatchRecord.executeUpdate();
+	
+			// TODO add players to playerMatchRecord
+			insertPlayerMatchRecord.setString("matchID", x);
+			insertPlayerMatchRecord.setString("playerID", x);
+			insertPlayerMatchRecord.setString("characterID", x);
+			insertPlayerMatchRecord.setString("itemID", x);
+			
+			insertPlayerMatchRecord.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	@Override

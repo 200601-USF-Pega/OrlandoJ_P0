@@ -106,7 +106,6 @@ public class PlayerRepoFile implements IPlayerRepo {
 					System.out.println("Congratulations! You leveled up!");
 					System.out.println("You are now level " + p.getLevel() + ".");
 				}
-				
 				break;
 			}
 		}

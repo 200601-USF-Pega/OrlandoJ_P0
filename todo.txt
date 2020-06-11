@@ -2,7 +2,6 @@ TODO
 	- write more tests
 	- add more logging
 	- add DB code
-	- check for level when choosing character or item
 	
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
