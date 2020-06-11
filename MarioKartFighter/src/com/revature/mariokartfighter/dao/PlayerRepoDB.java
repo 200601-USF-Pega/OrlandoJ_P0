@@ -1,6 +1,5 @@
 package com.revature.mariokartfighter.dao;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,18 +9,19 @@ import java.util.List;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
+import com.revature.mariokartfighter.service.ConnectionService;
 
 public class PlayerRepoDB implements IPlayerRepo {
-	Connection connection;
+	ConnectionService connectionService;
 	
-	public PlayerRepoDB(Connection connection) {
-		this.connection = connection;
+	public PlayerRepoDB(ConnectionService connectionService) {
+		this.connectionService = connectionService;
 	}
 	
 	@Override
 	public Player addPlayer(Player player) {
 		try {			
-			PreparedStatement playerInsert = connection.prepareStatement(
+			PreparedStatement playerInsert = connectionService.getConnection().prepareStatement(
 					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)");
 			playerInsert.setString(1, player.getPlayerID());
 			playerInsert.setInt(2, player.getLevel());
@@ -45,16 +45,16 @@ public class PlayerRepoDB implements IPlayerRepo {
 	@Override
 	public List<Player> getAllPlayers() {
 		try {
-			if(this.connection == null) {
+			if(this.connectionService == null) {
 				System.out.println("connection null");
 			}
-			PreparedStatement getPlayers = connection.prepareStatement(
-					"SELECT * FROM players;");
+			PreparedStatement getPlayers = connectionService.getConnection().prepareStatement(
+					"SELECT * FROM player;");
 			ResultSet playersRS = getPlayers.executeQuery();
 			
-			PreparedStatement getPlayersCharacter = connection.prepareStatement(
+			PreparedStatement getPlayersCharacter = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM character WHERE characterID = ?;");
-			PreparedStatement getPlayersItem = connection.prepareStatement(
+			PreparedStatement getPlayersItem = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM item WHERE itemID = ?;");
 			
 			List<Player> retrievedPlayers = new ArrayList<Player>();
@@ -110,7 +110,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 	@Override
 	public void assignCharacterToPlayer(PlayableCharacter character, String playerID) {
 		try {			
-			PreparedStatement getPlayers = connection.prepareStatement(
+			PreparedStatement getPlayers = connectionService.getConnection().prepareStatement(
 					"UPDATE player "
 					+ "SET selectedCharacterID = ? "
 					+ "WHERE playerID = ?;");
@@ -128,7 +128,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 	@Override
 	public void assignItemToPlayer(Item item, String playerID) {
 		try {			
-			PreparedStatement getPlayers = connection.prepareStatement(
+			PreparedStatement getPlayers = connectionService.getConnection().prepareStatement(
 					"UPDATE player "
 					+ "SET selectedItemID = ? "
 					+ "WHERE playerID = ?;");
@@ -169,7 +169,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 				throw new SQLException("player does not exist");
 			}
 			
-			PreparedStatement updatePlayer = connection.prepareStatement(
+			PreparedStatement updatePlayer = connectionService.getConnection().prepareStatement(
 					"UPDATE player "
 					+ "SET xpEarned = ?, xpLevel = ?"
 					+ "WHERE playerID = ?;");
@@ -178,19 +178,45 @@ public class PlayerRepoDB implements IPlayerRepo {
 			updatePlayer.setInt(2, currentPlayer.getLevel());
 			updatePlayer.setString(3, currentPlayer.getPlayerID());
 			
-			updatePlayer.executeQuery();
+			updatePlayer.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
 	public int getPlayerRank(String playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		try {
+			List<Player> allPlayers = this.getAllPlayers();
+			Player currentPlayer = null;
+			for (Player p : allPlayers) {
+				if (p.getPlayerID().equals(playerID)) {
+					currentPlayer = p;
+					break;
+				}
+			}
+			if(currentPlayer == null) {
+				throw new SQLException("player does not exist");
+			}
+			
+			PreparedStatement getPlayersSorted = connectionService.getConnection().prepareStatement(
+					"SELECT * "
+					+ "FROM player "
+					+ "ORDER BY xpLevel DESC, xpEarned DESC;");
+			
+			ResultSet playerSortedRS = getPlayersSorted.executeQuery();
+			while (playerSortedRS.next()) {
+				//TODO look for player and count how many people theyre below
+				
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 }

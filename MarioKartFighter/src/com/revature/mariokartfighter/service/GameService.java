@@ -106,8 +106,7 @@ public class GameService {
 		//find player info
 		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
-			if (playerID.equals(p.getPlayerID())) {
-				//TODO simulate fight		
+			if (playerID.equals(p.getPlayerID())) {		
 				PlayableCharacter playerChar = p.getSelectedCharacter();
 				PlayableCharacter botChar = bot.getSelectedCharacter();
 				Item playerItem = p.getSelectedItem();

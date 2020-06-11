@@ -1,17 +1,15 @@
 package com.revature.mariokartfighter.service;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -22,7 +20,7 @@ public class PlayerServiceTest {
 	PlayerService playerService;
 	Connection connection;
 	
-	@BeforeClass
+	@Before
 	public void setupNeededClasses() {
 		try {
 			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
@@ -35,7 +33,7 @@ public class PlayerServiceTest {
 	}
 	
 	@Test
-	public void testCheckPlayerExists() {
+	public void testCheckPlayerExistsShouldReturnFalse() {
 		assertFalse(playerService.checkPlayerExists("ps-test02"));
 	}
 	
@@ -76,7 +74,7 @@ public class PlayerServiceTest {
 		assertEquals(closestPlayer.getClass(), Player.class);
 	}
 	
-	@AfterClass
+	@After
 	public void cleanUp() {
 		try {
 			connection.close();

@@ -1,9 +1,5 @@
 package com.revature.mariokartfighter.menu;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +16,7 @@ import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
 import com.revature.mariokartfighter.service.CharacterService;
+import com.revature.mariokartfighter.service.ConnectionService;
 import com.revature.mariokartfighter.service.GameService;
 import com.revature.mariokartfighter.service.ItemService;
 import com.revature.mariokartfighter.service.PlayerService;
@@ -28,32 +25,40 @@ import com.revature.mariokartfighter.service.ValidationService;
 public class MainMenu {
 	private static final Logger logger = LogManager.getLogger("MainMenu"); 
 	
-	Connection connection;
+	ConnectionService connectionService;
 	
-	IPlayerRepo playerRepo = new PlayerRepoDB(connection);
-	ICharacterRepo characterRepo = new CharacterRepoDB(connection);
-	IItemRepo itemRepo = new ItemRepoDB(connection);
-	IMatchRecordRepo matchRecordRepo = new MatchRecordRepoDB(connection);
+	IPlayerRepo playerRepo;
+	ICharacterRepo characterRepo;
+	IItemRepo itemRepo;
+	IMatchRecordRepo matchRecordRepo;
 	
-	private PlayerService playerService = new PlayerService(playerRepo);
-	private CharacterService characterService = new CharacterService(characterRepo);
-	private ItemService itemService = new ItemService(itemRepo);
-	private ValidationService validationService = new ValidationService();
-	private GameService gameService = new GameService(playerRepo, characterRepo, itemRepo,
-			matchRecordRepo);
+	private PlayerService playerService;
+	private CharacterService characterService;
+	private ItemService itemService;
+	private ValidationService validationService;
+	private GameService gameService;
 	private String currPlayerID;
 	
-	public void mainMenu() {
-		logger.info("---begin logging---");
+	private void setUp() {
+		connectionService = new ConnectionService();
 		
-		//make connection manager
-		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
-					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
-		} catch(SQLException e) {
-			System.out.println("Exception: " + e.getMessage());
-			e.printStackTrace();
-		}		
+		playerRepo = new PlayerRepoDB(connectionService);
+		characterRepo = new CharacterRepoDB(connectionService);
+		itemRepo = new ItemRepoDB(connectionService);
+		matchRecordRepo = new MatchRecordRepoDB(connectionService);
+		
+		playerService = new PlayerService(playerRepo);
+		characterService = new CharacterService(characterRepo);
+		itemService = new ItemService(itemRepo);
+		validationService = new ValidationService();
+		gameService = new GameService(playerRepo, characterRepo, itemRepo,
+				matchRecordRepo);
+	}
+	
+	public void mainMenu() {
+		logger.info("---begin logging---");	
+		
+		setUp();
 		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
 		System.out.println("Please choose an option:");
@@ -242,8 +247,7 @@ public class MainMenu {
 					gameService.playerFight(currPlayerID, player1, player2);
 				}
 			} else if (optionNumber2 == 6) {
-				//TODO print record of matches
-				
+				gameService.printAllMatches();
 			} else if (optionNumber2 == 0) {
 				System.out.println("Thanks for playing!");
 				System.exit(0);
