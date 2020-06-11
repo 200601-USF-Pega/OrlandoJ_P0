@@ -3,7 +3,7 @@ TODO
 	- add more logging
 	- add DB code
 		- add to character and item repo
-		- fix query for getAllMatches
+**	- allow admins to delete items or characters
 	
 -- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
 	-- points counts as 10 for health

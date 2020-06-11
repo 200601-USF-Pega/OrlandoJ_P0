@@ -76,21 +76,28 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID;");
 			
 			ResultSet matchesRS = getMatches.executeQuery();
-			
 			List<MatchRecord> allMatches = new ArrayList<MatchRecord>();
+			
 			while(matchesRS.next()) {
+				String player1ID = matchesRS.getString("player1ID");
+				String player1CharacterID = matchesRS.getString("player1CharacterID");
+				String player1ItemID = matchesRS.getString("player1ItemID");
 				String winnerID;
 				if (matchesRS.getBoolean("winnerIsPlayer1")) {
 					winnerID = matchesRS.getString("player1ID");
 				} else {
 					winnerID = matchesRS.getString("player2ID");					
 				}
+				
+				//read second row (contains info for player 2)
+				matchesRS.next();
+				
 				MatchRecord newMatchRecord = new MatchRecord(
 					matchesRS.getString("matchID"), 
 					matchesRS.getTimestamp("timeOfMatch"),
-					matchesRS.getString("player1ID"), 
-					matchesRS.getString("player1CharacterID"), 
-					matchesRS.getString("player1ItemID"), 
+					player1ID, 
+					player1CharacterID, 
+					player1ItemID, 
 					matchesRS.getString("player2ID"), 
 					matchesRS.getString("player2CharacterID"), 
 					matchesRS.getString("player2ItemID"), 
