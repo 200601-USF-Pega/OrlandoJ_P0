@@ -1,16 +1,3 @@
 TODO
 	- write more tests
 	- add more logging
-	
--- ALL CHARACTERS GET 20 POINTS TO DISTRUBUTE FOR attack AND defense
-	-- points counts as 10 for health
--- all-around: even distrubution of attack and defense
--- power: health increased, attack and/or defense decreased
--- speed: attack > defense, decreased health
--- skill: attack < defense
-
---ITEMS ADD TO STATS THAT ARE WEAK FOR A GIVEN TYPE
--- all-around: increase all stats evenly
--- power: increase attack and defense evenly
--- speed: increase health
--- skill: increase attack
