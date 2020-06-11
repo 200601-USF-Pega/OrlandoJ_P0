@@ -80,8 +80,33 @@ public class CharacterRepoDB implements ICharacterRepo {
 
 	@Override
 	public List<PlayableCharacter> getSomeCharacters(int level) {
-		// TODO Auto-generated method stub
-		return null;
+		try {			
+			PreparedStatement getCharacters = connection.prepareStatement(
+					"SELECT * FROM playablecharacter WHERE unlockAtLevel <= ?;");
+			getCharacters.setInt(1, level);
+			ResultSet charactersRS = getCharacters.executeQuery();
+			
+			List<PlayableCharacter> retrievedCharacters = 
+					new ArrayList<PlayableCharacter>();
+			
+			while(charactersRS.next()) {				
+				PlayableCharacter newCharacter = new PlayableCharacter(
+					charactersRS.getString("characterID"),
+					charactersRS.getString("name"),
+					charactersRS.getString("characterType"),
+					charactersRS.getInt("maxHealth"),
+					charactersRS.getDouble("attackStat"), 
+					charactersRS.getDouble("defenseStat"),
+					charactersRS.getInt("unlockAtLevel"));	
+				
+				retrievedCharacters.add(newCharacter);
+				return retrievedCharacters;
+			}	
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return new ArrayList<PlayableCharacter>();
 	}
 
 }

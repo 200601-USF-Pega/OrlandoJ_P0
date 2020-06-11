@@ -81,8 +81,33 @@ public class ItemRepoDB implements IItemRepo {
 
 	@Override
 	public List<Item> getSomeItems(int level) {
-		// TODO Auto-generated method stub
-		return null;
+		try {			
+			PreparedStatement getItems = connection.prepareStatement(
+					"SELECT * FROM item WHERE unlockAtLevel <= ?;");
+			getItems.setInt(1, level);
+			
+			ResultSet itemsRS = getItems.executeQuery();
+			
+			List<Item> retrievedItems = new ArrayList<Item>();
+			
+			while(itemsRS.next()) {				
+				Item newItem = new Item(
+					itemsRS.getString("itemID"),
+					itemsRS.getString("name"),
+					itemsRS.getString("typeThatCanUse"),
+					itemsRS.getInt("unlockAtLevel"),
+					itemsRS.getInt("bonusToHealth"),
+					itemsRS.getDouble("bonusToAttack"), 
+					itemsRS.getDouble("bonusToDefense"));	
+				
+				retrievedItems.add(newItem);
+				return retrievedItems;
+			}	
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return new ArrayList<Item>();
 	}
 
 }
