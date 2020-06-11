@@ -17,7 +17,8 @@ public class PlayerRepoDB implements IPlayerRepo {
 	
 	public PlayerRepoDB() {
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432", 
+			connection = DriverManager.getConnection(
+					"jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
 					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
 		} catch(SQLException e) {
 			System.out.println("Exception: " + e.getMessage());

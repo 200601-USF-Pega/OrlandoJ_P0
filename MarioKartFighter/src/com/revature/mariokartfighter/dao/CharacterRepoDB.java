@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class CharacterRepoDB implements ICharacterRepo {
@@ -16,7 +15,8 @@ public class CharacterRepoDB implements ICharacterRepo {
 	
 	public CharacterRepoDB() {
 		try {
-			connection = DriverManager.getConnection("jdbc:postgresql://ruby.db.elephantsql.com:5432", 
+			connection = DriverManager.getConnection(
+					"jdbc:postgresql://ruby.db.elephantsql.com:5432/brdzdjzb", 
 					"brdzdjzb", "l7Lh2FHoFuFdz4Gf1h5j0-9LSj78BeJ8");
 		} catch(SQLException e) {
 			System.out.println("Exception: " + e.getMessage());

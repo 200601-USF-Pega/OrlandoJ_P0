@@ -3,9 +3,9 @@ package com.revature.mariokartfighter.menu;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.revature.mariokartfighter.dao.CharacterRepoFile;
-import com.revature.mariokartfighter.dao.ItemRepoFile;
-import com.revature.mariokartfighter.dao.MatchRecordRepoFile;
+import com.revature.mariokartfighter.dao.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.ItemRepoDB;
+import com.revature.mariokartfighter.dao.MatchRecordRepoDB;
 import com.revature.mariokartfighter.dao.PlayerRepoDB;
 import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
@@ -21,11 +21,11 @@ public class MainMenu {
 	private static final Logger logger = LogManager.getLogger("MinMenu"); 
 	
 	private PlayerService playerService = new PlayerService(new PlayerRepoDB());
-	private CharacterService characterService = new CharacterService(new CharacterRepoFile());
-	private ItemService itemService = new ItemService(new ItemRepoFile());
+	private CharacterService characterService = new CharacterService(new CharacterRepoDB());
+	private ItemService itemService = new ItemService(new ItemRepoDB());
 	private ValidationService validationService = new ValidationService();
-	private GameService gameService = new GameService(new PlayerRepoDB(), new CharacterRepoFile(),
-			new ItemRepoFile(), new MatchRecordRepoFile()); 
+	private GameService gameService = new GameService(new PlayerRepoDB(), new CharacterRepoDB(),
+			new ItemRepoDB(), new MatchRecordRepoDB());
 	private String currPlayerID;
 	
 	public void mainMenu() {
@@ -45,12 +45,11 @@ public class MainMenu {
 				System.out.println("Enter a username (4-24 characters):");
 				String inputtedID = validationService.getValidString();
 				while (!loggedIn) {
-					System.out.println("test");
-					if(playerService.checkPlayerExists(inputtedID)) {
+					if (inputtedID.length() > 24 || inputtedID.length() < 4) {
+						System.out.println("username wrong length...try again");												
+					} else if(playerService.checkPlayerExists(inputtedID)) {
 						inputtedID = validationService.getValidString();
-						System.out.println("ID already taken...try again");						
-					} else if (inputtedID.length() > 24 || inputtedID.length() < 4) {
-						System.out.println("username wrong length...try again");
+						System.out.println("ID already taken...try again");
 					} else {
 						currPlayerID = playerService.createNewPlayer(inputtedID);
 						loggedIn = true;

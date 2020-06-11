@@ -6,14 +6,14 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.PlayerRepoFile;
+import com.revature.mariokartfighter.dao.PlayerRepoDB;
 
 public class PlayerServiceTest {
 	PlayerService playerService;
 	
 	@Before
 	public void setupDummyData() {
-		playerService = new PlayerService(new PlayerRepoFile());
+		playerService = new PlayerService(new PlayerRepoDB());
 	}
 	
 	@Test
@@ -24,7 +24,7 @@ public class PlayerServiceTest {
 	@Test
 	public void createNewPlayerShouldAddPlayerToRepo() {
 		assertFalse(playerService.checkPlayerExists("jorlando989"));
-		String newPlayerID = playerService.createNewPlayer("jorlando989");
+		playerService.createNewPlayer("jorlando989");
 		assertTrue(playerService.checkPlayerExists("jorlando989"));
 	}
 }
