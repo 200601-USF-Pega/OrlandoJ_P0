@@ -1,8 +1,5 @@
 package com.revature.mariokartfighter.menu;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,9 +92,10 @@ public class MainMenu {
 					loggedIn = true;
 					currPlayerID = inputID;
 				} else if (inputID.toLowerCase().equals("exit")){
-					System.exit(0);
+					continue;
 				} else {
-					System.out.println("ID does not exist...try again (type 'exit' to go quit program)");
+					System.out.println("ID does not exist...try again "
+							+ "(type 'exit' to go back to main menu)");
 				}
 			} else if (optionNumber == 0) {
 				System.exit(0);
@@ -107,7 +105,7 @@ public class MainMenu {
 		} while (!loggedIn);
 		
 		System.out.println("Welcome Player " + currPlayerID);
-		int optionNumber2;
+		int optionNumber2 = -1;
 		do {
 			System.out.println("What would you like to do?");
 			System.out.println("[1] View my Level and Rank");
@@ -150,9 +148,9 @@ public class MainMenu {
 						characterService.getCharacterInfo(nameInput);
 						break;
 					case 4:
-						System.out.println("Enter character's name:");
 						boolean created = false;
 						do {
+							System.out.println("Enter character's name:");
 							String charNameInput = validationService.getValidString();
 							created = gameService.setCharacter(charNameInput, currPlayerID);
 						} while (!created);
@@ -194,9 +192,9 @@ public class MainMenu {
 						itemService.getItemInfo(nameInput);
 						break;
 					case 4:
-						System.out.println("Enter item's name:");
 						boolean created = false;
 						do {
+							System.out.println("Enter item's name:");
 							String itemNameInput = validationService.getValidString();					
 							created = gameService.setItem(itemNameInput, currPlayerID);
 						} while (!created);
@@ -227,7 +225,7 @@ public class MainMenu {
 				int botLevel = validationService.getValidInt();
 				PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(botLevel);
 				Item randomItem = gameService.chooseRandomItem(botLevel);
-				Bot newBot = new Bot(botLevel, randomCharacter, randomItem);
+				Bot newBot = gameService.createNewBot(botLevel, randomCharacter, randomItem);
 				
 				gameService.botFight(newBot, currPlayerID);
 				
@@ -242,6 +240,7 @@ public class MainMenu {
 					continue;
 				}
 				
+				System.out.println("Selecting opponent...");
 				Player player1 = playerService.getPlayerObject(currPlayerID);
 				Player player2 = playerService.chooseClosestPlayer(player1);
 				
@@ -250,10 +249,35 @@ public class MainMenu {
 					System.out.println("No players available to fight.");
 					System.out.println("Redirecting to main menu...");
 				} else {
+					System.out.println("Opponent is " + player2.getPlayerID());
+					playerService.printPlayerInfo(player2.getPlayerID());
+					
 					gameService.playerFight(currPlayerID, player1, player2);
 				}
 			} else if (optionNumber2 == 6) {
-				gameService.printAllMatches();
+				int printMatchesOption = -1;
+				do {
+					System.out.println("---MATCHES MENU---");
+					System.out.println("[1] List All Matches");
+					System.out.println("[2] List My Matches");
+					System.out.println("[3] Back to Main Menu");
+					
+					printMatchesOption = validationService.getValidInt();
+					
+					switch (printMatchesOption) {
+					case 1:
+						gameService.printAllMatches();
+						break;
+					case 2:
+						gameService.printPlayerMatches(currPlayerID);
+						break;
+					case 3:
+						break;
+					default:
+						System.out.println("Invalid option...Redirecting to Main Menu");
+					}
+					System.out.println(" ");
+				} while (printMatchesOption != 6);
 			} else if (optionNumber2 == 0) {
 				System.out.println("Thanks for playing!");
 				System.exit(0);

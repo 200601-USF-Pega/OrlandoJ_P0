@@ -123,10 +123,9 @@ public class MatchRecord {
 
 	@Override
 	public String toString() {
-		return "MatchRecord [matchID=" + matchID + ", timeOfMatch=" + timeOfMatch + ", player1ID=" + player1ID
-				+ ", player1CharacterID=" + player1CharacterID + ", player1ItemID=" + player1ItemID + ", player2ID="
-				+ player2ID + ", player2CharacterID=" + player2CharacterID + ", player2ItemID=" + player2ItemID
-				+ ", player2IsBot=" + player2IsBot + ", winnerID=" + winnerID + "]";
+		return String.format("%-20s|%-20s|%-20s|%-20s|%-20s|%-20s|%-20s|%-20s", 
+				timeOfMatch, player1ID, player1CharacterID, player1ItemID, player2ID, player2CharacterID,
+				player2ItemID, winnerID);
 	}
 
 	public String getMatchID() {

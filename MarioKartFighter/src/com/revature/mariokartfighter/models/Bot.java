@@ -61,7 +61,7 @@ public class Bot {
 	}
 
 	public String generateBotID() {
-		String botID = Integer.toString(this.getLevel()) + "_" + System.currentTimeMillis();
+		String botID = "bot_" + Integer.toString(this.getLevel()) + "_" + System.currentTimeMillis();
 		return botID;
 	}
 

@@ -31,6 +31,7 @@ public class PlayerService {
 		for(Player p : retrievedPlayers) {
 			if (p.getPlayerID().equals(playerID)) {
 				System.out.println("\tLevel: " + p.getLevel());
+				System.out.println("\tXP: " + p.getXpEarned());
 				int rank  = repo.getPlayerRank(playerID);
 				System.out.println("\tRank: " + rank + "/" + retrievedPlayers.size());
 				if (p.getSelectedCharacter() == null) {					

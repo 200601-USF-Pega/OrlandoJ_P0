@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.dao.IPlayerRepo;
+import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
@@ -53,13 +54,48 @@ public class PlayerRepoDB implements IPlayerRepo {
 	}
 	
 	@Override
+	public Bot addBot(Bot bot) {
+		try {			
+			PreparedStatement botInsert = connectionService.getConnection().prepareStatement(
+					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)");
+			botInsert.setString(1, bot.getID());
+			botInsert.setInt(2, bot.getLevel());
+			botInsert.setInt(3, 0);
+			botInsert.setInt(4, 0);
+			botInsert.setInt(5, 0);
+			
+			if(bot.getSelectedCharacter() != null) {				
+				botInsert.setString(6, bot.getSelectedCharacter().getCharacterID());
+			} else {
+				botInsert.setString(6, null);
+			}
+			if(bot.getSelectedItem() != null) {				
+				botInsert.setString(7, bot.getSelectedItem().getItemID());
+			} else { 
+				botInsert.setString(7, null);
+			}				
+			
+			botInsert.execute();
+			
+			return bot;
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
 	public List<Player> getAllPlayers() {
 		try {
 			if(this.connectionService == null) {
 				System.out.println("connection null");
 			}
+			//get all players that are not bots
 			PreparedStatement getPlayers = connectionService.getConnection().prepareStatement(
-					"SELECT * FROM player;");
+					"SELECT * FROM player WHERE playerID NOT LIKE ?;");
+			getPlayers.setString(1, "bot_%");
 			ResultSet playersRS = getPlayers.executeQuery();
 			
 			PreparedStatement getPlayersCharacter = connectionService.getConnection().prepareStatement(
@@ -152,7 +188,11 @@ public class PlayerRepoDB implements IPlayerRepo {
 					"UPDATE player "
 					+ "SET selectedItemID = ? "
 					+ "WHERE playerID = ?;");
-			getPlayers.setString(1, item.getItemID());
+			if (item == null) {
+				getPlayers.setString(1, null);
+			} else {
+				getPlayers.setString(1, item.getItemID());
+			}
 			getPlayers.setString(2, playerID);
 			
 			getPlayers.executeUpdate();
@@ -224,8 +264,9 @@ public class PlayerRepoDB implements IPlayerRepo {
 			PreparedStatement getPlayersSorted = connectionService.getConnection().prepareStatement(
 					"SELECT * "
 					+ "FROM player "
+					+ "WHERE playerid NOT LIKE ? "
 					+ "ORDER BY xpLevel DESC, xpEarned DESC;");
-			
+			getPlayersSorted.setString(1, "bot_%");
 			ResultSet playerSortedRS = getPlayersSorted.executeQuery();
 			int rank = 1;
 			while (playerSortedRS.next()) {

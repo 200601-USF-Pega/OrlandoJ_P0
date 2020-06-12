@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.mariokartfighter.dao.IPlayerRepo;
+import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
@@ -130,6 +131,12 @@ public class PlayerRepoFile implements IPlayerRepo {
 	public void removePlayers(String name) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Bot addBot(Bot bot) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

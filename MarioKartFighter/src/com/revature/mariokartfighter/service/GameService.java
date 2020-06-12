@@ -44,17 +44,17 @@ public class GameService {
 				}
 				if (player != null && player.getLevel() >= c.getUnlockAtLevel()) {
 					playerRepo.assignCharacterToPlayer(c, playerID);			
-					if (!player.getSelectedCharacter().getType().equals(
+					if (player.getSelectedItem() != null && !player.getSelectedCharacter().getType().equals(
 							player.getSelectedItem().getTypeThatCanUse())) {		
 						System.out.println("Item type no longer compatible with character type!!");
 						System.out.println("Unsetting selected item...");
 						player.setSelectedItem(null);
-						return false;
+						playerRepo.assignItemToPlayer(null, playerID);
 					}
 				} else if (player != null) {
-						System.out.println("You haven't unlocked this character yet.");	
-						System.out.println("**Earn more XP by playing matches**");
-						return false;
+					System.out.println("You haven't unlocked this character yet.");	
+					System.out.println("**Earn more XP by playing matches**");
+					return false;
 				} else {
 					System.out.println("player does not exist");
 					return false;
@@ -118,6 +118,12 @@ public class GameService {
 		return retrievedItems.get(n);
 	}
 	
+	public Bot createNewBot(int botLevel, PlayableCharacter randomCharacter, Item randomItem ) {
+		Bot newBot = new Bot(botLevel, randomCharacter, randomItem);
+		playerRepo.addBot(newBot);
+		return newBot;
+	}
+	
 	public void botFight(Bot bot, String playerID) {
 		//find player info
 		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
@@ -129,6 +135,16 @@ public class GameService {
 				Item botItem = bot.getSelectedItem();
 				int playerHealth = p.getSelectedCharacter().getMaxHealth();
 				int botHealth = bot.getSelectedCharacter().getMaxHealth();
+				
+				System.out.println("Player 1 Character:");
+				System.out.println(playerChar.getInfoString());
+				System.out.println("Player 1 Item:");
+				System.out.println(playerItem.getInfoString());
+				
+				System.out.println("Bot Character:");
+				System.out.println(botChar.getInfoString());
+				System.out.println("Bot Item:");
+				System.out.println(botItem.getInfoString());
 				
 				while(botHealth > 0 && playerHealth > 0) {
 					//strength is player attack - opponent defense
@@ -148,8 +164,10 @@ public class GameService {
 				if(botHealth < playerHealth) {
 					winnerID = p.getPlayerID();
 					playerRepo.updateAfterFight(true, p.getPlayerID());
+					System.out.println("Player 1 wins!!");
 				} else {
 					winnerID = bot.getID();
+					System.out.println("Bot wins!!");
 				}
 				
 				//save to repo
@@ -171,8 +189,7 @@ public class GameService {
 				player1 = p;
 			} 
 		}
-		
-		//simulate fight		
+				
 		PlayableCharacter player1Char = player1.getSelectedCharacter();
 		PlayableCharacter player2Char = player2.getSelectedCharacter();
 		Item player1Item = player1.getSelectedItem();
@@ -180,18 +197,28 @@ public class GameService {
 		int player1Health = player1.getSelectedCharacter().getMaxHealth();
 		int player2Health = player2.getSelectedCharacter().getMaxHealth();
 		
+		System.out.println("Player 1 Character:");
+		System.out.println(player1Char.getInfoString());
+		System.out.println("Player 1 Item:");
+		System.out.println(player1Item.getInfoString());
+		
+		System.out.println("Player 2 Character:");
+		System.out.println(player2Char.getInfoString());
+		System.out.println("Player 2 Item:");
+		System.out.println(player2Item.getInfoString());
+		
 		while(player2Health > 0 && player1Health > 0) {
 			//strength is player attack - opponent defense
-			double botStrength = player2Char.getAttackStat() + player2Item.getBonusToAttack()
+			double player1Strength = player2Char.getAttackStat() + player2Item.getBonusToAttack()
 				- (player1Char.getDefenseStat() + player1Item.getBonusToDefense());
-			double playerStrength = player1Char.getAttackStat() + player1Item.getBonusToAttack()
+			double player2Strength = player1Char.getAttackStat() + player1Item.getBonusToAttack()
 				- (player2Char.getDefenseStat() + player2Item.getBonusToDefense());
 			
-			player2Health -= playerStrength;
+			player2Health -= player1Strength;
 			if(player2Health <= 0) {
 				break;
 			}
-			player1Health -= botStrength;
+			player1Health -= player2Strength;
 		}
 		
 		String winnerID;
@@ -199,10 +226,12 @@ public class GameService {
 			winnerID = player1.getPlayerID();
 			playerRepo.updateAfterFight(true, player1.getPlayerID());
 			playerRepo.updateAfterFight(false, player2.getPlayerID());
+			System.out.println("Player 1 wins!!");
 		} else {
 			winnerID = player2.getPlayerID();
 			playerRepo.updateAfterFight(false, player1.getPlayerID());
 			playerRepo.updateAfterFight(true, player2.getPlayerID());
+			System.out.println("Player 2 wins!!");
 		}
 		
 		//save to repo
@@ -216,6 +245,13 @@ public class GameService {
 	
 	public void printAllMatches() {
 		List<MatchRecord> allMatches = matchRecordRepo.getAllMatches();
+		for (MatchRecord mr : allMatches) {
+			System.out.println(mr);
+		}
+	}
+	
+	public void printPlayerMatches(String playerID) {
+		List<MatchRecord> allMatches = matchRecordRepo.getPlayerMatches(playerID);
 		for (MatchRecord mr : allMatches) {
 			System.out.println(mr);
 		}

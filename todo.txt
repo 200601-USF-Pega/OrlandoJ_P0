@@ -2,5 +2,11 @@ TODO
 	- write more tests
 	- add more logging
 	
-	- when set character, check if item can still be used
+	- add way to get out of create character/item function
+	- fix toString for matchrecord
+	
+	-  As a player, I should be able to choose a player and fight them with their currently selected character.
+	
+	- add password for secure login
+	- move character and item menus into seperate classes
 	

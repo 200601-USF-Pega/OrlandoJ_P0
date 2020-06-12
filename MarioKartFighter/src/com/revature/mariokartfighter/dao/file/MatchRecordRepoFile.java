@@ -19,4 +19,10 @@ public class MatchRecordRepoFile implements IMatchRecordRepo {
 		return null;
 	}
 
+	@Override
+	public List<MatchRecord> getPlayerMatches(String playerID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

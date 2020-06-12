@@ -104,16 +104,6 @@ public class GameServiceTest {
 	public void chooseRandomItemShouldReturnAnItemAtOrBelowLevel() {
 		
 	}
-	
-	@Test
-	public void testBotFight() {
-		
-	}
-	
-	@Test
-	public void testPlayerFight() {
-		
-	}
 
 	@After
 	public void cleanUp() {

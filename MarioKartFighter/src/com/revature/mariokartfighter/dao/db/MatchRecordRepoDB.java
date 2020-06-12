@@ -108,4 +108,53 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 		return null;
 	}
 
+	@Override
+	public List<MatchRecord> getPlayerMatches(String playerID) {
+		try {
+			PreparedStatement getSomeMatches = connectionService.getConnection().prepareStatement(
+				"SELECT * "
+				+ "FROM matchRecord, playerMatchRecord "
+				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID "
+				+ "AND matchRecord.playerID = ?;");
+			getSomeMatches.setString(1, playerID);
+			
+			ResultSet matchesRS = getSomeMatches.executeQuery();
+			List<MatchRecord> allMatches = new ArrayList<MatchRecord>();
+			
+			while(matchesRS.next()) {
+				String player1ID = matchesRS.getString("player1ID");
+				String player1CharacterID = matchesRS.getString("characterID");
+				String player1ItemID = matchesRS.getString("itemID");
+				String winnerID;
+				if (matchesRS.getBoolean("winnerIsPlayer1")) {
+					winnerID = matchesRS.getString("player1ID");
+				} else {
+					winnerID = matchesRS.getString("player2ID");					
+				}
+				
+				//read second row (contains info for player 2)
+				matchesRS.next();
+				
+				MatchRecord newMatchRecord = new MatchRecord(
+					matchesRS.getString("matchID"), 
+					matchesRS.getTimestamp("timeOfMatch"),
+					player1ID, 
+					player1CharacterID, 
+					player1ItemID, 
+					matchesRS.getString("player2ID"), 
+					matchesRS.getString("characterID"), 
+					matchesRS.getString("itemID"), 
+					matchesRS.getBoolean("player2IsBot"), 
+					winnerID);
+				
+				allMatches.add(newMatchRecord);
+			}
+			return allMatches;
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
