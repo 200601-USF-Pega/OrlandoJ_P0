@@ -43,7 +43,14 @@ public class GameService {
 					}
 				}
 				if (player != null && player.getLevel() >= c.getUnlockAtLevel()) {
-					playerRepo.assignCharacterToPlayer(c, playerID);				
+					playerRepo.assignCharacterToPlayer(c, playerID);			
+					if (!player.getSelectedCharacter().getType().equals(
+							player.getSelectedItem().getTypeThatCanUse())) {		
+						System.out.println("Item type no longer compatible with character type!!");
+						System.out.println("Unsetting selected item...");
+						player.setSelectedItem(null);
+						return false;
+					}
 				} else if (player != null) {
 						System.out.println("You haven't unlocked this character yet.");	
 						System.out.println("**Earn more XP by playing matches**");
