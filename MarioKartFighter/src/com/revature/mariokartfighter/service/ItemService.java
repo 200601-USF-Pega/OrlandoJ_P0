@@ -84,6 +84,9 @@ public class ItemService {
 	}
 	
 	public void getAllItems() {
+		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
+				"itemID", "itemName", "typeThatCanUse", "unlockAtLevel", "bonusToHealth", 
+				"bonusToAttack", "bonusToDefense"));
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
 			System.out.println(i);
@@ -91,6 +94,9 @@ public class ItemService {
 	}
 	
 	public void getSomeItems(int level) {
+		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
+				"itemID", "itemName", "typeThatCanUse", "unlockAtLevel", "bonusToHealth", 
+				"bonusToAttack", "bonusToDefense"));
 		List<Item> retrievedItems = repo.getSomeItems(level);
 		for(Item i : retrievedItems) {
 			System.out.println(i);

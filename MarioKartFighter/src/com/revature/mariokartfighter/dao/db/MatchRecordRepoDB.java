@@ -74,8 +74,8 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 			
 			while(matchesRS.next()) {
 				String player1ID = matchesRS.getString("player1ID");
-				String player1CharacterID = matchesRS.getString("player1CharacterID");
-				String player1ItemID = matchesRS.getString("player1ItemID");
+				String player1CharacterID = matchesRS.getString("characterID");
+				String player1ItemID = matchesRS.getString("itemID");
 				String winnerID;
 				if (matchesRS.getBoolean("winnerIsPlayer1")) {
 					winnerID = matchesRS.getString("player1ID");
@@ -93,8 +93,8 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 					player1CharacterID, 
 					player1ItemID, 
 					matchesRS.getString("player2ID"), 
-					matchesRS.getString("player2CharacterID"), 
-					matchesRS.getString("player2ItemID"), 
+					matchesRS.getString("characterID"), 
+					matchesRS.getString("itemID"), 
 					matchesRS.getBoolean("player2IsBot"), 
 					winnerID);
 				

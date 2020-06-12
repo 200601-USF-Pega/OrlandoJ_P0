@@ -86,9 +86,8 @@ public class Item implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Item [itemID=" + itemID + ", name=" + itemName + ", typeThatCanUse=" + typeThatCanUse + ", unlockAtLevel="
-				+ unlockAtLevel + ", bonusToHealth=" + bonusToHealth + ", bonusToAttack=" + bonusToAttack
-				+ ", bonusToDefense=" + bonusToDefense + "]";
+		return String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s", 
+				itemID, itemName, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
 	}
 	
 	public String getInfoString() {
