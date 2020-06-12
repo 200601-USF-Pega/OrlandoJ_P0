@@ -111,9 +111,8 @@ public class MainMenu {
 			System.out.println("[1] View my Level and Rank");
 			System.out.println("[2] Character Menu");
 			System.out.println("[3] Item Menu");
-			System.out.println("[4] Fight a Bot");
-			System.out.println("[5] Fight a Player");
-			System.out.println("[6] Matches Menu");
+			System.out.println("[4] Fight Menu");
+			System.out.println("[5] Matches Menu");
 			System.out.println("[0] Exit the program");
 			
 			optionNumber2 = validationService.getValidInt();		
@@ -210,51 +209,74 @@ public class MainMenu {
 					System.out.println(" ");
 				} while (itemOption != 6);
 			} else if (optionNumber2 == 4) {
-				//check if player has selected an item and character
-				Player thisPlayer = playerService.getPlayerObject(currPlayerID);
-				if (thisPlayer.getSelectedCharacter() == null 
-						|| thisPlayer.getSelectedItem() == null) {
-					System.out.println("You can't fight yet because you haven't selected "
-							+ "a character and item.");
-					System.out.println("Redirecting to main menu...");
-					continue;
-				}
-				
-				//ask for level of bot
-				System.out.println("What level bot would you like to fight?");
-				int botLevel = validationService.getValidInt();
-				PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(botLevel);
-				Item randomItem = gameService.chooseRandomItem(botLevel);
-				Bot newBot = gameService.createNewBot(botLevel, randomCharacter, randomItem);
-				
-				gameService.botFight(newBot, currPlayerID);
-				
-			} else if (optionNumber2 == 5) {
-				//check if player has selected an item and character
-				Player thisPlayer = playerService.getPlayerObject(currPlayerID);
-				if (thisPlayer.getSelectedCharacter() == null 
-						|| thisPlayer.getSelectedItem() == null) {
-					System.out.println("You can't fight yet because you haven't selected "
-							+ "a character and item.");
-					System.out.println("Redirecting to main menu...");
-					continue;
-				}
-				
-				System.out.println("Selecting opponent...");
-				Player player1 = playerService.getPlayerObject(currPlayerID);
-				Player player2 = playerService.chooseClosestPlayer(player1);
-				
-				//make sure a player to fight was chosen
-				if (player2.getSelectedCharacter() == null)  {
-					System.out.println("No players available to fight.");
-					System.out.println("Redirecting to main menu...");
-				} else {
-					System.out.println("Opponent is " + player2.getPlayerID());
-					playerService.printPlayerInfo(player2.getPlayerID());
+				int fightOption = -1;
+				Player thisPlayer;
+				do {
+					System.out.println("---FIGHT MENU---");
+					System.out.println("[1] Fight a Bot");
+					System.out.println("[2] Fight a Random Player");
+					System.out.println("[3] Choose a Player to Fight");
+					System.out.println("[4] Back to Main Menu");
 					
-					gameService.playerFight(currPlayerID, player1, player2);
-				}
-			} else if (optionNumber2 == 6) {
+					switch(fightOption) {
+					case 1:
+						//check if player has selected an item and character
+						thisPlayer = playerService.getPlayerObject(currPlayerID);
+						if (thisPlayer.getSelectedCharacter() == null 
+								|| thisPlayer.getSelectedItem() == null) {
+							System.out.println("You can't fight yet because you haven't selected "
+									+ "a character and item.");
+							System.out.println("Redirecting to main menu...");
+							continue;
+						}
+						
+						//ask for level of bot
+						System.out.println("What level bot would you like to fight?");
+						int botLevel = validationService.getValidInt();
+						PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(botLevel);
+						Item randomItem = gameService.chooseRandomItem(botLevel);
+						Bot newBot = gameService.createNewBot(botLevel, randomCharacter, randomItem);
+						
+						gameService.botFight(newBot, currPlayerID);
+						break;
+					case 2:
+						//check if player has selected an item and character
+						thisPlayer = playerService.getPlayerObject(currPlayerID);
+						if (thisPlayer.getSelectedCharacter() == null 
+								|| thisPlayer.getSelectedItem() == null) {
+							System.out.println("You can't fight yet because you haven't selected "
+									+ "a character and item.");
+							System.out.println("Redirecting to main menu...");
+							continue;
+						}
+						
+						System.out.println("Selecting opponent...");
+						Player player1 = playerService.getPlayerObject(currPlayerID);
+						Player player2 = playerService.chooseClosestPlayer(player1);
+						
+						//make sure a player to fight was chosen
+						if (player2.getSelectedCharacter() == null)  {
+							System.out.println("No players available to fight.");
+							System.out.println("Redirecting to main menu...");
+						} else {
+							System.out.println("Opponent is " + player2.getPlayerID());
+							playerService.printPlayerInfo(player2.getPlayerID());
+							
+							gameService.playerFight(currPlayerID, player1, player2);
+						}
+						break;
+					case 3:
+					
+						break;
+					case 4:
+						break;
+					default:
+						System.out.println("Invalid option...Redirecting to Main Menu");
+					}
+					
+				} while (fightOption != 4);
+				System.out.println("");				
+			} else if (optionNumber2 == 5)  {
 				int printMatchesOption = -1;
 				do {
 					System.out.println("---MATCHES MENU---");
