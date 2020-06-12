@@ -211,6 +211,8 @@ public class MainMenu {
 			} else if (optionNumber2 == 4) {
 				int fightOption = -1;
 				Player thisPlayer;
+				Player player1;
+				Player player2;
 				do {
 					System.out.println("---FIGHT MENU---");
 					System.out.println("[1] Fight a Bot");
@@ -251,8 +253,8 @@ public class MainMenu {
 						}
 						
 						System.out.println("Selecting opponent...");
-						Player player1 = playerService.getPlayerObject(currPlayerID);
-						Player player2 = playerService.chooseClosestPlayer(player1);
+						player1 = playerService.getPlayerObject(currPlayerID);
+						player2 = playerService.chooseClosestPlayer(player1);
 						
 						//make sure a player to fight was chosen
 						if (player2.getSelectedCharacter() == null)  {
@@ -266,7 +268,39 @@ public class MainMenu {
 						}
 						break;
 					case 3:
-					
+						//check if player has selected an item and character
+						thisPlayer = playerService.getPlayerObject(currPlayerID);
+						if (thisPlayer.getSelectedCharacter() == null 
+								|| thisPlayer.getSelectedItem() == null) {
+							System.out.println("You can't fight yet because you haven't selected "
+									+ "a character and item.");
+							System.out.println("Redirecting to main menu...");
+							continue;
+						}
+
+						player1 = playerService.getPlayerObject(currPlayerID);
+						
+						playerService.printPlayers();
+						
+						String player2ID = validationService.getValidString();
+						do {
+							if(playerService.checkPlayerExists(player2ID)) {
+								if (playerService.getPlayerObject(player2ID).getSelectedCharacter() == null 
+										|| playerService.getPlayerObject(player2ID).getSelectedItem() == null)  {
+									System.out.println("Player has not selected a character and item...choose again");
+								} else {
+									break;
+								}
+							}
+							player2ID = validationService.getValidString();
+						} while (!playerService.checkPlayerExists(player2ID));
+						
+						player2 = playerService.getPlayerObject(player2ID);
+						
+						System.out.println("Opponent is " + player2.getPlayerID());
+						playerService.printPlayerInfo(player2.getPlayerID());
+						
+						gameService.playerFight(currPlayerID, player1, player2);
 						break;
 					case 4:
 						break;
