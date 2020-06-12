@@ -1,5 +1,8 @@
 package com.revature.mariokartfighter.menu;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -150,7 +153,7 @@ public class MainMenu {
 						System.out.println("Enter character's name:");
 						boolean created = false;
 						do {
-							String charNameInput = validationService.getValidString();					
+							String charNameInput = validationService.getValidString();
 							created = gameService.setCharacter(charNameInput, currPlayerID);
 						} while (!created);
 						break;

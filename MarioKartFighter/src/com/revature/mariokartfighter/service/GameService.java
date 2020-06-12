@@ -72,12 +72,21 @@ public class GameService {
 						break;
 					}
 				}
-				if (player != null && player.getLevel() >= i.getUnlockAtLevel()) {
-					playerRepo.assignItemToPlayer(i, playerID);					
-				} else if (player != null) {
+
+				if (player != null) {
+					//check if selectedCharacter can use
+					 if (player.getLevel() < i.getUnlockAtLevel()) {
 						System.out.println("You haven't unlocked this item yet.");	
 						System.out.println("**Earn more XP by playing matches**");
 						return false;
+					} else if (!player.getSelectedCharacter().getType().equals(i.getTypeThatCanUse())) {		
+						System.out.println("Item type not compatible with character type!!");
+						System.out.println("\titem type: " + i.getTypeThatCanUse());
+						System.out.println("\tcharacter type: " + player.getSelectedCharacter().getType());
+						return false;
+					} else {
+						playerRepo.assignItemToPlayer(i, playerID);
+					}
 				} else {
 					System.out.println("player does not exist");
 					return false;

@@ -21,7 +21,7 @@ public class CharacterRepoDB implements ICharacterRepo {
 	public PlayableCharacter addCharacter(PlayableCharacter character) {
 		try {			
 			PreparedStatement characterInsert = connectionService.getConnection().prepareStatement(
-					"INSERT INTO character VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO playablecharacter VALUES (?, ?, ?, ?, ?, ?, ?)");
 			characterInsert.setString(1, character.getCharacterID());
 			characterInsert.setString(2, character.getCharacterName());
 			characterInsert.setString(3, character.getType());
@@ -104,8 +104,17 @@ public class CharacterRepoDB implements ICharacterRepo {
 
 	@Override
 	public void removeCharacters(String name) {
-		// TODO Auto-generated method stub
-		
+		try {
+			PreparedStatement removeCharacters = connectionService.getConnection().prepareStatement(
+					"DELETE FROM playablecharacter "
+					+ "WHERE characterID LIKE ?");
+			removeCharacters.setString(1, name+'%');
+			removeCharacters.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 }

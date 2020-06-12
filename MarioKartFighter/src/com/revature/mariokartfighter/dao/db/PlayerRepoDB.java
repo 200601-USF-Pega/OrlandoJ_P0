@@ -63,7 +63,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 			ResultSet playersRS = getPlayers.executeQuery();
 			
 			PreparedStatement getPlayersCharacter = connectionService.getConnection().prepareStatement(
-					"SELECT * FROM character WHERE characterID = ?;");
+					"SELECT * FROM playablecharacter WHERE characterID = ?;");
 			PreparedStatement getPlayersItem = connectionService.getConnection().prepareStatement(
 					"SELECT * FROM item WHERE itemID = ?;");
 			

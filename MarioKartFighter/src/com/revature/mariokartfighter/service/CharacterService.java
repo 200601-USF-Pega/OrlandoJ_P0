@@ -69,9 +69,9 @@ public class CharacterService {
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
 		
-		//choose a random length up to 64 characters 
+		//choose a random length up to 15 characters 
 		Random random = new Random();
-		int n = random.nextInt(63) + 1;
+		int n = random.nextInt(14) + 1;
 				
 		StringBuilder sb;
 		do {
@@ -86,6 +86,9 @@ public class CharacterService {
 	}
 	
 	public void getAllCharacters() {
+		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
+				"characterID", "characterName", "type", "unlockAtLevel", "maxHealth", 
+				"attackStat", "defenseStat"));
 		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
 		for(PlayableCharacter c : retrievedCharacters) {
 			System.out.println(c);
@@ -93,6 +96,9 @@ public class CharacterService {
 	}
 	
 	public void getSomeCharacters(int level) {
+		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
+				"characterID", "characterName", "type", "unlockAtLevel", "maxHealth", 
+				"attackStat", "defenseStat"));
 		List<PlayableCharacter> retrievedCharacters = repo.getSomeCharacters(level);
 		for(PlayableCharacter c : retrievedCharacters) {
 			System.out.println(c);

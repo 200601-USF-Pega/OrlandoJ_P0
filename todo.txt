@@ -1,3 +1,6 @@
 TODO
 	- write more tests
 	- add more logging
+	
+	- when set character, check if item can still be used
+	

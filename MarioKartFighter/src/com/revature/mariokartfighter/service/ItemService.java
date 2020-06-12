@@ -67,9 +67,9 @@ public class ItemService {
 		String alphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 				+ "0123456789" + "abcdefghijklmnopqrstuvxyz"; 
 		
-		//choose a random length up to 64 characters 
+		//choose a random length up to 15 characters 
 		Random random = new Random();
-		int n = random.nextInt(60) + 3;
+		int n = random.nextInt(14) + 1;
 				
 		StringBuilder sb;
 		do {

@@ -86,9 +86,8 @@ public class PlayableCharacter implements Serializable {
 
 	@Override
 	public String toString() {
-		return "PlayableCharacter [characterID=" + characterID + ", type=" + type + ", characterName=" + characterName
-				+ ", maxHealth=" + maxHealth + ", attackStat=" + attackStat + ", defenseStat=" + defenseStat
-				+ ", unlockAtLevel=" + unlockAtLevel + "]";
+		return String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s", 
+				characterID, characterName, type, unlockAtLevel, maxHealth, attackStat, defenseStat);
 	}
 	
 	public String getInfoString() {
