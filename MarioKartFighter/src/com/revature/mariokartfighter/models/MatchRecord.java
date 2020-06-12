@@ -123,7 +123,7 @@ public class MatchRecord {
 
 	@Override
 	public String toString() {
-		return String.format("%-20s|%-20s|%-20s|%-20s|%-20s|%-20s|%-20s|%-20s", 
+		return String.format("%-25s|%-20s|%-20s|%-20s|%-25s|%-20s|%-20s|%-20s", 
 				timeOfMatch, player1ID, player1CharacterID, player1ItemID, player2ID, player2CharacterID,
 				player2ItemID, winnerID);
 	}

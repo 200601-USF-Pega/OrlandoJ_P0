@@ -3,7 +3,6 @@ TODO
 	- add more logging
 	
 	- add way to get out of create character/item function
-	- fix toString for matchrecord
 	
 	-  As a player, I should be able to choose a player and fight them with their currently selected character.
 	

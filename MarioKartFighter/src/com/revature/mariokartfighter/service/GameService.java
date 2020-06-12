@@ -244,6 +244,9 @@ public class GameService {
 	}
 	
 	public void printAllMatches() {
+		System.out.println(String.format("%-25s|%-20s|%-20s|%-20s|%-25s|%-20s|%-20s|%-20s\n", 
+				"timeOfMatch", "player1ID", "player1CharacterID", "player1ItemID", "player2ID", 
+				"player2CharacterID", "player2ItemID", "winnerID"));
 		List<MatchRecord> allMatches = matchRecordRepo.getAllMatches();
 		for (MatchRecord mr : allMatches) {
 			System.out.println(mr);
@@ -251,6 +254,9 @@ public class GameService {
 	}
 	
 	public void printPlayerMatches(String playerID) {
+		System.out.println(String.format("%-25s|%-20s|%-20s|%-20s|%-25s|%-20s|%-20s|%-20s\n", 
+				"timeOfMatch", "player1ID", "player1CharacterID", "player1ItemID", "player2ID", 
+				"player2CharacterID", "player2ItemID", "winnerID"));
 		List<MatchRecord> allMatches = matchRecordRepo.getPlayerMatches(playerID);
 		for (MatchRecord mr : allMatches) {
 			System.out.println(mr);

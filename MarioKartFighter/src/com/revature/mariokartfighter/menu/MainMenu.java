@@ -113,7 +113,7 @@ public class MainMenu {
 			System.out.println("[3] Item Menu");
 			System.out.println("[4] Fight a Bot");
 			System.out.println("[5] Fight a Player");
-			System.out.println("[6] View Record of my Matches");
+			System.out.println("[6] Matches Menu");
 			System.out.println("[0] Exit the program");
 			
 			optionNumber2 = validationService.getValidInt();		
@@ -277,7 +277,7 @@ public class MainMenu {
 						System.out.println("Invalid option...Redirecting to Main Menu");
 					}
 					System.out.println(" ");
-				} while (printMatchesOption != 6);
+				} while (printMatchesOption != 3);
 			} else if (optionNumber2 == 0) {
 				System.out.println("Thanks for playing!");
 				System.exit(0);

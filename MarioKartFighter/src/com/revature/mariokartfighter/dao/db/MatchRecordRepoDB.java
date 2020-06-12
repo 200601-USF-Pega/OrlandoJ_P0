@@ -115,8 +115,10 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 				"SELECT * "
 				+ "FROM matchRecord, playerMatchRecord "
 				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID "
-				+ "AND matchRecord.playerID = ?;");
+				+ "AND matchRecord.player1ID = ? "
+				+ "OR matchRecord.player2ID = ?;");
 			getSomeMatches.setString(1, playerID);
+			getSomeMatches.setString(2, playerID);
 			
 			ResultSet matchesRS = getSomeMatches.executeQuery();
 			List<MatchRecord> allMatches = new ArrayList<MatchRecord>();
