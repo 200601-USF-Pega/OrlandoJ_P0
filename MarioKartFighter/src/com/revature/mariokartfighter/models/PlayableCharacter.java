@@ -99,7 +99,7 @@ public class PlayableCharacter implements Serializable {
 		printString += "\tAttack Stat: " + this.attackStat + "\n";
 		printString += "\tDefense Stat: " + this.defenseStat + "\n";
 		printString += "\tMax Health: " + this.maxHealth + "\n";
-		printString += "\tUnlock at level: " + this.unlockAtLevel + "\n";
+		printString += "\tUnlock at level: " + this.unlockAtLevel;
 		return printString;
 	}
 

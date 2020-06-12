@@ -99,7 +99,7 @@ public class Item implements Serializable {
 		printString += "\tBonus to Attack: " + this.bonusToAttack + "\n";
 		printString += "\tBonus to Defense: " + this.bonusToDefense + "\n";
 		printString += "\tBonus to Health: " + this.bonusToHealth + "\n";
-		printString += "\tUnlock at level: " + this.unlockAtLevel + "\n";
+		printString += "\tUnlock at level: " + this.unlockAtLevel;
 		return printString;
 	}
 

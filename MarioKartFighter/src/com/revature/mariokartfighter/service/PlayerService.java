@@ -33,8 +33,16 @@ public class PlayerService {
 				System.out.println("\tLevel: " + p.getLevel());
 				int rank  = repo.getPlayerRank(playerID);
 				System.out.println("\tRank: " + rank + "/" + retrievedPlayers.size());
-				System.out.println("\tSelected Character: " + p.getSelectedCharacter());
-				System.out.println("\tSelected Item: " + p.getSelectedItem());
+				if (p.getSelectedCharacter() == null) {					
+					System.out.println("\tSelected Character: <None selected>");
+				} else {
+					System.out.println("\tSelected Character: " + p.getSelectedCharacter().getCharacterName());
+				}
+				if (p.getSelectedItem() == null ) {
+					System.out.println("\tSelected Item: <None selected>");					
+				} else {
+					System.out.println("\tSelected Item: " + p.getSelectedItem().getItemName());
+				}
 				return;
 			}
 		}

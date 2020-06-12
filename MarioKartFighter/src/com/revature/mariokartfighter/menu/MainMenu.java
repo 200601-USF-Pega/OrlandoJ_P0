@@ -87,7 +87,6 @@ public class MainMenu {
 			} else if (optionNumber == 2) {
 				//find player in database
 				System.out.println("Enter your player ID to login:");
-				System.out.println("** IDs are case-sensitive **");
 				String inputID = validationService.getValidString();
 				if (playerService.checkPlayerExists(inputID)) {
 					loggedIn = true;
@@ -122,88 +121,93 @@ public class MainMenu {
 				//print player level and rank
 				playerService.printPlayerInfo(currPlayerID);				
 			} else if (optionNumber2 == 2) {
-
-				System.out.println("---CHARACTER MENU---");
-				System.out.println("[1] List All Characters");
-				System.out.println("[2] List Unlocked Characters");
-				System.out.println("[3] Get Character Info");
-				System.out.println("[4] Set My Character");
-				System.out.println("[5] Create Custom Character");
-				System.out.println("[6] Back to Main Menu");
-				
-				int characterOption = validationService.getValidInt();
-				
-				switch (characterOption) {
-				case 1:
-					characterService.getAllCharacters();
-					break;
-				case 2:
-					characterService.getSomeCharacters(
-							playerService.getPlayerObject(currPlayerID).getLevel());
-					break;
-				case 3:
-					System.out.println("Enter character's name:");
-					String nameInput = validationService.getValidString();
-					characterService.getCharacterInfo(nameInput);
-					break;
-				case 4:
-					System.out.println("Enter character's name:");
-					boolean created = false;
-					do {
-						String charNameInput = validationService.getValidString();					
-						created = gameService.setCharacter(charNameInput, currPlayerID);
-					} while (!created);
-					break;
-				case 5:
-					characterService.createNewCharacter();
-					break;
-				case 6:
-					break;
-				default:
-					System.out.println("Invalid option...Redirecting to Main Menu");
-				}
-				
+				int characterOption = -1;
+				do {
+					System.out.println("---CHARACTER MENU---");
+					System.out.println("[1] List All Characters");
+					System.out.println("[2] List Unlocked Characters");
+					System.out.println("[3] Get Character Info");
+					System.out.println("[4] Set My Character");
+					System.out.println("[5] Create Custom Character");
+					System.out.println("[6] Back to Main Menu");
+					
+					characterOption = validationService.getValidInt();
+					
+					switch (characterOption) {
+					case 1:
+						characterService.getAllCharacters();
+						break;
+					case 2:
+						characterService.getSomeCharacters(
+								playerService.getPlayerObject(currPlayerID).getLevel());
+						break;
+					case 3:
+						System.out.println("Enter character's name:");
+						String nameInput = validationService.getValidString();
+						characterService.getCharacterInfo(nameInput);
+						break;
+					case 4:
+						System.out.println("Enter character's name:");
+						boolean created = false;
+						do {
+							String charNameInput = validationService.getValidString();					
+							created = gameService.setCharacter(charNameInput, currPlayerID);
+						} while (!created);
+						break;
+					case 5:
+						characterService.createNewCharacter();
+						break;
+					case 6:
+						break;
+					default:
+						System.out.println("Invalid option...Redirecting to Main Menu");
+					}
+					System.out.println(" ");
+				} while (characterOption != 6);
 			} else if (optionNumber2 == 3) {
-				int itemOption = validationService.getValidInt();
-				
-				System.out.println("---ITEM MENU---");
-				System.out.println("[1] List All Items");
-				System.out.println("[2] List Unlocked Items");
-				System.out.println("[3] Get Item Info");
-				System.out.println("[4] Set My Item");
-				System.out.println("[5] Create Custom Item");
-				System.out.println("[6] Back to Main Menu");
-				
-				switch (itemOption) {
-				case 1:
-					itemService.getAllItems();
-					break;
-				case 2:
-					itemService.getSomeItems(
-							playerService.getPlayerObject(currPlayerID).getLevel());
-					break;
-				case 3:
-					System.out.println("Enter item's name:");
-					String nameInput = validationService.getValidString();
-					itemService.getItemInfo(nameInput);
-					break;
-				case 4:
-					System.out.println("Enter item's name:");
-					boolean created = false;
-					do {
-						String itemNameInput = validationService.getValidString();					
-						created = gameService.setItem(itemNameInput, currPlayerID);
-					} while (!created);
-					break;
-				case 5:
-					itemService.createNewItem();
-					break;
-				case 6:
-					break;
-				default:
-					System.out.println("Invalid option...Redirecting to Main Menu");
-				}
-				
+				int itemOption = -1;
+				do {
+					System.out.println("---ITEM MENU---");
+					System.out.println("[1] List All Items");
+					System.out.println("[2] List Unlocked Items");
+					System.out.println("[3] Get Item Info");
+					System.out.println("[4] Set My Item");
+					System.out.println("[5] Create Custom Item");
+					System.out.println("[6] Back to Main Menu");
+					
+					itemOption = validationService.getValidInt();
+					
+					switch (itemOption) {
+					case 1:
+						itemService.getAllItems();
+						break;
+					case 2:
+						itemService.getSomeItems(
+								playerService.getPlayerObject(currPlayerID).getLevel());
+						break;
+					case 3:
+						System.out.println("Enter item's name:");
+						String nameInput = validationService.getValidString();
+						itemService.getItemInfo(nameInput);
+						break;
+					case 4:
+						System.out.println("Enter item's name:");
+						boolean created = false;
+						do {
+							String itemNameInput = validationService.getValidString();					
+							created = gameService.setItem(itemNameInput, currPlayerID);
+						} while (!created);
+						break;
+					case 5:
+						itemService.createNewItem();
+						break;
+					case 6:
+						break;
+					default:
+						System.out.println("Invalid option...Redirecting to Main Menu");
+					}
+					System.out.println(" ");
+				} while (itemOption != 6);
 			} else if (optionNumber2 == 4) {
 				//check if player has selected an item and character
 				Player thisPlayer = playerService.getPlayerObject(currPlayerID);
@@ -253,7 +257,7 @@ public class MainMenu {
 			} else {
 				System.out.println("Invalid option number");
 			}
-			
+			System.out.println(" ");
 		} while (optionNumber2 != 0);
 	}
 }

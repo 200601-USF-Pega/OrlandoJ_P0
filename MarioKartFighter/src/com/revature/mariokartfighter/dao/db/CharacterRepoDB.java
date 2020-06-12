@@ -54,8 +54,8 @@ public class CharacterRepoDB implements ICharacterRepo {
 			while(charactersRS.next()) {				
 				PlayableCharacter newCharacter = new PlayableCharacter(
 					charactersRS.getString("characterID"),
-					charactersRS.getString("name"),
 					charactersRS.getString("characterType"),
+					charactersRS.getString("name"),
 					charactersRS.getInt("maxHealth"),
 					charactersRS.getDouble("attackStat"), 
 					charactersRS.getDouble("defenseStat"),
