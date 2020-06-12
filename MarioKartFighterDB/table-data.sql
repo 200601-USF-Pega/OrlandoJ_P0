@@ -6,26 +6,26 @@
 -- skill: attack < defense
 
 --level 1 characters
-INSERT INTO character VALUES ('m001', 'mario', 'all-around', 100, 30.0, 30.0, 1);
-INSERT INTO character VALUES ('p001', 'peach', 'skill', 100, 18.0, 32.0, 1);
-INSERT INTO character VALUES ('w001', 'wario', 'power', 110, 19.0, 30.0, 1);
-INSERT INTO character VALUES ('y001', 'yoshi', 'speed', 80, 32.0, 30.0, 1);
-INSERT INTO character VALUES ('t001', 'toad', 'skill', 100, 30.0, 30.0, 1);
+INSERT INTO playablecharacter VALUES ('m001', 'mario', 'all-around', 100, 30.0, 15.0, 1);
+INSERT INTO playablecharacter VALUES ('p001', 'peach', 'skill', 100, 18.0, 32.0, 1);
+INSERT INTO playablecharacter VALUES ('w001', 'wario', 'power', 110, 19.0, 30.0, 1);
+INSERT INTO playablecharacter VALUES ('y001', 'yoshi', 'speed', 80, 32.0, 15.0, 1);
+INSERT INTO playablecharacter VALUES ('t001', 'toad', 'skill', 100, 30.0, 15.0, 1);
 --level 2 characters
-INSERT INTO character VALUES ('dk001', 'donkey kong', 'power', 100, 35.0, 35.0, 2);
-INSERT INTO character VALUES ('l001', 'luigi', 'all-around', 100, 35.0, 35.0, 2);
-INSERT INTO character VALUES ('d001', 'daisy', 'skill', 100, 38.0, 32.0, 2);
-INSERT INTO character VALUES ('sg001', 'shy guy', 'all-around', 100, 34.0, 34.0, 2);
-INSERT INTO character VALUES ('t002', 'toadette', 'speed', 80, 32.0, 40.0, 2);
+INSERT INTO playablecharacter VALUES ('dk001', 'donkey kong', 'power', 100, 35.0, 20.0, 2);
+INSERT INTO playablecharacter VALUES ('l001', 'luigi', 'all-around', 100, 35.0, 17.0, 2);
+INSERT INTO playablecharacter VALUES ('d001', 'daisy', 'skill', 100, 38.0, 22.0, 2);
+INSERT INTO playablecharacter VALUES ('sg001', 'shy guy', 'all-around', 100, 34.0, 24.0, 2);
+INSERT INTO playablecharacter VALUES ('t002', 'toadette', 'speed', 80, 32.0, 20.0, 2);
 --level 3 characters
-INSERT INTO character VALUES ('b001', 'bowser', 'power', 120, 39.0, 39.0, 3);
-INSERT INTO character VALUES ('r001', 'rosalina', 'speed', 80, 34.0, 38.0, 3);
-INSERT INTO character VALUES ('dk002', 'diddy kong', 'speed', 75, 43.5, 30.0, 3);
+INSERT INTO playablecharacter VALUES ('b001', 'bowser', 'power', 120, 39.0, 29.0, 3);
+INSERT INTO playablecharacter VALUES ('r001', 'rosalina', 'speed', 80, 34.0, 18.0, 3);
+INSERT INTO playablecharacter VALUES ('dk002', 'diddy kong', 'speed', 75, 43.5, 25.0, 3);
 --level 4 characters
-INSERT INTO character VALUES ('db001', 'dry bones', 'speed', 50, 45.0, 40.0, 4);
-INSERT INTO character VALUES ('w002', 'waluigi', 'skill', 100, 40.0, 45.0, 4);
-INSERT INTO character VALUES ('kp001', 'koopa troopa', 'all-around', 100, 45.0, 45.0, 4);
-INSERT INTO character VALUES ('kb001', 'king boo', 'power', 140, 43.0, 43.0, 5);
+INSERT INTO playablecharacter VALUES ('db001', 'dry bones', 'speed', 50, 45.0, 30.0, 4);
+INSERT INTO playablecharacter VALUES ('w002', 'waluigi', 'skill', 100, 40.0, 25.0, 4);
+INSERT INTO playablecharacter VALUES ('kp001', 'koopa troopa', 'all-around', 100, 45.0, 30.0, 4);
+INSERT INTO playablecharacter VALUES ('kb001', 'king boo', 'power', 140, 43.0, 33.0, 5);
 
 
 --ITEMS ADD TO STATS THAT ARE WEAK FOR A GIVEN TYPE
