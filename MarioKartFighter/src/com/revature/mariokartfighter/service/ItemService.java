@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.models.Item;
 
 public class ItemService {
 	ValidationService validation;
 	IItemRepo repo;
+	private static final Logger logger = LogManager.getLogger(ItemService.class);
 	
 	public ItemService (IItemRepo repo) {
 		this.repo = repo;
@@ -60,6 +64,8 @@ public class ItemService {
 		String itemID = generateItemID();
 		Item newItem = new Item(itemID, name, typeThatCanUse, unlockAtLevel, bonusToHealth, bonusToAttack, bonusToDefense);
 		repo.addItem(newItem);
+		
+		logger.info("new item created with ID " + itemID);
 		return itemID;
 	}
 	
@@ -83,7 +89,7 @@ public class ItemService {
 		return sb.toString();
 	}
 	
-	public void getAllItems() {
+	public void printAllItems() {
 		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
 				"itemID", "itemName", "typeThatCanUse", "unlockAtLevel", "bonusToHealth", 
 				"bonusToAttack", "bonusToDefense"));
@@ -91,9 +97,10 @@ public class ItemService {
 		for(Item i : retrievedItems) {
 			System.out.println(i);
 		}
+		logger.info("retrieved all items");
 	}
 	
-	public void getSomeItems(int level) {
+	public void printSomeItems(int level) {
 		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
 				"itemID", "itemName", "typeThatCanUse", "unlockAtLevel", "bonusToHealth", 
 				"bonusToAttack", "bonusToDefense"));
@@ -101,29 +108,35 @@ public class ItemService {
 		for(Item i : retrievedItems) {
 			System.out.println(i);
 		}
+		logger.info("retrieved unlocked items");
 	}
 	
 	public boolean checkItemExists(String itemID) {
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
 			if (i.getItemID().equals(itemID)) {
+				logger.info("checked that item " + itemID + " exists");
 				return true;
 			}
 		}
+		logger.warn("item " + itemID + "does not exist");
 		return false;
 	}
 	
-	public void getItemInfo(String itemName) {
+	public void printItemInfo(String itemName) {
 		List<Item> retrievedItems = repo.getAllItems();
 		for(Item i : retrievedItems) {
 			if (i.getItemName().equals(itemName)) {
 				System.out.println(i.getInfoString());
+				logger.info("retrieved info for item " + itemName);
 				return;
 			}
 		}
+		logger.warn("item with name " + itemName + " not found");
 	}
 	
 	public void removeTestItems(String testName) {
+		logger.info("removed all items with itemID starting with " + testName + " from repo");
 		repo.removeItems(testName);
 	}
 }

@@ -6,14 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.mariokartfighter.dao.ICharacterRepo;
+import com.revature.mariokartfighter.dao.IPlayableCharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.service.ConnectionService;
 
-public class CharacterRepoDB implements ICharacterRepo {
+public class PlayableCharacterRepoDB implements IPlayableCharacterRepo {
 	ConnectionService connectionService;
 	
-	public CharacterRepoDB(ConnectionService connectionService) {
+	public PlayableCharacterRepoDB(ConnectionService connectionService) {
 		this.connectionService = connectionService;
 	}
 	

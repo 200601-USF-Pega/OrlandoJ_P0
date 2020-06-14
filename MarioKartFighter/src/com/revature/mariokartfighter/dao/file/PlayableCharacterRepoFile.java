@@ -8,10 +8,10 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.revature.mariokartfighter.dao.ICharacterRepo;
+import com.revature.mariokartfighter.dao.IPlayableCharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
-public class CharacterRepoFile implements ICharacterRepo {
+public class PlayableCharacterRepoFile implements IPlayableCharacterRepo {
 	private String filepath= "src/resources/Character.txt";
 
 	@Override

@@ -4,7 +4,10 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
-import com.revature.mariokartfighter.dao.ICharacterRepo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.revature.mariokartfighter.dao.IPlayableCharacterRepo;
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.dao.IMatchRecordRepo;
 import com.revature.mariokartfighter.dao.IPlayerRepo;
@@ -16,11 +19,12 @@ import com.revature.mariokartfighter.models.Player;
 
 public class GameService {
 	IPlayerRepo playerRepo;
-	ICharacterRepo characterRepo;
+	IPlayableCharacterRepo characterRepo;
 	IItemRepo itemRepo;
 	IMatchRecordRepo matchRecordRepo;
+	private static final Logger logger = LogManager.getLogger(GameService.class);
 	
-	public GameService (IPlayerRepo playerRepo, ICharacterRepo characterRepo, IItemRepo itemRepo,
+	public GameService (IPlayerRepo playerRepo, IPlayableCharacterRepo characterRepo, IItemRepo itemRepo,
 			IMatchRecordRepo matchRecordRepo) {
 		this.playerRepo = playerRepo;
 		this.characterRepo = characterRepo;
@@ -43,13 +47,19 @@ public class GameService {
 					}
 				}
 				if (player != null && player.getLevel() >= c.getUnlockAtLevel()) {
-					playerRepo.assignCharacterToPlayer(c, playerID);			
+					playerRepo.assignCharacterToPlayer(c, playerID);		
+					logger.info("character " + c.getCharacterID() + " assigned to player " + playerID);
+					
 					if (player.getSelectedItem() != null && !player.getSelectedCharacter().getType().equals(
 							player.getSelectedItem().getTypeThatCanUse())) {		
 						System.out.println("Item type no longer compatible with character type!!");
 						System.out.println("Unsetting selected item...");
+						logger.warn("item " + player.getSelectedItem().getItemID() 
+								+ " unset because type " + player.getSelectedItem().getTypeThatCanUse()
+								+ " != " + c.getType());
 						player.setSelectedItem(null);
 						playerRepo.assignItemToPlayer(null, playerID);
+						
 					}
 				} else if (player != null) {
 					System.out.println("You haven't unlocked this character yet.");	
@@ -57,11 +67,13 @@ public class GameService {
 					return false;
 				} else {
 					System.out.println("player does not exist");
+					logger.warn("player " + playerID + " does not exist");
 					return false;
 				}
 				return true;
 			}
 		}
+		logger.warn("set character " + characterName + " for player " + playerID + "failed");
 		return false;
 	}
 	
@@ -93,14 +105,17 @@ public class GameService {
 						return false;
 					} else {
 						playerRepo.assignItemToPlayer(i, playerID);
+						logger.info("item " + i.getItemID() + " assigned to player " + playerID);
 					}
 				} else {
 					System.out.println("player does not exist");
+					logger.warn("player " + playerID + " does not exist");
 					return false;
 				}
 				return true;
 			}
 		}
+		logger.warn("set item " + itemName + " for player " + playerID + "failed");
 		return false;
 	}
 	
@@ -108,6 +123,7 @@ public class GameService {
 		List<PlayableCharacter> retrievedCharacters = characterRepo.getSomeCharacters(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedCharacters.size()-1);
+		logger.info("chose item " + retrievedCharacters.get(n).getCharacterID());
 		return retrievedCharacters.get(n);
 	}
 	
@@ -115,12 +131,14 @@ public class GameService {
 		List<Item> retrievedItems = itemRepo.getSomeItems(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedItems.size()-1);
+		logger.info("chose item " + retrievedItems.get(n).getItemID());
 		return retrievedItems.get(n);
 	}
 	
 	public Bot createNewBot(int botLevel, PlayableCharacter randomCharacter, Item randomItem ) {
 		Bot newBot = new Bot(botLevel, randomCharacter, randomItem);
 		playerRepo.addBot(newBot);
+		logger.info("new bot created with ID " + newBot.getBotID());
 		return newBot;
 	}
 	
@@ -129,6 +147,7 @@ public class GameService {
 		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
 			if (playerID.equals(p.getPlayerID())) {		
+				logger.info("player " + playerID + " is fighting " + bot.getBotID());
 				PlayableCharacter playerChar = p.getSelectedCharacter();
 				PlayableCharacter botChar = bot.getSelectedCharacter();
 				Item playerItem = p.getSelectedItem();
@@ -166,30 +185,26 @@ public class GameService {
 					playerRepo.updateAfterFight(true, p.getPlayerID());
 					System.out.println("Player 1 wins!!");
 				} else {
-					winnerID = bot.getID();
+					winnerID = bot.getBotID();
 					System.out.println("Bot wins!!");
 				}
+				logger.info("player " + winnerID + " won the match");
 				
 				//save to repo
 				MatchRecord newMatch = new MatchRecord(this.generateMatchID(), playerID, 
 						p.getSelectedCharacter().getCharacterID(), 
 						p.getSelectedItem().getItemID(),
-						bot.getID(), bot.getSelectedCharacter().getCharacterID(),
+						bot.getBotID(), bot.getSelectedCharacter().getCharacterID(),
 						bot.getSelectedItem().getItemID(), true, winnerID);
 				matchRecordRepo.addMatchRecord(newMatch);
+				logger.info("match " + newMatch.getMatchID() + "added to repo");
 				break;
 			}
 		}
 	}
 	
-	public void playerFight(String player1ID, Player player1, Player player2) {
-		List<Player> retrievedPlayers = playerRepo.getAllPlayers();
-		for (Player p : retrievedPlayers) {
-			if (player1ID.equals(p.getPlayerID())) {
-				player1 = p;
-			} 
-		}
-				
+	public void playerFight(Player player1, Player player2) {	
+		logger.info("player " + player1.getPlayerID() + " is fighting " + player2.getPlayerID());
 		PlayableCharacter player1Char = player1.getSelectedCharacter();
 		PlayableCharacter player2Char = player2.getSelectedCharacter();
 		Item player1Item = player1.getSelectedItem();
@@ -234,19 +249,22 @@ public class GameService {
 			playerRepo.updateAfterFight(true, player2.getPlayerID());
 			System.out.println("Player 2 wins!!");
 		}
+		logger.info("player " + winnerID + " won the match");
 		
 		if (levelUp1) {
 			System.out.println("Congratulations! You leveled up!");
 			System.out.println("You are now level " + player1.getLevel() + ".");
+			logger.info("player " + player1.getPlayerID() + " leveled up to level " + player1.getLevel());
 		}
 		
 		//save to repo
-		MatchRecord newMatch = new MatchRecord(this.generateMatchID(), player1ID, 
+		MatchRecord newMatch = new MatchRecord(this.generateMatchID(), player1.getPlayerID(), 
 				player1.getSelectedCharacter().getCharacterID(), 
 				player1.getSelectedItem().getItemID(),
 				player2.getPlayerID(), player2.getSelectedCharacter().getCharacterID(),
 				player2.getSelectedItem().getItemID(), false, winnerID);
 		matchRecordRepo.addMatchRecord(newMatch);
+		logger.info("match " + newMatch.getMatchID() + "added to repo");
 	}
 	
 	public void printAllMatches() {
@@ -257,6 +275,7 @@ public class GameService {
 		for (MatchRecord mr : allMatches) {
 			System.out.println(mr);
 		}
+		logger.info("printed all matches played");
 	}
 	
 	public void printPlayerMatches(String playerID) {
@@ -267,6 +286,7 @@ public class GameService {
 		for (MatchRecord mr : allMatches) {
 			System.out.println(mr);
 		}
+		logger.info("printed matches that player " + playerID + " participated in");
 	}
 	
 	public String generateMatchID() {

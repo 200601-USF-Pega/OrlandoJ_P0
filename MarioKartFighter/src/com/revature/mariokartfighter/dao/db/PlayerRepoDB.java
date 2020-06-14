@@ -58,7 +58,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 		try {			
 			PreparedStatement botInsert = connectionService.getConnection().prepareStatement(
 					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)");
-			botInsert.setString(1, bot.getID());
+			botInsert.setString(1, bot.getBotID());
 			botInsert.setInt(2, bot.getLevel());
 			botInsert.setInt(3, 0);
 			botInsert.setInt(4, 0);

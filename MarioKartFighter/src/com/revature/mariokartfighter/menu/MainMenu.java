@@ -1,14 +1,13 @@
 package com.revature.mariokartfighter.menu;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.revature.mariokartfighter.dao.ICharacterRepo;
+import com.revature.mariokartfighter.dao.IPlayableCharacterRepo;
 import com.revature.mariokartfighter.dao.IItemRepo;
 import com.revature.mariokartfighter.dao.IMatchRecordRepo;
 import com.revature.mariokartfighter.dao.IPlayerRepo;
-import com.revature.mariokartfighter.dao.db.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
 import com.revature.mariokartfighter.dao.db.ItemRepoDB;
 import com.revature.mariokartfighter.dao.db.MatchRecordRepoDB;
 import com.revature.mariokartfighter.dao.db.PlayerRepoDB;
@@ -16,7 +15,7 @@ import com.revature.mariokartfighter.models.Bot;
 import com.revature.mariokartfighter.models.Item;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
-import com.revature.mariokartfighter.service.CharacterService;
+import com.revature.mariokartfighter.service.PlayableCharacterService;
 import com.revature.mariokartfighter.service.ConnectionService;
 import com.revature.mariokartfighter.service.GameService;
 import com.revature.mariokartfighter.service.ItemService;
@@ -29,12 +28,12 @@ public class MainMenu {
 	ConnectionService connectionService;
 	
 	IPlayerRepo playerRepo;
-	ICharacterRepo characterRepo;
+	IPlayableCharacterRepo characterRepo;
 	IItemRepo itemRepo;
 	IMatchRecordRepo matchRecordRepo;
 	
 	private PlayerService playerService;
-	private CharacterService characterService;
+	private PlayableCharacterService characterService;
 	private ItemService itemService;
 	private ValidationService validationService;
 	private GameService gameService;
@@ -45,13 +44,13 @@ public class MainMenu {
 		logger.info("created new connection service");
 		
 		playerRepo = new PlayerRepoDB(connectionService);
-		characterRepo = new CharacterRepoDB(connectionService);
+		characterRepo = new PlayableCharacterRepoDB(connectionService);
 		itemRepo = new ItemRepoDB(connectionService);
 		matchRecordRepo = new MatchRecordRepoDB(connectionService);
 		logger.info("created new repo objects");
 		
 		playerService = new PlayerService(playerRepo);
-		characterService = new CharacterService(characterRepo);
+		characterService = new PlayableCharacterService(characterRepo);
 		itemService = new ItemService(itemRepo);
 		validationService = new ValidationService();
 		gameService = new GameService(playerRepo, characterRepo, itemRepo,
@@ -89,11 +88,12 @@ public class MainMenu {
 				}
 			} else if (optionNumber == 2) {
 				//find player in database
-				System.out.println("Enter your player ID to login:");
+				System.out.println("Enter your player ID to login (exit to go back):");
 				String inputID = validationService.getValidString();
 				if (playerService.checkPlayerExists(inputID)) {
 					loggedIn = true;
 					currPlayerID = inputID;
+					logger.info("player successfully logged in");
 				} else if (inputID.toLowerCase().equals("exit")){
 					continue;
 				} else {
@@ -101,6 +101,7 @@ public class MainMenu {
 							+ "(type 'exit' to go back to main menu)");
 				}
 			} else if (optionNumber == 0) {
+				logger.info("player exited game");
 				System.exit(0);
 			} else {
 				System.out.println("Invalid option number");
@@ -122,8 +123,9 @@ public class MainMenu {
 			
 			if (optionNumber2 == 1) {
 				//print player level and rank
-				playerService.printPlayerInfo(currPlayerID);				
+				playerService.printPlayerInfo(currPlayerID);
 			} else if (optionNumber2 == 2) {
+				logger.info("player entered character menu");
 				int characterOption = -1;
 				do {
 					System.out.println("---CHARACTER MENU---");
@@ -138,16 +140,16 @@ public class MainMenu {
 					
 					switch (characterOption) {
 					case 1:
-						characterService.getAllCharacters();
+						characterService.printAllCharacters();
 						break;
 					case 2:
-						characterService.getSomeCharacters(
+						characterService.printSomeCharacters(
 								playerService.getPlayerObject(currPlayerID).getLevel());
 						break;
 					case 3:
 						System.out.println("Enter character's name:");
 						String nameInput = validationService.getValidString();
-						characterService.getCharacterInfo(nameInput);
+						characterService.printCharacterInfo(nameInput);
 						break;
 					case 4:
 						boolean created = false;
@@ -161,6 +163,7 @@ public class MainMenu {
 						characterService.createNewCharacter();
 						break;
 					case 6:
+						logger.info("player exited character menu");
 						break;
 					default:
 						System.out.println("Invalid option...Redirecting to Main Menu");
@@ -168,6 +171,7 @@ public class MainMenu {
 					System.out.println(" ");
 				} while (characterOption != 6);
 			} else if (optionNumber2 == 3) {
+				logger.info("player entered item menu");
 				int itemOption = -1;
 				do {
 					System.out.println("---ITEM MENU---");
@@ -182,16 +186,16 @@ public class MainMenu {
 					
 					switch (itemOption) {
 					case 1:
-						itemService.getAllItems();
+						itemService.printAllItems();
 						break;
 					case 2:
-						itemService.getSomeItems(
+						itemService.printSomeItems(
 								playerService.getPlayerObject(currPlayerID).getLevel());
 						break;
 					case 3:
 						System.out.println("Enter item's name:");
 						String nameInput = validationService.getValidString();
-						itemService.getItemInfo(nameInput);
+						itemService.printItemInfo(nameInput);
 						break;
 					case 4:
 						boolean created = false;
@@ -205,6 +209,7 @@ public class MainMenu {
 						itemService.createNewItem();
 						break;
 					case 6:
+						logger.info("player exited item menu");
 						break;
 					default:
 						System.out.println("Invalid option...Redirecting to Main Menu");
@@ -212,6 +217,7 @@ public class MainMenu {
 					System.out.println(" ");
 				} while (itemOption != 6);
 			} else if (optionNumber2 == 4) {
+				logger.info("player entered fight menu");
 				int fightOption = -1;
 				Player thisPlayer;
 				Player player1;
@@ -269,7 +275,7 @@ public class MainMenu {
 							System.out.println("Opponent is " + player2.getPlayerID());
 							playerService.printPlayerInfo(player2.getPlayerID());
 							
-							gameService.playerFight(currPlayerID, player1, player2);
+							gameService.playerFight(player1, player2);
 						}
 						break;
 					case 3:
@@ -302,9 +308,10 @@ public class MainMenu {
 						System.out.println("Opponent is " + player2.getPlayerID());
 						playerService.printPlayerInfo(player2.getPlayerID());
 						
-						gameService.playerFight(currPlayerID, player1, player2);
+						gameService.playerFight(player1, player2);
 						break;
 					case 4:
+						logger.info("player exited fight menu");
 						break;
 					default:
 						System.out.println("Invalid option...Redirecting to Main Menu");
@@ -313,6 +320,7 @@ public class MainMenu {
 				} while (fightOption != 4);
 				System.out.println("");				
 			} else if (optionNumber2 == 5)  {
+				logger.info("player entered matches menu");
 				int printMatchesOption = -1;
 				do {
 					System.out.println("---MATCHES MENU---");
@@ -330,6 +338,7 @@ public class MainMenu {
 						gameService.printPlayerMatches(currPlayerID);
 						break;
 					case 3:
+						logger.info("player exited matches menu");
 						break;
 					default:
 						System.out.println("Invalid option...Redirecting to Main Menu");
@@ -338,6 +347,7 @@ public class MainMenu {
 				} while (printMatchesOption != 3);
 			} else if (optionNumber2 == 0) {
 				System.out.println("Thanks for playing!");
+				logger.info("player exited game");
 				System.exit(0);
 			} else {
 				System.out.println("Invalid option number");

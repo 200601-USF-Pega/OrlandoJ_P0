@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.db.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
 import com.revature.mariokartfighter.dao.db.ItemRepoDB;
 import com.revature.mariokartfighter.dao.db.MatchRecordRepoDB;
 import com.revature.mariokartfighter.dao.db.PlayerRepoDB;
@@ -28,7 +28,7 @@ public class GameServiceTest {
 		connectionService = new ConnectionService();
 		gameService = new GameService(
 				new PlayerRepoDB(connectionService),
-				new CharacterRepoDB(connectionService), 
+				new PlayableCharacterRepoDB(connectionService), 
 				new ItemRepoDB(connectionService), 
 				new MatchRecordRepoDB(connectionService));
 		playerService = new PlayerService(

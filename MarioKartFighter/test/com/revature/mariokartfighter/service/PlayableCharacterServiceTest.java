@@ -10,16 +10,16 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.db.CharacterRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
 
-public class CharacterServiceTest {
-	CharacterService characterService;
+public class PlayableCharacterServiceTest {
+	PlayableCharacterService characterService;
 	ConnectionService connectionService;
 	
 	@Before
 	public void setupNeededClasses() {
 		connectionService = new ConnectionService();
-		characterService = new CharacterService(new CharacterRepoDB(connectionService));
+		characterService = new PlayableCharacterService(new PlayableCharacterRepoDB(connectionService));
 	}
 	
 	@Test

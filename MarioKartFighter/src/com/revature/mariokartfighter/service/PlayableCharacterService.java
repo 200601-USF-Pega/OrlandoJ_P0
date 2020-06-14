@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.revature.mariokartfighter.dao.ICharacterRepo;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.revature.mariokartfighter.dao.IPlayableCharacterRepo;
 import com.revature.mariokartfighter.models.PlayableCharacter;
 
-public class CharacterService {
+public class PlayableCharacterService {
 	ValidationService validation;
-	ICharacterRepo repo;
+	IPlayableCharacterRepo repo;
+	private static final Logger logger = LogManager.getLogger(PlayableCharacterService.class);
 	
-	public CharacterService (ICharacterRepo repo) {
+	public PlayableCharacterService (IPlayableCharacterRepo repo) {
 		this.repo = repo;
 		this.validation = new ValidationService();
 	}
@@ -62,6 +66,8 @@ public class CharacterService {
 		String characterID = generateCharacterID();
 		PlayableCharacter newCharacter = new PlayableCharacter(characterID, type, name, maxHealth, attackStat, defenseStat, unlockAtLevel);
 		repo.addCharacter(newCharacter);
+		
+		logger.info("new character created with ID " + characterID);
 		return characterID;
 	}
 	
@@ -85,7 +91,7 @@ public class CharacterService {
 		return sb.toString();
 	}
 	
-	public void getAllCharacters() {
+	public void printAllCharacters() {
 		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
 				"characterID", "characterName", "type", "unlockAtLevel", "maxHealth", 
 				"attackStat", "defenseStat"));
@@ -93,9 +99,10 @@ public class CharacterService {
 		for(PlayableCharacter c : retrievedCharacters) {
 			System.out.println(c);
 		}
+		logger.info("retrieved all characters");
 	}
 	
-	public void getSomeCharacters(int level) {
+	public void printSomeCharacters(int level) {
 		System.out.println(String.format("%-20s|%-20s|%-20s|%-15s|%-15s|%-15s|%-15s\n", 
 				"characterID", "characterName", "type", "unlockAtLevel", "maxHealth", 
 				"attackStat", "defenseStat"));
@@ -103,29 +110,35 @@ public class CharacterService {
 		for(PlayableCharacter c : retrievedCharacters) {
 			System.out.println(c);
 		}
+		logger.info("retrieved unlocked characters");
 	}
 	
 	public boolean checkCharacterExists(String characterID) {
 		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
 		for(PlayableCharacter c : retrievedCharacters) {
 			if (c.getCharacterID().equals(characterID)) {
+				logger.info("checked that character " + characterID + " exists");
 				return true;
 			}
 		}
+		logger.warn("character " + characterID + "does not exist");
 		return false;
 	}
 	
-	public void getCharacterInfo(String characterName) {
+	public void printCharacterInfo(String characterName) {
 		List<PlayableCharacter> retrievedCharacters = repo.getAllCharacters();
 		for(PlayableCharacter c : retrievedCharacters) {
 			if (c.getCharacterName().equals(characterName)) {
 				System.out.println(c.getInfoString());
+				logger.info("retrieved info for character " + characterName);
 				return;
 			}
 		}
+		logger.warn("character with name " + characterName + " not found");
 	}
 	
 	public void removeTestCharacters(String testName) {
+		logger.info("removed all players with characterID starting with " + testName + " from repo");
 		repo.removeCharacters(testName);
 	}
 }

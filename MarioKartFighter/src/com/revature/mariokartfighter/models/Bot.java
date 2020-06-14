@@ -73,7 +73,7 @@ public class Bot {
 		this.selectedCharacter = selectedCharacter;
 	}
 	
-	public String getID() {
+	public String getBotID() {
 		return this.id;
 	}
 

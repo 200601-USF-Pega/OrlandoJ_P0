@@ -2,11 +2,15 @@ package com.revature.mariokartfighter.service;
 
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Player;
 
 public class PlayerService {
 	IPlayerRepo repo;
+	private static final Logger logger = LogManager.getLogger(PlayerService.class);
 	
 	public PlayerService (IPlayerRepo repo) {
 		this.repo = repo;
@@ -16,6 +20,7 @@ public class PlayerService {
 		//check if player exists in main menu
 		Player newPlayer = new Player(inputtedID);
 		Player addedPlayer = repo.addPlayer(newPlayer);
+		logger.info("new player created with ID " + inputtedID);
 		return addedPlayer.getPlayerID();
 	}
 
@@ -24,6 +29,7 @@ public class PlayerService {
 		for(Player p : retrievedPlayers) {
 			System.out.println(p);
 		}
+		logger.info("retrieved all players");
 	}
 	
 	public void printPlayersToFight(String playerID) {
@@ -36,6 +42,7 @@ public class PlayerService {
 			}
 			System.out.println(p);
 		}
+		logger.info("displayed players with characters and items selected");
 	}
 	
 	public void printPlayerInfo(String playerID) {
@@ -56,9 +63,11 @@ public class PlayerService {
 				} else {
 					System.out.println("\tSelected Item: " + p.getSelectedItem().getItemName());
 				}
+				logger.info("retrieved info for player " + playerID);
 				return;
 			}
 		}
+		logger.warn("player with ID " + playerID + " not found");
 	}
 	
 	public Player chooseClosestPlayer(Player player1) {
@@ -77,6 +86,7 @@ public class PlayerService {
 				xpDiff = Math.abs(p.getXpEarned() - player1.getXpEarned());
 			} 
 		}
+		logger.info("chose " + player2.getPlayerID() + " as closest player with xpDiff of " + xpDiff);
 		return player2;
 	}
 	
@@ -84,9 +94,11 @@ public class PlayerService {
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			if (p.getPlayerID().equals(playerID)) {
+				logger.info("retrieved player object for " + playerID);
 				return p;
 			}
 		}
+		logger.warn("player " + playerID + "does not exist");
 		throw new RuntimeException("player does not exist");
 	}
 	
@@ -94,13 +106,16 @@ public class PlayerService {
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			if (p.getPlayerID().equals(playerID)) {
+				logger.info("checked that player " + playerID + " exists");
 				return true;
 			}
 		}
+		logger.warn("player " + playerID + "does not exist");
 		return false;
 	}
 	
 	public void removeTestPlayers(String testName) {
+		logger.info("removed all players with playerID starting with " + testName + " from repo");
 		repo.removePlayers(testName);
 	}
 }
