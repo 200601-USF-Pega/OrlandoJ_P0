@@ -1,5 +1,6 @@
 package com.revature.mariokartfighter.menu;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +24,7 @@ import com.revature.mariokartfighter.service.PlayerService;
 import com.revature.mariokartfighter.service.ValidationService;
 
 public class MainMenu {
-	private static final Logger logger = LogManager.getLogger("MainMenu"); 
+	private static final Logger logger = LogManager.getLogger(MainMenu.class); 
 	
 	ConnectionService connectionService;
 	
@@ -41,11 +42,13 @@ public class MainMenu {
 	
 	private void setUp() {
 		connectionService = new ConnectionService();
+		logger.info("created new connection service");
 		
 		playerRepo = new PlayerRepoDB(connectionService);
 		characterRepo = new CharacterRepoDB(connectionService);
 		itemRepo = new ItemRepoDB(connectionService);
 		matchRecordRepo = new MatchRecordRepoDB(connectionService);
+		logger.info("created new repo objects");
 		
 		playerService = new PlayerService(playerRepo);
 		characterService = new CharacterService(characterRepo);
@@ -53,10 +56,10 @@ public class MainMenu {
 		validationService = new ValidationService();
 		gameService = new GameService(playerRepo, characterRepo, itemRepo,
 				matchRecordRepo);
+		logger.info("created new service objects");
 	}
 	
-	public void mainMenu() {
-		logger.info("---begin logging---");	
+	public void mainMenu() {	
 		setUp();
 		
 		System.out.println("WELCOME TO MARIO KART FIGHTER!");
