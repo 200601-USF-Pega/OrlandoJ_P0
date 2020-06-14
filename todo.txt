@@ -1,6 +1,5 @@
 TODO
 	- write more tests
-	- add more logging
 	
 	- add way to get out of create character/item function
 	- fix printing for players

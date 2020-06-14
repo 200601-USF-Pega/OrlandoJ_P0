@@ -3,6 +3,7 @@ package com.revature.mariokartfighter.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,10 +12,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
 import com.revature.mariokartfighter.dao.db.ItemRepoDB;
 import com.revature.mariokartfighter.dao.db.MatchRecordRepoDB;
+import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
 import com.revature.mariokartfighter.dao.db.PlayerRepoDB;
+import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 import com.revature.mariokartfighter.models.Player;
 
 public class GameServiceTest {
@@ -34,6 +37,8 @@ public class GameServiceTest {
 		playerService = new PlayerService(
 				new PlayerRepoDB(connectionService));
 		playerID = "admin002";
+		gameService.setCharacter("peach", playerID);
+		gameService.setItem("green shell", playerID);
 	}
 	
 	@Test
@@ -51,30 +56,29 @@ public class GameServiceTest {
 		List<Player> retrievedPlayers = playerService.repo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
 			if(p.getPlayerID().equals(playerID)) {
-				assertNotEquals("Donkey Kong", p.getSelectedCharacter().getCharacterName());
+				assertNotEquals("donkey kong", p.getSelectedCharacter().getCharacterName());
 				break;
 			}
 		}
-		gameService.setCharacter("Donkey Kong", playerID);
+		gameService.setCharacter("donkey kong", playerID);
 		retrievedPlayers = playerService.repo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
 			if(p.getPlayerID().equals(playerID)) {
-				assertEquals("Donkey Kong", p.getSelectedCharacter().getCharacterName());
+				assertEquals("donkey kong", p.getSelectedCharacter().getCharacterName());
 				break;
 			}
 		}
 	}
 	
 	@Test
-	public void setItemWhenItemDoesntExist() {
+	public void setItemWhenItemDoesntExistShouldReturnFalse() {
 		assertFalse(gameService.setItem("xyz", playerID));
 	}
 	
 	@Test
 	public void setItemShouldReturnFalseIfCharacterIsNotUnlocked() {
-		assertFalse(gameService.setCharacter("db001", "admin003"));
+		assertFalse(gameService.setCharacter("dry bones", "admin003"));
 	}
-	
 
 	@Test
 	public void setItemShouldChangePlayerInfoInRepo() {
@@ -85,6 +89,9 @@ public class GameServiceTest {
 				break;
 			}
 		}
+		//set character to one with matching type
+		gameService.setCharacter("wario", playerID);
+		
 		gameService.setItem("blue shell", playerID);
 		retrievedPlayers = playerService.repo.getAllPlayers();
 		for (Player p : retrievedPlayers) {
@@ -96,13 +103,16 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	public void chooseRandomCharacterShouldReturnAnItemAtOrBelowLevel() {
-		
+	public void chooseRandomCharacterShouldReturnACharacterAtOrBelowLevel() {
+		PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(2);
+		assertTrue(randomCharacter.getUnlockAtLevel() <= 2);
 	}
 	
 	@Test
-	public void chooseRandomItemShouldReturnAnItemAtOrBelowLevel() {
-		
+	public void chooseRandomItemShouldReturnAnItemAtOrBelowLevelAndOfCorrectType() {
+		Item randomItem = gameService.chooseRandomItem(1, "power");
+		assertTrue(randomItem.getUnlockAtLevel() <= 1);
+		assertEquals("power", randomItem.getTypeThatCanUse());
 	}
 
 	@After

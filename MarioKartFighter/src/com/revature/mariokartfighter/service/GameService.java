@@ -73,7 +73,7 @@ public class GameService {
 				return true;
 			}
 		}
-		logger.warn("set character " + characterName + " for player " + playerID + "failed");
+		logger.warn("set character " + characterName + " for player " + playerID + " failed");
 		return false;
 	}
 	
@@ -115,7 +115,7 @@ public class GameService {
 				return true;
 			}
 		}
-		logger.warn("set item " + itemName + " for player " + playerID + "failed");
+		logger.warn("set item " + itemName + " for player " + playerID + " failed");
 		return false;
 	}
 	
@@ -123,16 +123,25 @@ public class GameService {
 		List<PlayableCharacter> retrievedCharacters = characterRepo.getSomeCharacters(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedCharacters.size()-1);
-		logger.info("chose item " + retrievedCharacters.get(n).getCharacterID());
+		logger.info("chose character " + retrievedCharacters.get(n).getCharacterID());
 		return retrievedCharacters.get(n);
 	}
 	
-	public Item chooseRandomItem(int level) {
+	public Item chooseRandomItem(int level, String characterType) {
+		logger.info("looking for item that is compatible with " + characterType);
 		List<Item> retrievedItems = itemRepo.getSomeItems(level);
 		Random random = new Random();
 		int n = random.nextInt(retrievedItems.size()-1);
-		logger.info("chose item " + retrievedItems.get(n).getItemID());
-		return retrievedItems.get(n);
+		Item chosenItem = retrievedItems.get(n);
+		//if incompatible type, choose again
+		while(!chosenItem.getTypeThatCanUse().equals(characterType)) {
+			logger.info("item " + chosenItem.getItemID() + " is wrong type ("
+					+ chosenItem.getTypeThatCanUse() + ")...choosing again");
+			n = random.nextInt(retrievedItems.size()-1);
+			chosenItem = retrievedItems.get(n);
+		}
+		logger.info("chose item " + chosenItem.getItemID());
+		return chosenItem;
 	}
 	
 	public Bot createNewBot(int botLevel, PlayableCharacter randomCharacter, Item randomItem ) {

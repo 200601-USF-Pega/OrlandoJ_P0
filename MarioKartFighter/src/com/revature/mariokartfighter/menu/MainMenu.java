@@ -247,7 +247,7 @@ public class MainMenu {
 						System.out.println("What level bot would you like to fight?");
 						int botLevel = validationService.getValidInt();
 						PlayableCharacter randomCharacter = gameService.chooseRandomCharacter(botLevel);
-						Item randomItem = gameService.chooseRandomItem(botLevel);
+						Item randomItem = gameService.chooseRandomItem(botLevel, randomCharacter.getType());
 						Bot newBot = gameService.createNewBot(botLevel, randomCharacter, randomItem);
 						
 						gameService.botFight(newBot, currPlayerID);
