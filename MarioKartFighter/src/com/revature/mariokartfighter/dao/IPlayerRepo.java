@@ -13,7 +13,7 @@ public interface IPlayerRepo {
 	public List<Player> getAllPlayers();
 	public void assignCharacterToPlayer(PlayableCharacter character, String playerID);
 	public void assignItemToPlayer(Item item, String playerID);
-	public void updateAfterFight(boolean wonMatch, String playerID);
+	public boolean updateAfterFight(boolean wonMatch, String playerID);
 	public int getPlayerRank(String playerID);
 	public void removePlayers(String name);
 }

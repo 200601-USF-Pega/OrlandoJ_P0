@@ -222,16 +222,22 @@ public class GameService {
 		}
 		
 		String winnerID;
+		boolean levelUp1 = false;
 		if(player2Health < player1Health) {
 			winnerID = player1.getPlayerID();
-			playerRepo.updateAfterFight(true, player1.getPlayerID());
+			levelUp1 = playerRepo.updateAfterFight(true, player1.getPlayerID());
 			playerRepo.updateAfterFight(false, player2.getPlayerID());
 			System.out.println("Player 1 wins!!");
 		} else {
 			winnerID = player2.getPlayerID();
-			playerRepo.updateAfterFight(false, player1.getPlayerID());
+			levelUp1 = playerRepo.updateAfterFight(false, player1.getPlayerID());
 			playerRepo.updateAfterFight(true, player2.getPlayerID());
 			System.out.println("Player 2 wins!!");
+		}
+		
+		if (levelUp1) {
+			System.out.println("Congratulations! You leveled up!");
+			System.out.println("You are now level " + player1.getLevel() + ".");
 		}
 		
 		//save to repo

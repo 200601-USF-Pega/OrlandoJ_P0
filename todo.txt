@@ -2,9 +2,9 @@ TODO
 	- write more tests
 	- add more logging
 	
-	- add way to get out of create character/item function	
-	- As a player, I should be able to choose a player and fight them with their currently selected character.
+	- add way to get out of create character/item function
 	
+	STRETCH GOALS:
+	- move character and item and matches menus into seperate classes
 	- add password for secure login
-	- move character and item  and matches menus into seperate classes
 	

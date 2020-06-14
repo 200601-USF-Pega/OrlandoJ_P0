@@ -223,6 +223,8 @@ public class MainMenu {
 					System.out.println("[3] Choose a Player to Fight");
 					System.out.println("[4] Back to Main Menu");
 					
+					fightOption = validationService.getValidInt();
+					
 					switch(fightOption) {
 					case 1:
 						//check if player has selected an item and character
@@ -283,17 +285,14 @@ public class MainMenu {
 
 						player1 = playerService.getPlayerObject(currPlayerID);
 						
-						playerService.printPlayers();
+						System.out.println("Players available to fight:");
+						playerService.printPlayersToFight(currPlayerID);
 						
+						System.out.println("Enter the playerID of the player you want to fight:");
 						String player2ID = validationService.getValidString();
 						do {
 							if(playerService.checkPlayerExists(player2ID)) {
-								if (playerService.getPlayerObject(player2ID).getSelectedCharacter() == null 
-										|| playerService.getPlayerObject(player2ID).getSelectedItem() == null)  {
-									System.out.println("Player has not selected a character and item...choose again");
-								} else {
-									break;
-								}
+								break;
 							}
 							player2ID = validationService.getValidString();
 						} while (!playerService.checkPlayerExists(player2ID));

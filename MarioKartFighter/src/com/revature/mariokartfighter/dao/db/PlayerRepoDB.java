@@ -204,7 +204,8 @@ public class PlayerRepoDB implements IPlayerRepo {
 	}
 
 	@Override
-	public void updateAfterFight(boolean wonMatch, String playerID) {
+	public boolean updateAfterFight(boolean wonMatch, String playerID) {
+		boolean leveledUp = false;
 		try {
 			List<Player> allPlayers = this.getAllPlayers();
 			Player currentPlayer = null;
@@ -218,8 +219,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 					//check for level up
 					if(p.getXpEarned() >= (p.getLevel()*100)+1) {
 						p.setLevel(p.getLevel()+1);
-						System.out.println("Congratulations! You leveled up!");
-						System.out.println("You are now level " + p.getLevel() + ".");
+						leveledUp = true;
 					}
 					currentPlayer = p;
 					break;
@@ -244,6 +244,7 @@ public class PlayerRepoDB implements IPlayerRepo {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
+		return leveledUp;
 	}
 
 	@Override

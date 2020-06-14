@@ -26,6 +26,18 @@ public class PlayerService {
 		}
 	}
 	
+	public void printPlayersToFight(String playerID) {
+		List<Player> retrievedPlayers = repo.getAllPlayers();
+		for(Player p : retrievedPlayers) {
+			if (p.getPlayerID().equals(playerID)) {
+				continue;
+			} else if (p.getSelectedCharacter() == null || p.getSelectedItem() == null)  {
+				continue;
+			}
+			System.out.println(p);
+		}
+	}
+	
 	public void printPlayerInfo(String playerID) {
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
@@ -57,7 +69,8 @@ public class PlayerService {
 		for (Player p : retrievedPlayers) {
 			if(Math.abs(p.getXpEarned() - player1.getXpEarned()) < xpDiff) {
 				//check if player2 has selected an item and character
-				if (p.getSelectedCharacter() == null || p.getSelectedItem() == null) {
+				if (p.getSelectedCharacter() == null || p.getSelectedItem() == null 
+						|| p.getPlayerID().equals(player1.getPlayerID())) {
 					continue;
 				}
 				player2 = p;
