@@ -26,6 +26,7 @@ CREATE TABLE playablecharacter (
 
 CREATE TABLE player (
 	playerID VARCHAR(24) PRIMARY KEY,
+	password VARCHAR(24),
 	xpLevel INT,
 	xpEarned INT,
 	numberOfMatchesPlayed INT,

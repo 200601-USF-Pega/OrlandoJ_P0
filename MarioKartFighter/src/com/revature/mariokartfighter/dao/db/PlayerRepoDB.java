@@ -4,7 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Bot;
@@ -21,25 +23,26 @@ public class PlayerRepoDB implements IPlayerRepo {
 	}
 	
 	@Override
-	public Player addPlayer(Player player) {
+	public Player addPlayer(Player player, String password) {
 		try {			
 			PreparedStatement playerInsert = connectionService.getConnection().prepareStatement(
-					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			playerInsert.setString(1, player.getPlayerID());
-			playerInsert.setInt(2, player.getLevel());
-			playerInsert.setInt(3, player.getXpEarned());
-			playerInsert.setInt(4, player.getNumberOfMatches());
-			playerInsert.setInt(5, player.getNumberOfWins());
+			playerInsert.setString(2, password);
+			playerInsert.setInt(3, player.getLevel());
+			playerInsert.setInt(4, player.getXpEarned());
+			playerInsert.setInt(5, player.getNumberOfMatches());
+			playerInsert.setInt(6, player.getNumberOfWins());
 			
 			if(player.getSelectedCharacter() != null) {				
-				playerInsert.setString(6, player.getSelectedCharacter().getCharacterID());
+				playerInsert.setString(7, player.getSelectedCharacter().getCharacterID());
 			} else {
-				playerInsert.setString(6, null);
+				playerInsert.setString(7, null);
 			}
 			if(player.getSelectedItem() != null) {				
-				playerInsert.setString(7, player.getSelectedItem().getItemID());
+				playerInsert.setString(8, player.getSelectedItem().getItemID());
 			} else { 
-				playerInsert.setString(7, null);
+				playerInsert.setString(8, null);
 			}				
 			
 			playerInsert.execute();
@@ -57,22 +60,23 @@ public class PlayerRepoDB implements IPlayerRepo {
 	public Bot addBot(Bot bot) {
 		try {			
 			PreparedStatement botInsert = connectionService.getConnection().prepareStatement(
-					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?)");
+					"INSERT INTO player VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 			botInsert.setString(1, bot.getBotID());
-			botInsert.setInt(2, bot.getLevel());
-			botInsert.setInt(3, 0);
+			botInsert.setString(2, "bot_password");
+			botInsert.setInt(3, bot.getLevel());
 			botInsert.setInt(4, 0);
 			botInsert.setInt(5, 0);
+			botInsert.setInt(6, 0);
 			
 			if(bot.getSelectedCharacter() != null) {				
-				botInsert.setString(6, bot.getSelectedCharacter().getCharacterID());
+				botInsert.setString(7, bot.getSelectedCharacter().getCharacterID());
 			} else {
-				botInsert.setString(6, null);
+				botInsert.setString(7, null);
 			}
 			if(bot.getSelectedItem() != null) {				
-				botInsert.setString(7, bot.getSelectedItem().getItemID());
+				botInsert.setString(8, bot.getSelectedItem().getItemID());
 			} else { 
-				botInsert.setString(7, null);
+				botInsert.setString(8, null);
 			}				
 			
 			botInsert.execute();
@@ -298,6 +302,33 @@ public class PlayerRepoDB implements IPlayerRepo {
 			System.out.println("Exception: " + e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public Map<String,String> getAllPlayersWithPasswords() {
+		try {
+			if(this.connectionService == null) {
+				System.out.println("connection null");
+			}
+			//get all players that are not bots
+			PreparedStatement getPlayers = connectionService.getConnection().prepareStatement(
+					"SELECT playerID, password FROM player WHERE playerID NOT LIKE ?;");
+			getPlayers.setString(1, "bot_%");
+			ResultSet playersRS = getPlayers.executeQuery();
+			
+			
+			Map<String,String> retrievedPlayers = new HashMap<String,String>();
+			
+			while(playersRS.next()) {
+				retrievedPlayers.put(playersRS.getString("playerID"), 
+						playersRS.getString("password"));
+			}
+			return retrievedPlayers;
+		} catch (SQLException e) {
+			System.out.println("Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+		return new HashMap<String,String>();
 	}
 
 }

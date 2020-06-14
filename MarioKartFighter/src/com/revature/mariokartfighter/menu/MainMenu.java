@@ -81,21 +81,29 @@ public class MainMenu {
 						inputtedID = validationService.getValidString();
 						System.out.println("ID already taken...try again");
 					} else {
-						currPlayerID = playerService.createNewPlayer(inputtedID);
+						String inputtedPassword = "";
+						do {
+							System.out.println("Enter a password (4-24 characters):");
+							inputtedPassword = validationService.getValidString();
+						} while(inputtedPassword.length() < 4 || inputtedPassword.length() > 24); 					
+						currPlayerID = playerService.createNewPlayer(inputtedID, inputtedPassword);
 						loggedIn = true;
 						break;
 					}
 				}
 			} else if (optionNumber == 2) {
 				//find player in database
-				System.out.println("Enter your player ID to login (exit to go back):");
+				System.out.println("Enter your player ID to login:");
 				String inputID = validationService.getValidString();
 				if (playerService.checkPlayerExists(inputID)) {
+					String inputtedPassword = "";
+					do {
+						System.out.println("Enter a password (4-24 characters):");
+						inputtedPassword = validationService.getValidString();
+					} while(!playerService.checkPassword(inputID, inputtedPassword));
 					loggedIn = true;
 					currPlayerID = inputID;
 					logger.info("player successfully logged in");
-				} else if (inputID.toLowerCase().equals("exit")){
-					continue;
 				} else {
 					System.out.println("ID does not exist...try again "
 							+ "(type 'exit' to go back to main menu)");
@@ -316,9 +324,7 @@ public class MainMenu {
 					default:
 						System.out.println("Invalid option...Redirecting to Main Menu");
 					}
-					
-				} while (fightOption != 4);
-				System.out.println("");				
+				} while (fightOption != 4);		
 			} else if (optionNumber2 == 5)  {
 				logger.info("player entered matches menu");
 				int printMatchesOption = -1;
@@ -352,7 +358,6 @@ public class MainMenu {
 			} else {
 				System.out.println("Invalid option number");
 			}
-			System.out.println(" ");
 		} while (optionNumber2 != 0);
 	}
 }

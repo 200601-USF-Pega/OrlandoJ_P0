@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Bot;
@@ -18,7 +19,7 @@ public class PlayerRepoFile implements IPlayerRepo {
 	private String filepath= "src/resources/Player.txt";
 	
 	@Override
-	public synchronized Player addPlayer(Player player) {
+	public synchronized Player addPlayer(Player player, String password) {
 		List<Player> currentPlayers = this.getAllPlayers();
 		try {
 			ObjectOutputStream objectOutputStream = 
@@ -136,6 +137,12 @@ public class PlayerRepoFile implements IPlayerRepo {
 
 	@Override
 	public Bot addBot(Bot bot) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String,String> getAllPlayersWithPasswords() {
 		// TODO Auto-generated method stub
 		return null;
 	}

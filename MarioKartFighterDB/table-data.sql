@@ -54,9 +54,9 @@ INSERT INTO item VALUES ('sp001', 'star power', 'power', 10, 15.0, 15.0, 4);
 INSERT INTO item VALUES ('bb001', 'bullet bill', 'speed', 40, 0.0, 0.0, 4);
 
 --add admin players for testing
-INSERT INTO player VALUES ('admin001', 4, 400, 0, 0, 'dk001', 'sp001');
-INSERT INTO player VALUES ('admin002', 4, 400, 0, 0, 'p001', 'bb001');
-INSERT INTO player VALUES ('admin003', 2, 250, 3, 2, 'd001', 'b001');
+INSERT INTO player VALUES ('admin001', 'password1', 4, 400, 0, 0, 'dk001', 'sp001');
+INSERT INTO player VALUES ('admin002', 'password2', 4, 400, 0, 0, 'p001', 'bb001');
+INSERT INTO player VALUES ('admin003', 'password3', 2, 250, 3, 2, 'd001', 'b001');
 
 --add matchrecords for testing
 INSERT INTO matchRecord VALUES ('mr001', '2008-01-01 00:00:01', 'admin001', 'admin002', FALSE, TRUE);

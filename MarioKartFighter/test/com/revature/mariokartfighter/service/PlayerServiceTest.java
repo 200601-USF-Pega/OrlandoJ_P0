@@ -33,14 +33,14 @@ public class PlayerServiceTest {
 	
 	@Test
 	public void createNewPlayerShouldReturnPlayerIDIfAdded() {
-		String playerID = playerService.createNewPlayer("ps-test01");
+		String playerID = playerService.createNewPlayer("ps-test01", "password");
 		assertEquals("ps-test01", playerID);
 	}
 
 	@Test
 	public void createNewPlayerShouldAddPlayerToRepo() {
 		assertFalse(playerService.checkPlayerExists("ps-test03"));
-		playerService.createNewPlayer("ps-test03");
+		playerService.createNewPlayer("ps-test03", "password");
 		assertTrue(playerService.checkPlayerExists("ps-test03"));
 	}
 	
@@ -49,15 +49,16 @@ public class PlayerServiceTest {
 		//String thisPlayerID = playerService.createNewPlayer("ps-test04");
 		Player thisPlayer = playerService.getPlayerObject("admin001");
 		PlayableCharacter adminChar = new PlayableCharacter("dk001", "power", "donkey kong",
-				100, 10.0, 10.0, 2);
-		Item adminItem = new Item("sp001", "star power", "power", 4, 10, 5.0, 5.0);
-		assertEquals(thisPlayer, new Player("admin001", 4, 400, 0, 0, adminChar, adminItem));
+				100, 35.0, 20.0, 2);
+		Item adminItem = new Item("sp001", "star power", "power", 4, 10, 15.0, 15.0);
+		Player testPlayer = new Player("admin001", 4, 400, 0, 0, adminChar, adminItem);
+		assertTrue(thisPlayer.equals(testPlayer));
 	}
 	
 	@Ignore	//will never happen bc admin players exist
 	@Test
 	public void chooseClosestPlayerShouldReturnEmptyPlayerObjectIfNoPlayersHaveSetCharacters() {
-		String thisPlayerID = playerService.createNewPlayer("ps-test04");
+		String thisPlayerID = playerService.createNewPlayer("ps-test04", "password");
 		Player player1 = playerService.getPlayerObject(thisPlayerID);
 		Player player2 = playerService.chooseClosestPlayer(player1);
 		assertEquals(null, player2.getSelectedCharacter());
@@ -65,7 +66,7 @@ public class PlayerServiceTest {
 	
 	@Test
 	public void chooseClosestPlayerShouldChoosePlayerObject() {
-		String thisPlayerID = playerService.createNewPlayer("ps-test04");
+		String thisPlayerID = playerService.createNewPlayer("ps-test04", "password");
 		Player thisPlayer = playerService.getPlayerObject(thisPlayerID);
 		Player closestPlayer = playerService.chooseClosestPlayer(thisPlayer);
 		assertEquals(closestPlayer.getClass(), Player.class);

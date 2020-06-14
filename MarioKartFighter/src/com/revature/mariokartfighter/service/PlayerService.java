@@ -1,6 +1,7 @@
 package com.revature.mariokartfighter.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,15 +17,35 @@ public class PlayerService {
 		this.repo = repo;
 	}
 	
-	public String createNewPlayer(String inputtedID) {		
+	public boolean checkPassword(String playerID, String password) {
+		Map<String,String> retrievedPlayers = repo.getAllPlayersWithPasswords();
+		for(Map.Entry<String, String> p : retrievedPlayers.entrySet()) {
+			if (p.getKey().equals(playerID)) {
+				if (p.getValue().equals(password)) {
+					logger.info("player " + playerID + "'s password matched");
+					return true;
+				} else {
+					System.out.println("Incorrect password...try again");
+					return false;
+				}
+			} 
+		}
+		logger.warn("player " + playerID + " does not exist");
+		return false;
+	}
+	
+	public String createNewPlayer(String inputtedID, String inputtedPassword) {		
 		//check if player exists in main menu
 		Player newPlayer = new Player(inputtedID);
-		Player addedPlayer = repo.addPlayer(newPlayer);
+		Player addedPlayer = repo.addPlayer(newPlayer, inputtedPassword);
 		logger.info("new player created with ID " + inputtedID);
 		return addedPlayer.getPlayerID();
 	}
 
 	public void printPlayers() {
+		System.out.println(String.format("%-20s|%-15s|%-15s|%-15s|%-15s|%-20s|%-20s\n", 
+				"playerID", "level", "xpEarned", "numberOfWins", "numberOfMatches", 
+				"selectedCharacterName", "selectedItemName"));
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			System.out.println(p);
@@ -33,6 +54,9 @@ public class PlayerService {
 	}
 	
 	public void printPlayersToFight(String playerID) {
+		System.out.println(String.format("%-20s|%-15s|%-15s|%-15s|%-15s|%-20s|%-20s\n", 
+				"playerID", "level", "xpEarned", "numberOfWins", "numberOfMatches", 
+				"CharacterName", "ItemName"));
 		List<Player> retrievedPlayers = repo.getAllPlayers();
 		for(Player p : retrievedPlayers) {
 			if (p.getPlayerID().equals(playerID)) {

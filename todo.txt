@@ -1,10 +1,8 @@
 TODO
-	- write more tests
-	
 	- add way to get out of create character/item function
-	- fix printing for players
+	
+	- make logs go to file ??
 	
 	STRETCH GOALS:
 	- move character and item and matches and fight menus into seperate classes
-	- add password for secure login
 	

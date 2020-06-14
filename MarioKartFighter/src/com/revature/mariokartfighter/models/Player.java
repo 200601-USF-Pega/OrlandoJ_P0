@@ -40,9 +40,9 @@ public class Player implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Player [playerID=" + playerID + ", level=" + level + ", xpEarned=" + xpEarned + ", numberOfWins="
-				+ numberOfWins + ", numberOfMatches=" + numberOfMatches + ", selectedCharacter=" + selectedCharacter
-				+ ", selectedItem=" + selectedItem + "]";
+		return String.format("%-20s|%-15s|%-15s|%-15s|%-15s|%-20s|%-20s", 
+				playerID, level, xpEarned, numberOfWins, numberOfMatches, 
+				selectedCharacter.getCharacterName(), selectedItem.getItemName());
 	}
 
 	@Override
