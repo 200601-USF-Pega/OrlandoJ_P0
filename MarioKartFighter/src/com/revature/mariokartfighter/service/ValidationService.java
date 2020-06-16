@@ -2,6 +2,11 @@ package com.revature.mariokartfighter.service;
 
 import java.util.Scanner;
 
+/*
+ * This ValidationService was taken from this repository: https://github.com/200601-USF-Pega/trainer-code.git
+ * Author: Marielle Nolasco
+ */
+
 public class ValidationService {
 	Scanner input;
 	
