@@ -1,4 +1,4 @@
-# OrlandoJ_P0
+# OrlandoJ_P0 - Mario kart Fighter
 The Mario Kart fighter game is a console-based fighting game that allows a player 
 to choose a character from the Mario Universe and fight against other players.
 ## Features
@@ -15,7 +15,7 @@ to choose a character from the Mario Universe and fight against other players.
 - View the matches that you have participated in
 
 ## Entity Relationship Diagram
-![ERD]
+![ERD](erd.png)
 
 ## Features for future versions
 - allow user to abandon character and item creation at any point
