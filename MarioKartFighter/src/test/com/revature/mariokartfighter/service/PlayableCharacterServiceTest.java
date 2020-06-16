@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.service;
+package test.com.revature.mariokartfighter.service;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +11,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import com.revature.mariokartfighter.dao.db.PlayableCharacterRepoDB;
+import com.revature.mariokartfighter.service.ConnectionService;
+import com.revature.mariokartfighter.service.PlayableCharacterService;
 
 public class PlayableCharacterServiceTest {
 	PlayableCharacterService characterService;

@@ -1,10 +1,14 @@
-package com.revature.mariokartfighter.models;
+package test.com.revature.mariokartfighter.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.revature.mariokartfighter.models.Bot;
+import com.revature.mariokartfighter.models.Item;
+import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class BotTest {
 
@@ -37,7 +41,7 @@ public class BotTest {
 		Item botItem = new Item("b001", "banana", "skill", 1, 0, 3.0, 1.0);
 		Bot newBot = new Bot(2, botCharacter, botItem);
 		assertTrue((newBot.getBotID().contains("_")));
-		assertEquals("2", newBot.getBotID().substring(0,1));
+		assertEquals("bot_", newBot.getBotID().substring(0,4));
 	}
 	
 }

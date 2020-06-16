@@ -78,8 +78,8 @@ public class MainMenu {
 					if (inputtedID.length() > 24 || inputtedID.length() < 4) {
 						System.out.println("username wrong length...try again");												
 					} else if(playerService.checkPlayerExists(inputtedID)) {
-						inputtedID = validationService.getValidString();
 						System.out.println("ID already taken...try again");
+						inputtedID = validationService.getValidString();
 					} else {
 						String inputtedPassword = "";
 						do {

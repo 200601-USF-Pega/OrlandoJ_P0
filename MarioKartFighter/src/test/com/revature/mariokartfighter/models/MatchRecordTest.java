@@ -1,4 +1,4 @@
-package com.revature.mariokartfighter.models;
+package test.com.revature.mariokartfighter.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.sql.Timestamp;
 
 import org.junit.Test;
+
+import com.revature.mariokartfighter.models.MatchRecord;
 
 public class MatchRecordTest {
 

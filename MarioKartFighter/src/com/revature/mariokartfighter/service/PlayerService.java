@@ -10,7 +10,7 @@ import com.revature.mariokartfighter.dao.IPlayerRepo;
 import com.revature.mariokartfighter.models.Player;
 
 public class PlayerService {
-	IPlayerRepo repo;
+	public IPlayerRepo repo;
 	private static final Logger logger = LogManager.getLogger(PlayerService.class);
 	
 	public PlayerService (IPlayerRepo repo) {
@@ -28,7 +28,7 @@ public class PlayerService {
 					System.out.println("Incorrect password...try again");
 					return false;
 				}
-			} 
+			}
 		}
 		logger.warn("player " + playerID + " does not exist");
 		return false;

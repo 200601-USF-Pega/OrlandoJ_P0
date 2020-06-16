@@ -1,9 +1,11 @@
-package com.revature.mariokartfighter.models;
+package test.com.revature.mariokartfighter.models;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
+import com.revature.mariokartfighter.models.PlayableCharacter;
 
 public class PlayableCharacterTest {
 
