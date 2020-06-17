@@ -42,7 +42,7 @@ public class ItemService {
 		System.out.println("Type that can use (choose from skill, all-around, speed, power):");
 		do {
 			typeThatCanUse = validation.getValidString();
-			if (allowedTypes.contains(typeThatCanUse.toLowerCase())) {
+			if (!allowedTypes.contains(typeThatCanUse.toLowerCase())) {
 				gotAllowedType = true;
 				break;
 			} else {

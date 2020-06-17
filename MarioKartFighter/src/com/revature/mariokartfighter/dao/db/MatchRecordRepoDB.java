@@ -115,8 +115,8 @@ public class MatchRecordRepoDB implements IMatchRecordRepo {
 				"SELECT * "
 				+ "FROM matchRecord, playerMatchRecord "
 				+ "WHERE matchRecord.matchID = playerMatchRecord.matchID "
-				+ "AND matchRecord.player1ID = ? "
-				+ "OR matchRecord.player2ID = ?;");
+				+ "AND (matchRecord.player1ID = ? "
+				+ "OR matchRecord.player2ID = ?);");
 			getSomeMatches.setString(1, playerID);
 			getSomeMatches.setString(2, playerID);
 			

@@ -7,6 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/*
+ * This ConnectionService was taken from this repository: https://github.com/200601-USF-Pega/trainer-code.git
+ * Author: Jacob Davis
+ */
+
 public class ConnectionService {
 	private Connection connection;
 	

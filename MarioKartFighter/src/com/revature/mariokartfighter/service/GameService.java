@@ -174,13 +174,20 @@ public class GameService {
 				System.out.println("Bot Item:");
 				System.out.println(botItem.getInfoString());
 				
+				boolean draw = false;
 				while(botHealth > 0 && playerHealth > 0) {
 					//strength is player attack - opponent defense
 					double botStrength = botChar.getAttackStat() + botItem.getBonusToAttack()
 						- (playerChar.getDefenseStat() + playerItem.getBonusToDefense());
 					double playerStrength = playerChar.getAttackStat() + playerItem.getBonusToAttack()
 						- (botChar.getDefenseStat() + botItem.getBonusToDefense());
-					
+					if (botStrength == playerStrength) {
+						System.out.println("You are evenly matched...match terminated");
+						draw = true;
+						break;
+					}
+					logger.error("bot strength:" + botStrength + " player strength: " + playerStrength);
+					logger.error("bot health: " + botHealth + " player health: " + playerHealth);
 					botHealth -= playerStrength;
 					if(botHealth <= 0) {
 						break;
@@ -189,7 +196,10 @@ public class GameService {
 				}
 				
 				String winnerID;
-				if(botHealth < playerHealth) {
+				if (draw) {
+					winnerID = "--draw--";
+					playerRepo.updateAfterFight(false, p.getPlayerID());
+				} else if(botHealth < playerHealth) {
 					winnerID = p.getPlayerID();
 					playerRepo.updateAfterFight(true, p.getPlayerID());
 					System.out.println("Player 1 wins!!");
