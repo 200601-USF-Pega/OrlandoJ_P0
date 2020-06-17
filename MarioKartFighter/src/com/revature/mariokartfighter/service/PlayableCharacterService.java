@@ -43,7 +43,7 @@ public class PlayableCharacterService {
 		System.out.println("Type (choose from skill, all-around, speed, power):");
 		do {
 			type = validation.getValidString();
-			if (allowedTypes.contains(type.toLowerCase())) {
+			if (!allowedTypes.contains(type.toLowerCase())) {
 				gotAllowedType = true;
 				break;
 			} else {
